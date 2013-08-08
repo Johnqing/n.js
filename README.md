@@ -11,6 +11,7 @@ n.js
 * 触发对象的指定事件 n.fire()
 * 创建dom元素 n.md()
 * 数组/普通对象/字符串/类数组遍历 n.forEach()
+* 格式化日期 n.dFormat()
 * 去除字符串的前后空格 n.trim()
 * url参数解析 n.queryUrl()
 
