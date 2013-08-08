@@ -107,6 +107,29 @@
 	//更新时间
 	n.released = released;
 	/**
+	 * 去除字符串的前后空格
+	 * @param  {String} str
+	 * @return {String}
+	 */
+	n.trim = function(str){
+		return str.replace(/(^\s*)|(\s$)/g, '');
+	}
+	/**
+	 * url参数解析
+	 * @param  {String} url url参数字符串
+	 * @return {Object} json对象
+	 */
+	n.queryUrl = function(url){
+		var t = {},
+			s;
+		url = url.split('&');
+		for (var i = url.length - 1; i >= 0; i--) {
+			s = url[i].split('=');
+			t[s[0]] = s[1];
+		};
+		return t;
+	}
+	/**
 	 * 事件侦听
 	 * @param  {Object} el
 	 * @param  {String} type
