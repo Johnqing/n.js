@@ -126,13 +126,13 @@
 		var doc = document, 
 		cElem = doc.createElement('p');
 		cElem.innerHTML = elStr;
-		elStr = doc.createDocumentFragment;
+		elStr = doc.createDocumentFragment(cElem);
 
 		while(doc = cElem.firstChild){
 			elStr.appendChild(doc);
 		}
 		return elStr;
-	}
+	};
 
 	window.n = window.N = n;
 }(this));
