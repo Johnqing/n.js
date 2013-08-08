@@ -86,7 +86,7 @@
 	};
 	 
 	 
-	  _Function_forEach = function(fn, object, block, context) {
+	function _Function_forEach(fn, object, block, context) {
 	    // 这里的fn恒为Function
 	    for (var key in object) {
 	       //只遍历本地属性
