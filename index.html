@@ -1,18 +1,33 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+	<meta charset="UTF-8">
 	<title>Document</title>
 </head>
 <body>
-	<div id="test">123</div>
+	<ul id="test">
+		<li>content1</li>
+		<li>content2</li>
+		<li>content3</li>
+		<li>content4</li>
+		<li>content5</li>
+	</ul>
 	<script src="n.js"></script>
 	<script>
-	var node = n('#test');
-	n.on(node, 'click', function(){
-		console.log('嘿嘿～');
+	//n
+	var node = n('#test').getElementsByTagName('li');
+	n.forEach(node, function(e, i){
+		//md
+		var c = n.md('<h1>'+i+'</h1>');
+		e.appendChild(c);
+		//on
+		n.on(e, 'click', function(){
+			console.log(this.innerHTML);
+		});
+		//fire
+		n.fire(e, 'click');
 	});
-	n.fire(node, 'click');
+	
 	</script>
 </body>
 </html>
