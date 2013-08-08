@@ -44,14 +44,14 @@
 	}
 	/**
 	 * 事件侦听
-	 * @param  {[type]} el
-	 * @param  {[type]} type
-	 * @param  {[type]} handler
-	 * @return {[type]}
+	 * @param  {Object} el
+	 * @param  {String} type
+	 * @param  {Function} handler
+	 * @return {Object}
 	 */
 	n.on = function(el, type, handler){
 		el.addEventListener ? el.addEventListener(type, handler, false) : el.attachEvent("on" + type, handler);
-		return this;
+		return el;
 	}
 	/**
 	 * create DOM element
