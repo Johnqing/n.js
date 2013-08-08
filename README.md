@@ -11,3 +11,7 @@ n.js
 * 触发对象的指定事件 n.fire()
 * 创建dom元素 n.md()
 * 数组/普通对象/字符串/类数组遍历 n.forEach()
+
+##支持##
+
+如果你有的意见可以到[这里](https://github.com/Johnqing/n.js/issues)也可以[邮件](mailto:csssnow@gmail.com)
