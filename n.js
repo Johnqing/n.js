@@ -1,5 +1,5 @@
 ;(function(window, undefined){
-  var document = window.document;
+	var document = window.document;
 	/**
 	 * getClass
 	 * @param  {String} searchClass
@@ -42,5 +42,33 @@
 		)
 		](a[2]);
 	}
+	/**
+	 * 事件侦听
+	 * @param  {[type]} el
+	 * @param  {[type]} type
+	 * @param  {[type]} handler
+	 * @return {[type]}
+	 */
+	n.on = function(el, type, handler){
+		el.addEventListener ? el.addEventListener(type, handler, false) : el.attachEvent("on" + type, handler);
+		return this;
+	}
+	/**
+	 * create DOM element
+	 * @param  {String} elStr
+	 * @return {Object}
+	 */
+	n.md = function(elStr){
+		var doc = document, 
+		cElem = doc.createElement('p');
+		cElem.innerHTML = elStr;
+		elStr = doc.createDocumentFragment;
+
+		while(doc = cElem.firstChild){
+			elStr.appendChild(doc);
+		}
+		return elStr;
+	}
+
 	window.n = window.N = n;
 }(this));
