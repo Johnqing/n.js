@@ -1,5 +1,7 @@
 ;(function(window, undefined){
-	var document = window.document;
+	var document = window.document,
+		version = '1.0.0',
+		released = '2013-08-08 14:41';
 	/**
 	 * getClass
 	 * @param  {String} searchClass
@@ -63,6 +65,10 @@
 	 * @type {Object}
 	 */
 	n.cache = {};
+	//版本信息
+	n.version = version;
+	//更新时间
+	n.released = released;
 	/**
 	 * 事件侦听
 	 * @param  {Object} el
