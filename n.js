@@ -25,6 +25,22 @@
 	    };
 	}
 	/**
+	 * forEach
+	 * @param  {Function} callbackfn 必需。 一个接受最多三个参数的函数。 对于数组中的每个元素，forEach 都会调用 callbackfn 函数一次。
+	 * @param  {String} scope 可选。 可在 callbackfn 函数中为其引用 this 关键字的对象。 如果省略 thisArg，则 undefined 将用作 this 值。
+	 * @return {Object}
+	 */
+	if (!Array.prototype.forEach) {
+	    Array.prototype.forEach = function (callbackfn, scope) {
+	        var i, len;
+	        for (i = 0, len = this.length; i < len; ++i) {
+	            if (i in this) {
+	                callbackfn.call(scope, this[i], i, this);
+	            }
+	        }
+	    };
+	}
+	/**
 	 * n选择器
 	 * @param  {String} a 筛选元素
 	 * @param  {Object} b 筛选的父级
