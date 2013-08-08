@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="test">123</div>
+	<script src="n.js"></script>
+	<script>
+	var node = n('#test');
+	n.on(node, 'click', function(){
+		console.log('嘿嘿～');
+	});
+	n.fire(node, 'click');
+	</script>
+</body>
+</html>
