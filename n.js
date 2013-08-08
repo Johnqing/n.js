@@ -59,6 +59,11 @@
 		](a[2]);
 	}
 	/**
+	 * 缓存模块
+	 * @type {Object}
+	 */
+	n.cache = {};
+	/**
 	 * 事件侦听
 	 * @param  {Object} el
 	 * @param  {String} type
@@ -69,6 +74,43 @@
 		el.addEventListener ? el.addEventListener(type, handler, false) : el.attachEvent("on" + type, handler);
 		return el;
 	}
+	/**
+	 * 删除事件侦听
+	 * @param  {Object} el
+	 * @param  {String} type
+	 * @param  {Function} handler
+	 * @return {Object}
+	 */
+	n.un = function(el, type, handler){
+		el.removeEventListener ? el.removeEventListener(type, handler, false) : el.detachEvent("on" + type, handler);
+		return el;
+	}
+	/**
+	 * 触发对象的指定事件
+	 * @param	{Object}	el	要触发事件的对象
+	 * @param	{string}	type	事件名称
+	 * @return
+	 */
+	n.fire = (function(){
+		if (document.dispatchEvent) {
+			return function(el, type) {
+				var evt = null,
+					doc = el.ownerDocument || el;
+				if (/mouse|click/i.test(type)) {
+					evt = doc.createEvent('MouseEvents');
+					evt.initMouseEvent(type, true, true, doc.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+				} else {
+					evt = doc.createEvent('Events');
+					evt.initEvent(type, true, true, doc.defaultView);
+				}
+				return el.dispatchEvent(evt);
+			};
+		} else {
+			return function(el, type) {
+				return el.fireEvent('on' + type);
+			};
+		}
+	}());
 	/**
 	 * create DOM element
 	 * @param  {String} elStr
