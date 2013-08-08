@@ -3,6 +3,24 @@
 		version = '1.0.0',
 		released = '2013-08-08 14:41';
 	/**
+	 * n选择器
+	 * @param  {String} a 筛选元素
+	 * @param  {Object} b 筛选的父级
+	 * @return {Object}
+	 */
+	var n = function(a, b){
+		a = a.match(/^(\W)?(.*)/); 
+		return(b || document)[
+		"getElement" + (        
+		  a[1]
+		    ? a[1] == "#"
+		      ? "ById"           // node by ID,
+		      : "sByClassName"   // nodes by class name, or
+		    : "sByTagName"       // nodes by tag name,
+		)
+		](a[2]);
+	}	
+	/**
 	 * getClass
 	 * @param  {String} searchClass
 	 * @param  {Object} node
@@ -27,39 +45,58 @@
 	    };
 	}
 	/**
-	 * forEach
-	 * @param  {Function} callbackfn 必需。 一个接受最多三个参数的函数。 对于数组中的每个元素，forEach 都会调用 callbackfn 函数一次。
-	 * @param  {String} scope 可选。 可在 callbackfn 函数中为其引用 this 关键字的对象。 如果省略 thisArg，则 undefined 将用作 this 值。
-	 * @return {Object}
+	 * forEach(来自司徒正美的博客)
+	 * @param  {Object|Array|String|Function}   object
+	 * @param  {Function}   block
+	 * @param  {Object|Array|String|Function}   context scope 可选。 可在 callbackfn 函数中为其引用 this 关键字的对象。 如果省略 thisArg，则 undefined 将用作 this 值。
+	 * @param  {Function} fn 如果Object为函数时，执行
+	 * @return 
 	 */
-	if (!Array.prototype.forEach) {
-	    Array.prototype.forEach = function (callbackfn, scope) {
-	        var i, len;
-	        for (i = 0, len = this.length; i < len; ++i) {
-	            if (i in this) {
-	                callbackfn.call(scope, this[i], i, this);
-	            }
-	        }
-	    };
-	}
-	/**
-	 * n选择器
-	 * @param  {String} a 筛选元素
-	 * @param  {Object} b 筛选的父级
-	 * @return {Object}
-	 */
-	var n = function(a, b){
-		a = a.match(/^(\W)?(.*)/); 
-		return(b || document)[
-		"getElement" + (        
-		  a[1]
-		    ? a[1] == "#"
-		      ? "ById"           // node by ID,
-		      : "sByClassName"   // nodes by class name, or
-		    : "sByTagName"       // nodes by tag name,
-		)
-		](a[2]);
-	}
+	n.forEach = function(object, block, context, fn) {
+	  if (object == null) return;
+	  if (!fn) {
+	    if (typeof object == "function" && object.call) {
+	      //遍历普通对象
+	      fn = Function;
+	    } else if (typeof object.forEach == "function" && object.forEach != arguments.callee) {
+	      //如果目标已经实现了forEach方法，则使用它自己的forEach方法（如标准游览器的Array对象）
+	      object.forEach(block, context);
+	      return;
+	    } else if (typeof object.length == "number") {
+	      // 如果是类数组对象或IE的数组对象
+	      _Array_forEach(object, block, context);
+	      return;
+	    }
+	  }
+	  _Function_forEach(fn || Object, object, block, context);
+	};
+	 
+	function _Array_forEach(array, block, context) {
+	  if (array == null) return;
+	  var i = 0,length = array.length;
+	  if (typeof array == "string") {
+	    for (; i < length; i++) {
+	      block.call(context, array.charAt(i), i, array);
+	    }
+	  }else{
+	    for (;i < length; i++) {
+	      block.call(context, array[i], i, array);
+	    }
+	  }
+	};
+	 
+	 
+	  _Function_forEach = function(fn, object, block, context) {
+	    // 这里的fn恒为Function
+	    for (var key in object) {
+	       //只遍历本地属性
+	       if (object.hasOwnProperty(key)) {
+	        //相当于  block(object[key], key)
+	        block.call(context, object[key], key, object);
+	      }
+	    }
+	  };
+
 	/**
 	 * 缓存模块
 	 * @type {Object}
