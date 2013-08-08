@@ -104,8 +104,8 @@
 	 * @param {string} pattern 日期格式(y年M月d天h时m分s秒)，默认为"yyyy-MM-dd"
 	 * @return {string}  返回format后的字符串
 	 * @example
-	 var d=new Date();
-	 alert(format(d," yyyy年M月d日\n yyyy-MM-dd\n MM-dd-yy\n yyyy-MM-dd hh:mm:ss"));
+	 var d = new Date();
+	 console.log(n.dFormat(d," yyyy年M月d日\n yyyy-MM-dd\n MM-dd-yy\n yyyy-MM-dd hh:mm:ss"));
 	 */
 	n.dFormat = function(d, pattern) {
 		pattern = pattern || 'yyyy-MM-dd';
