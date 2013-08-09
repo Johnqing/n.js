@@ -99,6 +99,14 @@ n.times(3, function(){
 	console.log('times!');
 })
 </pre>
+* 只能运行一次的函数，以后调用不会执行 n.once()
+<pre>
+function onceTest(){
+	console.log('执行几次呢？');
+}
+n.once(onceTest);
+onceTest();
+</pre>
 
 ##支持##
 

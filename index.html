@@ -12,6 +12,7 @@
 		<li>content4</li>
 		<li>content5</li>
 	</ul>
+	<div id="noConflict"></div>
 	<div id="tpl"></div>
 	<script src="n.js"></script>
 	<script>
@@ -47,11 +48,17 @@
 	//times
 	n.times(3, function(){
 		console.log('times!');
-	})
-	//tpl
+	});
+	//once
+	function onceTest(){
+		console.log('执行几次呢？')
+	}
+	n.once(onceTest);
+	onceTest();
+	//tpl 测试代码请别写在这里 这里的别名已经被替换
 	n.tpl(n('#tpl'), '<%= name %>', {name:'johnqing'});
 	n.noConflict('$');
-	$('#test').innerHTML = "$";
+	$('#noConflict').innerHTML = "别名换为了$";
 	</script>
 </body>
 </html>

@@ -86,6 +86,21 @@
 		return accum;
 	};
 	/**
+	 * 只能运行一次的函数
+	 * @param  {Function} func 需要运行的函数
+	 * @return
+	 */
+	n.once = function(fun) {
+		var flg = false, memo;
+		return function() {
+		  if (flg) return memo;
+		  flg = true;
+		  memo = fun.apply(this, arguments);
+		  fun = null;
+		  return memo;
+		};
+	};
+	/**
 	 * getClass
 	 * @param  {String} searchClass
 	 * @param  {Object} node
