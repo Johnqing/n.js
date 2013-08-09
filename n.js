@@ -72,10 +72,10 @@
 	}
 	/**
 	 * 调用给定的迭代函数N次
-	 * @param  {[type]} n        调用次数
-	 * @param  {[type]} iterator [description]
-	 * @param  {[type]} context  [description]
-	 * @return {[type]}          [description]
+	 * @param  {Number} n        调用次数
+	 * @param  {Function} iterator [description]
+	 * @param  {Object} context  可选参数
+	 * @return
 	 */
 	n.times = function(n, iterator, context) {
 		var accum = Array(Math.max(0, n));
