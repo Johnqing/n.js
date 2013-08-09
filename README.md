@@ -91,5 +91,5 @@ console.log(a);
 
 ##贡献者##
 
-[掰漏斯特](http://weibo.com/210126534)
+[@掰漏斯特](http://weibo.com/210126534)
 
