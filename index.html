@@ -12,6 +12,7 @@
 		<li>content4</li>
 		<li>content5</li>
 	</ul>
+	<div id="noConflict"></div>
 	<div id="tpl"></div>
 	<script src="n.js"></script>
 	<script>
@@ -51,7 +52,7 @@
 	//tpl
 	n.tpl(n('#tpl'), '<%= name %>', {name:'johnqing'});
 	n.noConflict('$');
-	$('#test').innerHTML = "$";
+	$('#noConflict').innerHTML = "别名换为了$";
 	</script>
 </body>
 </html>
