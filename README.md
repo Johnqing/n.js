@@ -95,5 +95,5 @@ n.tpl(n('#tpl'), '&lt;%= name %&gt;', {name:'johnqing'});
 
 ##贡献者##
 
-[@掰漏斯特](http://weibo.com/210126534) [hard2easy](http://weibo.com/nister)
+[@掰漏斯特](http://weibo.com/210126534) [@hard2easy](http://weibo.com/nister)
 
