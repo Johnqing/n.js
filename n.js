@@ -72,6 +72,20 @@
 		return des;
 	}
 	/**
+	 * 调用给定的迭代函数N次
+	 * @param  {[type]} n        调用次数
+	 * @param  {[type]} iterator [description]
+	 * @param  {[type]} context  [description]
+	 * @return {[type]}          [description]
+	 */
+	n.times = function(n, iterator, context) {
+		var accum = Array(Math.max(0, n));
+		for (var i = 0; i < n; i++){
+			accum[i] = iterator.call(context, i);
+		}
+		return accum;
+	};
+	/**
 	 * getClass
 	 * @param  {String} searchClass
 	 * @param  {Object} node

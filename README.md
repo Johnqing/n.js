@@ -93,6 +93,12 @@ n.tpl(n('#tpl'), '&lt;%= name %&gt;', {name:'johnqing'});
 n.noConflict('$');
 $('#test').innerHTML = "$";
 </pre>
+* 调用给定的迭代函数N次 n.times()
+<pre>
+n.times(3, function(){
+	console.log('times!');
+})
+</pre>
 
 ##支持##
 

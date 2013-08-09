@@ -44,6 +44,10 @@
 		b = {y:2}
 	n.mix(a,b);
 	console.log(a);
+	//times
+	n.times(3, function(){
+		console.log('times!');
+	})
 	//tpl
 	n.tpl(n('#tpl'), '<%= name %>', {name:'johnqing'});
 	n.noConflict('$');
