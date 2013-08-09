@@ -16,18 +16,28 @@
 	<script>
 	//n
 	var node = n('#test').getElementsByTagName('li');
+	//forEach
 	n.forEach(node, function(e, i){
 		//md
 		var c = n.md('<h1>'+i+'</h1>');
+
 		e.appendChild(c);
 		//on
 		n.on(e, 'click', function(){
-			console.log(this.innerHTML);
+			console.log(this.getElementsByTagName('h1')[0].innerHTML);
 		});
 		//fire
 		n.fire(e, 'click');
 	});
+	//queryUrl
 	n.queryUrl('a=1&b=2&c=3');
+	//dFormat
+	var d = new Date();
+	console.log(n.dFormat(d," yyyy年M月d日\n yyyy-MM-dd\n MM-dd-yy\n yyyy-MM-dd hh:mm:ss"));
+	//loadScript
+	n.loadScript('http://s0.qhimg.com/lib/qwrap/115.js', function(){
+		console.log('load done!');
+	});
 	</script>
 </body>
 </html>
