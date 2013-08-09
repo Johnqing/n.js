@@ -1,5 +1,8 @@
 !function(window, undefined){
-	var document = window.document,
+	//储存命名
+	var n,
+		_n = window.n,
+		document = window.document,
 		version = '1.0.0',
 		released = '2013-08-09 13:47';
 	/**
@@ -8,7 +11,7 @@
 	 * @param  {Object} b 筛选的父级
 	 * @return {Object}
 	 */
-	var n = function(a, b){
+	n = function(a, b){
 		a = a.match(/^(\W)?(.*)/);
 		return(b || document)[
 		"getElement" + (
@@ -317,5 +320,14 @@
 			elem.innerHTML = NTpl.tpl(str, data);
 		})
 	}
-	window.n = window.N = n;
+	/**
+	 * 防止命名空间冲突
+	 * @param  {String} str 替换n命名空间的名字
+	 * @return
+	 */
+	n.noConflict = function(str){
+		window[str] = window.n;
+		window.n = _n;
+	}
+	window.n = n;
 }(this);

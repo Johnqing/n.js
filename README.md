@@ -88,6 +88,11 @@ console.log(a);
 <pre>
 n.tpl(n('#tpl'), '&lt;%= name %&gt;', {name:'johnqing'});
 </pre>
+* 防止命名空间冲突 n.noConflict()
+<pre>
+n.noConflict('$');
+$('#test').innerHTML = "$";
+</pre>
 
 ##支持##
 

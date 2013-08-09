@@ -46,6 +46,8 @@
 	console.log(a);
 	//tpl
 	n.tpl(n('#tpl'), '<%= name %>', {name:'johnqing'});
+	n.noConflict('$');
+	$('#test').innerHTML = "$";
 	</script>
 </body>
 </html>
