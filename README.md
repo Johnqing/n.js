@@ -107,6 +107,10 @@ function onceTest(){
 n.once(onceTest);
 onceTest();
 </pre>
+* encodeURI一个Json对象 n.encodeURIJson()
+<pre>
+console.log(n.encodeURIJson({eb:1,y:2}));
+</pre>
 * ajax n.ajax/n.get/n.post
 <pre>
 n.ajax({

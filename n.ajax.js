@@ -20,7 +20,7 @@
 	var Ajax = function(options){
 		this.url = options.url;
 		this.method = options.method;
-		this.data = options.data;
+		this.data = n.isObject(options.data) ? n.encodeURIJson(options.data) : options.data;
 		this.dataType = options.dataType;
 		this.async = options.async;
 		this.success = options.success;
