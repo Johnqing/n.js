@@ -1,7 +1,6 @@
 !function(window, undefined){
-	//储存命名
 	var n,
-		_n = window.n,
+		_n = window.n,//储存命名
 		document = window.document,
 		version = '1.0.0',
 		released = '2013-08-09 13:47';
