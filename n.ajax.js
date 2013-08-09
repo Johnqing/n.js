@@ -73,8 +73,11 @@
 
 			xmlHttp.open(type, URL, async);
 			xmlHttp.onreadystatechange = function(){
-				if(xmlHttp.readyState==4 && xmlHttp.status == 200){
+				if(xmlHttp.readyState==4 && (xmlHttp.status == 200 || xmlHttp.status == 304) ){
 					_this.success.call(_this, xmlHttp.responseText);
+				}
+				if(xmlHttp.readyState==4 && (xmlHttp.status.indexOf('4') > -1 || xmlHttp.status.indexOf('5') > -1)){
+					_this.error.call(_this, xmlHttp.responseText);
 				}
 			};
 			xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
