@@ -9,9 +9,9 @@
 	 * @return {Object}
 	 */
 	var n = function(a, b){
-		a = a.match(/^(\W)?(.*)/); 
+		a = a.match(/^(\W)?(.*)/);
 		return(b || document)[
-		"getElement" + (        
+		"getElement" + (
 		  a[1]
 		    ? a[1] == "#"
 		      ? "ById"           // node by ID,
@@ -19,7 +19,7 @@
 		    : "sByTagName"       // nodes by tag name,
 		)
 		](a[2]);
-	}	
+	}
 	/**
 	 * getClass
 	 * @param  {String} searchClass
@@ -35,12 +35,12 @@
 	            var child = children[i];
 	            var classNames = child.className.split(' ');
 	            for (var j=0; j<classNames.length; j++){
-	                if (classNames[j] == className){ 
+	                if (classNames[j] == className){
 	                    elements.push(child);
 	                    break;
 	                }
 	            }
-	        } 
+	        }
 	        return elements;
 	    };
 	}
@@ -50,7 +50,7 @@
 	 * @param  {Function}   block
 	 * @param  {Object|Array|String|Function}   context scope 可选。 可在 callbackfn 函数中为其引用 this 关键字的对象。 如果省略 thisArg，则 undefined 将用作 this 值。
 	 * @param  {Function} fn 如果Object为函数时，执行
-	 * @return 
+	 * @return
 	 */
 	n.forEach = function(object, block, context, fn) {
 	  if (object == null) return;
@@ -70,7 +70,7 @@
 	  }
 	  _Function_forEach(fn || Object, object, block, context);
 	};
-	 
+
 	function _Array_forEach(array, block, context) {
 	  if (array == null) return;
 	  var i = 0,length = array.length;
@@ -84,19 +84,53 @@
 	    }
 	  }
 	};
-	 
-	 
+
+
 	function _Function_forEach(fn, object, block, context) {
-	    // 这里的fn恒为Function
-	    for (var key in object) {
-	       //只遍历本地属性
-	       if (object.hasOwnProperty(key)) {
-	        //相当于  block(object[key], key)
-	        block.call(context, object[key], key, object);
-	      }
-	    }
-	  };
-	/** 
+		// 这里的fn恒为Function
+		for (var key in object) {
+		   //只遍历本地属性
+		   if (object.hasOwnProperty(key)) {
+		    //相当于  block(object[key], key)
+		    block.call(context, object[key], key, object);
+		  }
+		}
+	};
+	/**
+	 * 异步加载script
+	 * @param  {String}   url      js文件路径
+	 * @param  {Function} callback 加载完成后回调
+	 * @return
+	 */
+	n.loadScript = function(url, callback) {
+		var f = arguments.callee;
+		if (!("queue" in f))
+			f.queue = {};
+		var queue =  f.queue;
+		if (url in queue) { // script is already in the document
+			if (callback) {
+				if (queue[url]) // still loading
+					queue[url].push(callback);
+				else // loaded
+					callback();
+			}
+			return;
+		}
+		queue[url] = callback ? [callback] : [];
+		var script = document.createElement("script");
+		script.type = "text/javascript";
+		script.onload = script.onreadystatechange = function() {
+			if (script.readyState && script.readyState != "loaded" && script.readyState != "complete")
+				return;
+			script.onreadystatechange = script.onload = null;
+			while (queue[url].length)
+				queue[url].shift()();
+			queue[url] = null;
+		};
+		script.src = url;
+		document.getElementsByTagName("head")[0].appendChild(script);
+	};
+	/**
 	 * 格式化日期
 	 * @method format
 	 * @static
@@ -213,7 +247,7 @@
 	 * @return {Object}
 	 */
 	n.md = function(elStr){
-		var doc = document, 
+		var doc = document,
 		cElem = doc.createElement('p');
 		cElem.innerHTML = elStr;
 		elStr = doc.createDocumentFragment(cElem);
