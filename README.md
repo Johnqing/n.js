@@ -34,7 +34,7 @@ n.fire(n('#id'));
 </pre>
 * 创建dom元素 n.md()
 <pre>
-var c = n.md('<h1>'+i+'</h1>');
+var c = n.md('&lt;h1&gt;'+i+'&lt;/h1&gt;');
 elem.appendChild(c);
 </pre>
 * 数组/普通对象/字符串/类数组遍历 n.forEach()
