@@ -1,7 +1,7 @@
-;(function(window, undefined){
+!function(window, undefined){
 	var document = window.document,
 		version = '1.0.0',
-		released = '2013-08-08 14:41';
+		released = '2013-08-09 13:47';
 	/**
 	 * n选择器
 	 * @param  {String} a 筛选元素
@@ -259,4 +259,4 @@
 	};
 
 	window.n = window.N = n;
-}(this));
+}(this);
