@@ -6,6 +6,7 @@ n.js
 ##方法支持##
 
 * DOM 选择器 n()
+* 异步加载script n.loadScript()
 * 事件绑定 n.on()
 * 解除事件绑定 n.un()
 * 触发对象的指定事件 n.fire()
