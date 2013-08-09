@@ -77,7 +77,7 @@
 					_this.success.call(_this, xmlHttp.responseText);
 				}
 			};
-			// xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+			xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 			xmlHttp.send(queryString);
 		},
 
