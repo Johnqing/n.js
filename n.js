@@ -21,6 +21,54 @@
 		](a[2]);
 	}
 	/**
+	 * 私有类型判断函数
+	 * @param  {String}  type Object/String/Function/Array
+	 * @return {Boolean}
+	 */
+	function isType(type){
+		return function(obj){
+			return {}.toString.call(obj) == "[object "+ type +"]";
+		}
+	}
+	/**
+	 * 类型判断
+	 * @type {Boolean}
+	 */
+	n.isObject = isType('Object');
+	n.isString = isType('String');
+	n.isArray = isType('Array');
+	n.isFunction = isType('Function');
+	/**
+	 * 将源对象的属性并入到目标对象
+	 * @param {Object} des 目标对象
+	 * @param {Object|Array} src 源对象，如果是数组，则依次并入
+	 * @param {boolean} override (Optional) 是否覆盖已有属性。如果为function则初为混合器，为src的每一个key执行 des[key] = override(des[key], src[key], key);
+	 * @returns {Object} des
+	 */
+	n.mix = function(des, src, override){
+		//数组的话递归
+		if(n.isArray(src)){
+			for (var i = 0, len = src.length; i < len; i++) {
+				n.mix(des, src[i], override);
+			}
+			return des;
+		}
+		//function为混合器
+		if(n.isFunction(override)){
+			for (i in src) {
+				des[i] = override(des[i], src[i], i);
+			}
+		}else{
+			for (i in src) {
+				//这里要加一个des[i]，是因为要照顾一些不可枚举的属性
+				if (override || !(des[i] || (i in des))) {
+					des[i] = src[i];
+				}
+			}
+		}
+		return des;
+	}
+	/**
 	 * getClass
 	 * @param  {String} searchClass
 	 * @param  {Object} node
