@@ -15,6 +15,7 @@
 	<div id="noConflict"></div>
 	<div id="tpl"></div>
 	<script src="n.js"></script>
+	<script src="n.ajax.js"></script>
 	<script>
 	//n
 	var node = n('#test').getElementsByTagName('li');
@@ -55,6 +56,16 @@
 	}
 	n.once(onceTest);
 	onceTest();
+	//ajax
+	n.ajax({
+		url: 'http:127.0.0.1:10011',
+		method: 'get',
+		data: 'x=1&y=2',
+		dataType: 'json',
+		success: function(data){
+			console.log(data);
+		}
+	});
 	//tpl 测试代码请别写在这里 这里的别名已经被替换
 	n.tpl(n('#tpl'), '<%= name %>', {name:'johnqing'});
 	n.noConflict('$');
