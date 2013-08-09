@@ -107,6 +107,20 @@ function onceTest(){
 n.once(onceTest);
 onceTest();
 </pre>
+* ajax n.ajax/n.get/n.post
+<pre>
+n.ajax({
+	url: 'http:127.0.0.1:10011',
+	method: 'get',
+	data: 'x=1&y=2',
+	dataType: 'json',
+	success: function(data){
+		console.log(data);
+	}
+});
+n.get('http://xxx',{x:1,y:2},function(){});
+n.post('http://xxx',{x:1,y:2},function(){});
+</pre>
 
 ##支持##
 
