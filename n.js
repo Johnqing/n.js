@@ -305,6 +305,17 @@
 		}
 		return elStr;
 	};
-
+	/**
+	 * 模板渲染
+	 * @param  {Object} elem 要插入的对象
+	 * @param  {[type]} str  模板字符串
+	 * @param  {[type]} data 数据
+	 * @return
+	 */
+	n.tpl = function(elem, str, data){
+		n.loadScript('http://johnqing.github.io/Ntpl.js/nTpl.js', function(){
+			elem.innerHTML = NTpl.tpl(str, data);
+		})
+	}
 	window.n = window.N = n;
 }(this);

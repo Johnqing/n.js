@@ -84,6 +84,10 @@ var a = {x:1},
 n.mix(a,b);
 console.log(a);
 </pre>
+* 将源对象的属性并入到目标对象 n.tpl() 这个函数内部二次封装了 [NTpl模板引擎](https://github.com/Johnqing/Ntpl.js)
+<pre>
+n.tpl(n('#tpl'), '&lt;%= name %&gt;', {name:'johnqing'});
+</pre>
 
 ##支持##
 
