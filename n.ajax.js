@@ -1,3 +1,7 @@
+/**
+ * @author johnqing(刘卿)
+ * @module ajax模块
+ */
 (function(window){
 	/**
 	 * 默认参数
