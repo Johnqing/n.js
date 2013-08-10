@@ -110,7 +110,7 @@
 	if(!document.getElementsByClassName){
 	    document.getElementsByClassName = function(className, element){
 	        var children = (element || document).getElementsByTagName('*');
-	        var elements = new Array();
+	        var elements = [];
 	        for (var i=0; i<children.length; i++){
 	            var child = children[i];
 	            var classNames = child.className.split(' ');
