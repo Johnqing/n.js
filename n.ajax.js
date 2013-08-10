@@ -67,6 +67,11 @@
 
 			return xmlhttp;
 		},
+		/**
+		 * 核心方法(get、post 都是走这个方法)
+		 * @param  {String} get/post
+		 * @return
+		 */
 		requset: function(type){
 			var _this = this,
 				URL = _this.url,
@@ -101,12 +106,18 @@
 		post: function(){
 			this.requset('post');
 		},
+		/**
+		 * jsonp方法
+		 * @return
+		 */
 		getJsonp: function(){
 			var _this = this,
 				url = _this.url,
 				jsonp = _this.jsonp,
+				//唯一的时间戳
 				uuid = "NJsonp" + (timestamp++);
 			url += (/\?/.test(url) ? '&' : '?') + _this.data +'&callback='+ uuid;
+			//返回时执行该函数
 			window[uuid] = function(data){
 				_this.success(data);
 				window[uuid] = null;
@@ -114,7 +125,10 @@
 			n.loadScript(url);
 		}
 	}
-	//追加到n上
+	/**
+	 * 追加ajax模块到n命名空间上
+	 * @namespace n
+	 */
 	n.mix(n, {
 		ajax: function (options){
 			options = n.mix(options, defaultConfig);
