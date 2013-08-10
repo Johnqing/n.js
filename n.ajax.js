@@ -106,7 +106,7 @@
 				url = _this.url,
 				jsonp = _this.jsonp,
 				uuid = "NJsonp" + (timestamp++);
-			url += (/\?/.test(url) ? '&' : '?') + 'callback='+uuid;
+			url += (/\?/.test(url) ? '&' : '?') + _this.data +'&callback='+ uuid;
 			window[uuid] = function(data){
 				_this.success(data);
 				window[uuid] = null;
