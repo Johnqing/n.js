@@ -113,6 +113,7 @@ console.log(n.encodeURIJson({eb:1,y:2}));
 </pre>
 * ajax n.ajax/n.get/n.post
 <pre>
+//dataType如果是jsonp的话，这个请求为jsonp请求
 n.ajax({
 	url: 'http:127.0.0.1:10011',
 	method: 'get',
@@ -124,6 +125,7 @@ n.ajax({
 });
 n.get('http://xxx',{x:1,y:2},function(){});
 n.post('http://xxx',{x:1,y:2},function(){});
+n.jsonp('http://xxx',{x:1,y:2},function(){});
 </pre>
 
 ##支持##
