@@ -115,7 +115,7 @@
 				url = _this.url,
 				jsonp = _this.jsonp,
 				//唯一的时间戳
-				uuid = "NJsonp" + (timestamp++);
+				uuid = jsonp + (timestamp++);
 			url += (/\?/.test(url) ? '&' : '?') + _this.data +'&callback='+ uuid;
 			//返回时执行该函数
 			window[uuid] = function(data){
