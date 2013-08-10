@@ -1,4 +1,4 @@
-(function(){
+(function(window){
 	/**
 	 * 默认参数
 	 * @type {Object}
@@ -9,9 +9,11 @@
 		data: null,
 		dataType: 'json',
 		async: true,
+		jsonp: 'callback',
 		success: function(){},
 		error: function(){}
-	}
+	},
+	timestamp = new Date() * 1;
 	/**
 	 * ajax 类
 	 * @param  {Object} data 需要传入的参数
@@ -21,8 +23,9 @@
 		this.url = options.url;
 		this.method = options.method;
 		this.data = n.isObject(options.data) ? n.encodeURIJson(options.data) : options.data;
-		this.dataType = options.dataType;
+		this.dataType = options.dataType.toLocaleLowerCase();
 		this.async = options.async;
+		this.jsonp = options.jsonp;
 		this.success = options.success;
 		this.error = options.error;
 		this.XMLHTTP = this.getXMLHTTP();
@@ -31,6 +34,10 @@
 		constructor: Ajax,
 		init: function(){
 			var _this = this;
+			if(_this.dataType === 'jsonp'){
+				_this.getJsonp();
+				return;
+			}
 			_this.requset(_this.method);
 		},
 		getXMLHTTP: function(){
@@ -89,6 +96,18 @@
 		},
 		post: function(){
 			this.requset('post');
+		},
+		getJsonp: function(){
+			var _this = this,
+				url = _this.url,
+				jsonp = _this.jsonp,
+				uuid = "NJsonp" + (timestamp++);
+			url += (/\?/.test(url) ? '&' : '?') + 'callback='+uuid;
+			window[uuid] = function(data){
+				_this.success(data);
+				window[uuid] = null;
+			}
+			n.loadScript(url);
 		}
 	}
 	//追加到n上
@@ -110,6 +129,14 @@
 				data: data,
 				success: fuc
 			}).post();
+		},
+		jsonp: function(url, data, fun){
+			new Ajax({
+				url: url,
+				data: data,
+				dataType: 'jsonp',
+				success: fuc
+			}).init();
 		}
 	});
-})();
+})(this);
