@@ -40,8 +40,8 @@
 	 */
 	n.mix(n, {
 		cookie: function (name, value, time){
-			if (typeof value != 'undefined') {
-				if (value === null) {
+			if (!n.isUndefined(value)) {
+				if (n.isNull(value)) {
 					new Cookie(name, '', -1).set();
 					return;
 				}

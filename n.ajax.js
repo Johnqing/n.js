@@ -136,6 +136,7 @@
 	/**
 	 * 追加ajax模块到n命名空间上
 	 * @namespace n
+	 */
 	n.mix(n, {
 		ajax: function (options){
 			options = n.mix(options, defaultConfig);

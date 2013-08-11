@@ -4,6 +4,14 @@
 		document = window.document,
 		version = '1.0.0',
 		released = '2013-08-09 13:47';
+
+	var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
+	var	push = ArrayProto.push,
+		slice = ArrayProto.slice,
+		concat = ArrayProto.concat,
+		toString = ObjProto.toString,
+		hasOwnProperty = ObjProto.hasOwnProperty;	
+
 	/**
 	 * n选择器
 	 * @param  {String} a 筛选元素
@@ -40,6 +48,21 @@
 	n.isString = isType('String');
 	n.isArray = isType('Array');
 	n.isFunction = isType('Function');
+	n.isNull = function(obj){
+		return obj === null;
+	}
+	n.isUndefined = function(obj){
+		return obj === void 0;
+	}
+	/**
+	 * 判断object 包含指定的属性 key
+	 * @param  {Object} obj 对象集合
+	 * @param  {String} key 查找键
+	 * @return {Boolean}
+	 */
+	n.has = function(obj, key){
+		return hasOwnProperty.call(obj, key);
+	}
 	/**
 	 * 将源对象的属性并入到目标对象
 	 * @param {Object} des 目标对象
