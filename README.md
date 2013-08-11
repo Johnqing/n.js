@@ -128,11 +128,19 @@ n.post('http://xxx',{x:1,y:2},function(){});
 n.jsonp('http://xxx',{x:1,y:2},function(){});
 </pre>
 
+* cookie n.cookie
+<pre>
+n.cookie('name', 'hello', 10);  //设置cookie
+n.cookie('name');  //获取cookie
+n.cookie('name', null);  //删除cookie
+n.cookie('name', '', -1);  //删除cookie
+</pre>
+
 ##支持##
 
 如果你有的意见可以到[这里](https://github.com/Johnqing/n.js/issues)也可以[邮件](mailto:csssnow@gmail.com)
 
 ##贡献者##
 
-[@掰漏斯特](http://weibo.com/210126534) [@hard2easy](http://weibo.com/nister)
+[@掰漏斯特](http://weibo.com/210126534) [@hard2easy](http://weibo.com/nister) [@王迎然](http://weibo.com/wangyingran)
 
