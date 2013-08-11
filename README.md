@@ -130,7 +130,7 @@ n.jsonp('http://xxx',{x:1,y:2},function(){});
 
 * cookie n.cookie
 <pre>
-n.cookie('name', 'hello', 10);  //设置cookie
+n.cookie('name', 'hello', 7);  //设置cookie
 n.cookie('name');  //获取cookie
 n.cookie('name', null);  //删除cookie
 n.cookie('name', '', -1);  //删除cookie
