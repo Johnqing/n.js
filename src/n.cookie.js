@@ -42,7 +42,7 @@
 		/**
 		 * 获取cookie
 		 * @param  {String} name cookie名
-		 * @return {Boolean}
+		 * @return {String}
 		 */
 		get: function(name){
 			var cookieValue = null,
