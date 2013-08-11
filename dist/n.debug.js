@@ -581,10 +581,16 @@
 		 * 设置cookie
 		 * @param  {String} name    cookie名
 		 * @param  {String} value   cookie值
-		 * @param  {[type]} options 设置cookie的有效期，路径，域，安全  
+		 * @param  {Object} options 设置cookie的有效期，路径，域，安全  
 		 * @return 
 		 */
 		set: function(name, value, options){
+			options = options || {}; 
+			//如果值为空，删除该cookie    
+			if (isNull(value)) {     
+				value = '';     
+				options.expires = -1;     
+			}  
 			var expires = '';     
 	        if (options.expires && (typeof options.expires == 'number' || options.expires.toUTCString)) {     
 	            var date;     
@@ -620,6 +626,9 @@
 				}     
 			}     
 			return cookieValue;
+		},
+		remove: function(name){
+			cookie.set(name, null);
 		}
 	}
 	/**
@@ -628,17 +637,14 @@
 	 */
 	n.mix(n, {
 		cookie: function (name, value, options){
-			if (!isUndefined(value)) {     
-		        options = options || {}; 
-		        //如果值为空，删除该cookie    
-		        if (isNull(value)) {     
-		            value = '';     
-		            options.expires = -1;     
-		        }  
+			if (!isUndefined(value)) {  
 		        cookie.set(name, value, options);
 		    }else{
 				return cookie.get(name, value, options);
 		    }
+		},
+		removeCookie: function(name){
+			cookie.remove(name);
 		}
 	});
 	
