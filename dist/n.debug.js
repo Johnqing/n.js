@@ -614,18 +614,22 @@
 		 * @return {Boolean}
 		 */
 		get: function(name){
-			var cookieValue = null;     
-			if (document.cookie && document.cookie != '') {     
-				var cookies = document.cookie.split(';');     
-				for (var i = 0; i < cookies.length; i++) {     
-				    var cookie = n.trim(cookies[i]);     
-				    if (cookie.substring(0, name.length + 1) == (name + '=')) {     
-				        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));     
-				        break;     
-				    }     
-				}     
+			var cookieValue = null,
+				dck = document.cookie,
+				cookieStart,cookieEnd;     
+			if (dck&& dck != '') {  
+				//通过indexOf()来检查这个cookie是否存在，不存在就为 -1　
+				cookieStart = dck.indexOf(name + "=");
+				if(cookieStart != -1){
+					cookieStart += name.length + 1;
+					cookieEnd = dck.indexOf(";", cookieStart);
+					if(cookieEnd == -1){
+						cookieEnd = dck.length;
+					}
+					return decodeURIComponent(dck.substring(cookieStart, cookieEnd));
+				}   
 			}     
-			return cookieValue;
+			return '';
 		},
 		remove: function(name){
 			cookie.set(name, null);
