@@ -74,6 +74,7 @@
 		 */
 		requset: function(type){
 			var _this = this,
+				resType,
 				URL = _this.url,
 				async = _this.async;
 				xmlHttp = _this.XMLHTTP,
@@ -89,14 +90,21 @@
 
 			xmlHttp.open(type, URL, async);
 			xmlHttp.onreadystatechange = function(){
-				if(xmlHttp.readyState==4 && (xmlHttp.status == 200 || xmlHttp.status == 304) ){
-					_this.success.call(_this, xmlHttp.responseText);
-				}
-				if(xmlHttp.readyState==4 && (xmlHttp.status.indexOf('4') > -1 || xmlHttp.status.indexOf('5') > -1)){
+				if(xmlHttp.readyState == 4 && (xmlHttp.status == 200 || xmlHttp.status == 304) ){
+					resType = xmlHttp.responseText;
+					if(_this.dataType === 'xml'){
+						resType = xmlHttp.responseXML;
+					}
+					_this.success.call(_this, resType);
+				}else if(xmlHttp.status == 0){
+					_this.error.call(_this, '请求失败');
+				}else{
 					_this.error.call(_this, xmlHttp.responseText);
 				}
 			};
-			xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+			if(type === "POST"){
+				xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+			}
 			xmlHttp.send(queryString);
 		},
 
@@ -129,6 +137,10 @@
 	 * 追加ajax模块到n命名空间上
 	 * @namespace n
 	 */
+	n.mix(n, {
+		animate: function(){},
+		fadeIn: function(){}
+	});
 	n.mix(n, {
 		ajax: function (options){
 			options = n.mix(options, defaultConfig);
