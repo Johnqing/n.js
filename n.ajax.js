@@ -2,7 +2,7 @@
  * @author johnqing(刘卿)
  * @module ajax模块
  */
-(function(window){
+!function(window){
 	/**
 	 * 默认参数
 	 * @type {Object}
@@ -169,4 +169,4 @@
 			}).init();
 		}
 	});
-})(this);
+}(this);
