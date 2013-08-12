@@ -1,9 +1,11 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON("package.json"),
-
     concat: {
       base: {
+        options:{
+          banner: '/* <%= pkg.name || pk.title %> - v<%= pkg.version %> - <%= pkg.homepage  %> - <%= grunt.template.today("yyyy-mm-dd") %> <%= pkg.author.name %>*/\n' 
+        },
         src: [
           "src/n.js",
           "src/n.browser.js",

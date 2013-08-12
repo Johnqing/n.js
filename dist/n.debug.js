@@ -1,3 +1,4 @@
+/* n.js - v0.0.0 - https://github.com/Johnqing/n.js - 2013-08-12 */
 !function(window, undefined){
 	var n,
 		_n = window.n,//储存命名
