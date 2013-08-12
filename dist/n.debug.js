@@ -139,7 +139,7 @@
 	 * @param  {Object} node
 	 * @param  {String} tag
 	 * @return {Object}
-	 * @todo 貌似不是最完美方案
+	 * @todo 还有其他解决方案么？
 	 */
 	if(!document.getElementsByClassName){
 	    document.getElementsByClassName = function(className, element){
