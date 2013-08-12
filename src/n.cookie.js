@@ -73,10 +73,10 @@
 	n.mix(n, {
 		cookie: function (name, value, options){
 			if (!isUndefined(value)) {  
-		        cookie.set(name, value, options);
-		    }else{
+		        	cookie.set(name, value, options);
+		    	}else{
 				return cookie.get(name, value, options);
-		    }
+		    	}
 		},
 		removeCookie: function(name){
 			cookie.remove(name);
