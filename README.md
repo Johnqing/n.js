@@ -107,6 +107,10 @@ function onceTest(){
 n.once(onceTest);
 onceTest();
 </pre>
+* 用指定的context作为fn上下文，也就是this n.bind()
+<pre>
+n.bind(function(){console.log(this)}, this);
+</pre>
 * encodeURI一个Json对象 n.encodeURIJson()
 <pre>
 console.log(n.encodeURIJson({eb:1,y:2}));

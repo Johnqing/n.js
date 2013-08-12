@@ -10,7 +10,7 @@
 		slice = ArrayProto.slice,
 		concat = ArrayProto.concat,
 		toString = ObjProto.toString,
-		hasOwnProperty = ObjProto.hasOwnProperty;	
+		hasOwnProperty = ObjProto.hasOwnProperty;
 
 	/**
 	 * n选择器
@@ -63,6 +63,17 @@
 	n.has = function(obj, key){
 		return hasOwnProperty.call(obj, key);
 	}
+	/**
+	 * 用指定的context作为fn上下文，也就是this
+	 * @param  {Function} fn      需要指定上下文的函数
+	 * @param  {Object}   context 上下文
+	 * @return
+	 */
+	n.bind = function (fn, context) {
+		return function () {
+			return fn.apply(context, arguments);
+		};
+    }
 	/**
 	 * 将源对象的属性并入到目标对象
 	 * @param {Object} des 目标对象
@@ -642,10 +653,10 @@
 	n.mix(n, {
 		cookie: function (name, value, options){
 			if (!isUndefined(value)) {  
-				cookie.set(name, value, options);
-			}else{
+		        	cookie.set(name, value, options);
+		    	}else{
 				return cookie.get(name, value, options);
-			}
+		    	}
 		},
 		removeCookie: function(name){
 			cookie.remove(name);
