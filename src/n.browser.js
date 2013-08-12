@@ -34,7 +34,7 @@
 					 * 判断是否gecko
 					 * @type {Boolean} true|false
 					 */
-					gecko: (navigator.product == 'Gecko' && !browser.webkit && !browser.opera)
+					gecko: (navigator.product == 'Gecko' && !this.webkit && !this.opera)
 
 				};
 			/**

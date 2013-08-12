@@ -374,27 +374,16 @@
 	 * @return {Object}
 	 */
 	n.md = function(elStr){
-		var cElem = document.createElement('p');
+		var doc = document,
+		cElem = doc.createElement('p');
 		cElem.innerHTML = elStr;
-		elStr = document.createDocumentFragment(cElem);
+		elStr = doc.createDocumentFragment(cElem);
 
-		while(document = cElem.firstChild){
-			elStr.appendChild(document);
+		while(doc = cElem.firstChild){
+			elStr.appendChild(doc);
 		}
 		return elStr;
 	};
-	/**
-	 * 模板渲染
-	 * @param  {Object} elem 要插入的对象
-	 * @param  {String} str  模板字符串
-	 * @param  {Object} data 数据
-	 * @return
-	 */
-	n.tpl = function(elem, str, data){
-		n.loadScript('http://johnqing.github.io/Ntpl.js/nTpl.js', function(){
-			elem.innerHTML = NTpl.tpl(str, data);
-		})
-	}
 	/**
 	 * 防止命名空间冲突
 	 * @param  {String} str 替换n命名空间的名字
