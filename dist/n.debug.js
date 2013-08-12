@@ -497,7 +497,7 @@
 			/**
 			* 检测浏览器是否为chrome
 			* @name chrome
-			* @@type {Boolean} true|false
+			* @type {Boolean} true|false
 			*/
 			if (/chrome\/(\d+\.\d)/i.test(agent)) {
 				browser.chrome = + RegExp['\x241'];
@@ -529,7 +529,7 @@
 			* @name version
 			* @example
 			* if (n.browser.ie && n.browser.version == 6 ){
-			*     alert( "Ouch!居然是万恶的IE6!" );
+			*     alert( "万恶的IE6，去死吧!" );
 			* }
 			*/
 			browser.version = version;
