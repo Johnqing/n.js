@@ -21,14 +21,23 @@ module.exports = function(grunt) {
             src: 'dist/n.debug.js',
             dest: 'dist/n.min.js'
         }
+    },
+    watch: {
+      scripts: {
+        files: ['**/*.js'],
+        tasks: ['default'],
+        options: {
+          spawn: false,
+        }
+      }
     }
   })
 
   // Load grunt tasks from NPM packages
   grunt.loadNpmTasks("grunt-contrib-concat")
   grunt.loadNpmTasks("grunt-contrib-uglify")
+  grunt.loadNpmTasks("grunt-contrib-watch")
 
-
-  grunt.registerTask("default",["concat", "uglify"])
+  grunt.registerTask("default",["concat", "uglify", "watch"])
 
 }
