@@ -3,20 +3,31 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON("package.json"),
 
     concat: {
-      dist: {
+      base: {
         src: [
           "src/n.js",
           "src/n.browser.js",
-          "src/n.ajax.js",
-          "src/n.cookie.js"
+          "src/n.ajax.js"
         ],
         dest: 'dist/n.debug.js'
+      },
+      extras: {
+        src: [
+          "extras/n.cookie.js"
+        ],
+        dest: 'dist/n.extras-debug.js'
       }
     },
     uglify: {
-        js: {
-            src: 'dist/n.debug.js',
-            dest: 'dist/n.min.js'
+        my_target: {
+            files: {
+              'dist/n.min.js': ['dist/n.debug.js']
+            }
+        },
+        my_advanced_target: {
+            files: {
+              'dist/n.extras.js': ['dist/n.extras-debug.js']
+            }
         }
     },
     watch: {
