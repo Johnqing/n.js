@@ -2,8 +2,8 @@
 	var n,
 		_n = window.n,//储存命名
 		document = window.document,
-		version = '1.0.0',
-		released = '2013-08-09 13:47';
+		version = '1.0.1',
+		released = '2013-08-12';
 
 	var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
 	var	push = ArrayProto.push,
@@ -22,13 +22,12 @@
 		a = a.match(/^(\W)?(.*)/);
 		return(b || document)[
 		"getElement" + (
-		  a[1]
-		    ? a[1] == "#"
-		      ? "ById"           // node by ID,
-		      : "sByClassName"   // nodes by class name, or
-		    : "sByTagName"       // nodes by tag name,
-		)
-		](a[2]);
+			a[1]
+			? a[1] == "#"
+			? "ById"           // node by ID,
+			: "sByClassName"   // nodes by class name, or
+			: "sByTagName"     // nodes by tag name,
+		)](a[2]);
 	}
 	/**
 	 * 私有类型判断函数
@@ -387,8 +386,8 @@
 	/**
 	 * 模板渲染
 	 * @param  {Object} elem 要插入的对象
-	 * @param  {[type]} str  模板字符串
-	 * @param  {[type]} data 数据
+	 * @param  {String} str  模板字符串
+	 * @param  {Object} data 数据
 	 * @return
 	 */
 	n.tpl = function(elem, str, data){
