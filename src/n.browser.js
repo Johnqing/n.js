@@ -1,6 +1,7 @@
 /**
  * @author johnqing(刘卿)
  * @module 浏览器嗅探模块
+ * @link n.js
  */
 !function(window){
 	var document = window.document;

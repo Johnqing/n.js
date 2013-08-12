@@ -408,6 +408,7 @@
 /**
  * @author johnqing(刘卿)
  * @module 浏览器嗅探模块
+ * @link n.js
  */
 !function(window){
 	var document = window.document;
@@ -553,6 +554,7 @@
 /**
  * @author johnqing(刘卿)
  * @module ajax模块
+ * @link n.js
  */
 !function(window){
 	/**
@@ -722,6 +724,7 @@
 /**
  * @author www.wangyingran.com(王迎然)
  * @module cookie模块
+ * @link n.js
  */
 !function(window){
 	/**

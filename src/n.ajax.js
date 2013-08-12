@@ -1,6 +1,7 @@
 /**
  * @author johnqing(刘卿)
  * @module ajax模块
+ * @link n.js
  */
 !function(window){
 	/**

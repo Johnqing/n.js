@@ -1,6 +1,7 @@
 /**
  * @author www.wangyingran.com(王迎然)
  * @module cookie模块
+ * @link n.js
  */
 !function(window){
 	/**
