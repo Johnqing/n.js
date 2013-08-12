@@ -375,13 +375,12 @@
 	 * @return {Object}
 	 */
 	n.md = function(elStr){
-		var doc = document,
-		cElem = doc.createElement('p');
+		var cElem = document.createElement('p');
 		cElem.innerHTML = elStr;
-		elStr = doc.createDocumentFragment(cElem);
+		elStr = document.createDocumentFragment(cElem);
 
-		while(doc = cElem.firstChild){
-			elStr.appendChild(doc);
+		while(document = cElem.firstChild){
+			elStr.appendChild(document);
 		}
 		return elStr;
 	};
@@ -407,6 +406,15 @@
 		window.n = _n;
 	}
 	window.n = n;
+	// RequireJS || SeaJS
+	if (typeof define === 'function') {
+		define(function(require, exports, module) {
+			module.exports = n;
+		});
+	// NodeJS
+	} else if (typeof exports !== 'undefined') {
+		module.exports = n;
+	}
 }(this);
 
 /**
