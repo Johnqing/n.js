@@ -134,13 +134,27 @@ n.get('http://xxx',{x:1,y:2},function(){});
 n.post('http://xxx',{x:1,y:2},function(){});
 n.jsonp('http://xxx',{x:1,y:2},function(){});
 </pre>
-
 * cookie n.cookie
 <pre>
 n.cookie('name', 'hello', 7);  //设置cookie
 n.cookie('name');  //获取cookie
 n.cookie('name', null);  //删除cookie
 n.cookie('name', '', -1);  //删除cookie
+</pre>
+*浏览器嗅探 n.browser
+<pre>
+console.log(n.browser);
+//chrome下打印出以下信息
+{
+	chrome: 28
+	gecko: true
+	ie: false
+	isCompatible: true
+	opera: false
+	quirks: false
+	version: 537
+	webkit: true
+}
 </pre>
 
 ##支持##
