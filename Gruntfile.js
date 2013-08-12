@@ -6,6 +6,7 @@ module.exports = function(grunt) {
       dist: {
         src: [
           "src/n.js",
+          "src/n.browser.js",
           "src/n.ajax.js",
           "src/n.cookie.js"
         ],
