@@ -73,7 +73,7 @@
 		return function () {
 			return fn.apply(context, arguments);
 		};
-    }
+	}
 	/**
 	 * 将源对象的属性并入到目标对象
 	 * @param {Object} des 目标对象
