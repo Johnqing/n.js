@@ -1,8 +1,4 @@
 module.exports = function(grunt) {
-
-  var path = require("path")
-
-
   grunt.initConfig({
     pkg: grunt.file.readJSON("package.json"),
 
@@ -27,17 +23,17 @@ module.exports = function(grunt) {
         files: ['**/*.js'],
         tasks: ['default'],
         options: {
-          spawn: false,
+          spawn: false
         }
       }
     }
-  })
+  });
 
   // Load grunt tasks from NPM packages
-  grunt.loadNpmTasks("grunt-contrib-concat")
-  grunt.loadNpmTasks("grunt-contrib-uglify")
-  grunt.loadNpmTasks("grunt-contrib-watch")
+  grunt.loadNpmTasks("grunt-contrib-concat");
+  grunt.loadNpmTasks("grunt-contrib-uglify");
+  grunt.loadNpmTasks("grunt-contrib-watch");
 
-  grunt.registerTask("default",["concat", "uglify", "watch"])
+  grunt.registerTask("default",["concat", "uglify", "watch"]);
 
-}
+};
