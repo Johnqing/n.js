@@ -6,7 +6,7 @@ n.js
 ##配置##
 通过grunt配置当前那些模块需要合并和压缩
 
-##方法支持##
+##核心模块##
 
 * DOM 选择器 n()
 <pre>
@@ -87,10 +87,6 @@ var a = {x:1},
 n.mix(a,b);
 console.log(a);
 </pre>
-* 将源对象的属性并入到目标对象 n.tpl() 这个函数内部二次封装了 [NTpl模板引擎](https://github.com/Johnqing/Ntpl.js)
-<pre>
-n.tpl(n('#tpl'), '&lt;%= name %&gt;', {name:'johnqing'});
-</pre>
 * 防止命名空间冲突 n.noConflict()
 <pre>
 n.noConflict('$');
@@ -134,13 +130,6 @@ n.get('http://xxx',{x:1,y:2},function(){});
 n.post('http://xxx',{x:1,y:2},function(){});
 n.jsonp('http://xxx',{x:1,y:2},function(){});
 </pre>
-* cookie n.cookie
-<pre>
-n.cookie('name', 'hello', 7);  //设置cookie
-n.cookie('name');  //获取cookie
-n.cookie('name', null);  //删除cookie
-n.cookie('name', '', -1);  //删除cookie
-</pre>
 *浏览器嗅探 n.browser
 <pre>
 console.log(n.browser);
@@ -156,6 +145,24 @@ console.log(n.browser);
 	webkit: true
 }
 </pre>
+
+##业务模块##
+
+* cookie n.cookie
+<pre>
+n.cookie('name', 'hello', 7);  //设置cookie
+n.cookie('name');  //获取cookie
+n.cookie('name', null);  //删除cookie
+n.cookie('name', '', -1);  //删除cookie
+</pre>
+* 模板渲染引擎 n.tpl()/n.openTag/n.closeTag  [具体用法](https://github.com/Johnqing/Ntpl.js)
+<pre>
+//如果不设置分隔符默认为&lt;%
+n.openTag = "&lt;#";
+n.closeTag = "#&gt;";
+console.log(n.tpl('name:&lt;#= name #&gt;', {name: 'n.js'}));
+</pre>
+
 
 ##支持##
 

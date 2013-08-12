@@ -15,7 +15,7 @@
 	<div id="noConflict"></div>
 	<div id="tpl"></div>
 	<script src="dist/n.min.js"></script>
-	<script src="dist/n.extras.js"></script>
+	<script src="dist/n.extras-debug.js"></script>
 	<script>
 	//n
 	var node = n('#test').getElementsByTagName('li');
@@ -74,6 +74,7 @@
 	//browser
 	console.log(n.browser);
 	//tpl 测试代码请别写在这里 这里的别名已经被替换
+	console.log(n.tpl('name:<%= name %>', {name: 'n.js'}));
 	n.noConflict('$');
 	$('#noConflict').innerHTML = "别名换为了$";
 	</script>

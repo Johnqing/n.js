@@ -13,7 +13,8 @@ module.exports = function(grunt) {
       },
       extras: {
         src: [
-          "extras/n.cookie.js"
+          "extras/n.cookie.js",
+          "extras/n.template.js"
         ],
         dest: 'dist/n.extras-debug.js'
       }
