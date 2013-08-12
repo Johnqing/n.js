@@ -15,7 +15,7 @@
 					 * 判断是否ie
 					 * @type {Boolean} true|false
 					 */
-					ie: !-[1,],
+					ie: (agent.indexOf('msie') > -1),
 					/**
 					 * 判断是否opera
 					 * @type {Boolean} true|false
