@@ -311,8 +311,8 @@
 		stop: function(){
 			var _this = this;
 			anim[_this.uuid]['stop'] = false;
-            _this.fn.length = _this.elem.fn = 0;
-            return _this;
+			_this.fn.length = _this.elem.fn = 0;
+			return _this;
 		},
 		entrance: function(fn, data, time){
 			var root = n, _this = this;
