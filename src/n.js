@@ -55,6 +55,7 @@
 	 */
 	n.isObject = isType('Object');
 	n.isString = isType('String');
+	n.isNumber = isType('Number');
 	n.isArray = isType('Array');
 	n.isFunction = isType('Function');
 	n.isNull = function(obj){
