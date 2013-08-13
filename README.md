@@ -162,7 +162,13 @@ n.openTag = "&lt;#";
 n.closeTag = "#&gt;";
 console.log(n.tpl('name:&lt;#= name #&gt;', {name: 'n.js'}));
 </pre>
-
+* 动画模块 n.animate()
+<pre>
+//最后一个参数，可自行先加载easing算子，然后设置
+n.animate(n('#animateTest'), {width:'100px', height:'10px'}, 2000, function(){
+	alert('动画完成!');
+},'jstwer');
+</pre>
 
 ##支持##
 

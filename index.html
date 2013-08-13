@@ -3,6 +3,13 @@
 <head>
 	<meta charset="UTF-8">
 	<title>n.js</title>
+	<style>
+	#animateTest{
+		width: 0;
+		height: 100px;
+		background: #f00;
+	}
+	</style>
 </head>
 <body>
 	<ul id="test">
@@ -12,9 +19,10 @@
 		<li>content4</li>
 		<li>content5</li>
 	</ul>
+	<div id="animateTest"></div>
 	<div id="noConflict"></div>
 	<div id="tpl"></div>
-	<script src="dist/n.min.js"></script>
+	<script src="dist/n.debug.js"></script>
 	<script src="dist/n.extras-debug.js"></script>
 	<script>
 	//n
@@ -58,23 +66,27 @@
 	onceTest();
 	//encodeURIJson
 	console.log(n.encodeURIJson({eb:1,y:2}));
-	//ajax
-	n.ajax({
-		url: 'http:127.0.0.1:10011',
-		method: 'get',
-		data: 'x=1&y=2',
-		dataType: 'json',
-		success: function(data){
-			console.log(data);
-		},
-		error: function(data){
-			console.log(data);
-		}
-	});
+	// //ajax
+	// n.ajax({
+	// 	url: 'http:127.0.0.1:10011',
+	// 	method: 'get',
+	// 	data: 'x=1&y=2',
+	// 	dataType: 'json',
+	// 	success: function(data){
+	// 		console.log(data);
+	// 	},
+	// 	error: function(data){
+	// 		console.log(data);
+	// 	}
+	// });
 	//browser
 	console.log(n.browser);
 	//tpl 测试代码请别写在这里 这里的别名已经被替换
 	console.log(n.tpl('name:<%= name %>', {name: 'n.js'}));
+	//animate
+	n.animate(n('#animateTest'), {width:'100px', height:'10px'}, 2000, function(){
+		alert('动画完成!');
+	});
 	n.noConflict('$');
 	$('#noConflict').innerHTML = "别名换为了$";
 	</script>

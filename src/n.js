@@ -1,6 +1,7 @@
 !function(window, undefined){
 	var n,
 		_n = window.n,//储存命名
+		nuid = 0,
 		document = window.document,
 		version = '1.0.1',
 		released = '2013-08-12';
@@ -28,6 +29,15 @@
 			: "sByClassName"   // nodes by class name, or
 			: "sByTagName"     // nodes by tag name,
 		)](a[2]);
+	}
+	/**
+	 * 生成全局唯一的id
+	 * @param  {String} str 前缀
+	 * @return {String} 全局唯一id
+	 */
+	n.nuid = function(str){
+		var id = ++nuid + '';
+		return str ? str + id : id;
 	}
 	/**
 	 * 私有类型判断函数
