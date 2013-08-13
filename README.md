@@ -110,6 +110,11 @@ onceTest();
 <pre>
 n.bind(function(){console.log(this)}, this);
 </pre>
+* 生成全局唯一id nuid()
+<pre>
+//如果不传参数，返回纯数字id
+n.nuid('id_');
+</pre>
 * encodeURI一个Json对象 n.encodeURIJson()
 <pre>
 console.log(n.encodeURIJson({eb:1,y:2}));
