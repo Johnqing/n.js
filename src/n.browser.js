@@ -15,7 +15,7 @@
 					 * 判断是否ie
 					 * @type {Boolean} true|false
 					 */
-					ie: (agent.indexOf('msie') > -1),
+					ie: !!window.ActiveXObject,
 					/**
 					 * 判断是否opera
 					 * @type {Boolean} true|false

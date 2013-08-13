@@ -1,4 +1,4 @@
-/* n.js - v0.0.0 - https://github.com/Johnqing/n.js - 2013-08-12 */
+/* n.js - v0.0.0 - https://github.com/Johnqing/n.js - 2013-08-13 */
 !function(window, undefined){
 	var n,
 		_n = window.n,//储存命名
@@ -423,7 +423,7 @@
 					 * 判断是否ie
 					 * @type {Boolean} true|false
 					 */
-					ie: !-[1,],
+					ie: !!window.ActiveXObject,
 					/**
 					 * 判断是否opera
 					 * @type {Boolean} true|false
@@ -552,6 +552,7 @@
 		}()
 	});
 }(this);
+
 /**
  * @author johnqing(刘卿)
  * @module ajax模块
