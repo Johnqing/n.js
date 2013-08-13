@@ -37,10 +37,10 @@
 		 */
 		getUid: function(){
 			var _this = this, 
-				uuid = _this.elem.getAttribute('data-id');
+				uuid = _this.elem.anid;
 			if(!n.isString(uuid)){
 				uuid = n.nuid();
-				_this.elem.setAttribute('data-id', uuid);
+				_this.elem.anid = uuid;
 				return uuid;
 			}
 			return uuid;
@@ -67,6 +67,7 @@
 			var _this = this;
 			anim[_this.uuid]['stop'] = false;
 			_this.fn.length = _this.elem.fn = 0;
+			_this.elem.anid = null;
 			return _this;
 		},
 		entrance: function(fn, data, time){
@@ -137,6 +138,7 @@
 					//清除队列
 					que.length = 0;
 					_this.elem.fn.length = 0;
+					_this.elem.anid = null;
 				}
 
 			}
