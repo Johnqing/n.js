@@ -110,7 +110,7 @@ onceTest();
 <pre>
 n.bind(function(){console.log(this)}, this);
 </pre>
-* 生成全局唯一id nuid()
+* 生成全局唯一id n.nuid()
 <pre>
 //如果不传参数，返回纯数字id
 n.nuid('id_');
