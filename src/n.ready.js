@@ -30,7 +30,7 @@
 
 	var DOMContentLoaded = function() {
 		var readyState = document.readyState;
-		if (readyState === "complete" || !readyState) {
+		if (addEventListener || readyState === "complete") {
 			n.un(document, eventType, DOMContentLoaded);
 			fireReady();		
 		}		
