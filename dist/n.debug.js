@@ -1,4 +1,4 @@
-/* n.js - v0.0.0 - https://github.com/Johnqing/n.js - 2013-08-13 */
+/* n.js - v0.0.0 - https://github.com/Johnqing/n.js - 2013-08-14 */
 !function(window, undefined){
 	var n,
 		_n = window.n,//储存命名
@@ -56,6 +56,7 @@
 	 */
 	n.isObject = isType('Object');
 	n.isString = isType('String');
+	n.isNumber = isType('Number');
 	n.isArray = isType('Array');
 	n.isFunction = isType('Function');
 	n.isNull = function(obj){
