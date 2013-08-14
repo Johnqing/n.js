@@ -1,10 +1,10 @@
-/* n.js - v0.0.0 - https://github.com/Johnqing/n.js - 2013-08-14 */
+/* n.js - v1.0.0 - https://github.com/Johnqing/n.js - 2013-08-14 */
 !function(window, undefined){
 	var n,
 		_n = window.n,//储存命名
 		nuid = 0,
 		document = window.document,
-		version = '0.0.0',
+		version = '1.0.0',
 		released = '2013-08-12';
 
 	var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
@@ -298,21 +298,6 @@
 	 */
 	n.trim = function(str){
 		return str.replace(/(^\s*)|(\s$)/g, '');
-	}
-	/**
-	 * url参数解析
-	 * @param  {String} url url参数字符串
-	 * @return {Object} json对象
-	 */
-	n.queryUrl = function(url){
-		var t = {},
-			s;
-		url = url.split('&');
-		for (var i = url.length - 1; i >= 0; i--) {
-			s = url[i].split('=');
-			t[s[0]] = s[1];
-		};
-		return t;
 	}
 	/**
 	 * encodeURI一个Json对象

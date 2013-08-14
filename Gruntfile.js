@@ -20,6 +20,7 @@ module.exports = function(grunt) {
       },
       extras: {
         src: [
+          "extras/n.encode.js",
           "extras/n.cookie.js",
           "extras/n.template.js",
           "extras/n.animate.js",

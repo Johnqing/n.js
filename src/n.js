@@ -299,21 +299,6 @@
 		return str.replace(/(^\s*)|(\s$)/g, '');
 	}
 	/**
-	 * url参数解析
-	 * @param  {String} url url参数字符串
-	 * @return {Object} json对象
-	 */
-	n.queryUrl = function(url){
-		var t = {},
-			s;
-		url = url.split('&');
-		for (var i = url.length - 1; i >= 0; i--) {
-			s = url[i].split('=');
-			t[s[0]] = s[1];
-		};
-		return t;
-	}
-	/**
 	 * encodeURI一个Json对象
 	 * @param {Json} json  Json数据，只有一层json，每一键对应的值可以是字符串或字符串数组
 	 * @returns {string} : 返回被encodeURI结果。
