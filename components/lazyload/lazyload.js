@@ -52,23 +52,19 @@
                 height = container.clientHeight;
               //遍历数组内的图片
                n.forEach(imgArray, function(el){
-                  if(el.className == dataName){
-                    return
-                  };
-
+                if(el.className != dataName){
                   lazySrc = el.getAttribute(opts.original);
 
-                  if( !lazySrc || el.src === lazySrc ){
-                     return
+                  if(lazySrc && el.src !== lazySrc){
+                      //当前图片的绝对位置
+                      ObjPoint = getObjPoint(el).y; 
+                      if(ObjPoint >= top && ObjPoint <= (top+height)){
+                        // 加载图片
+                        el.src = lazySrc;
+                        el.className = dataName;
+                      }
                   }
-
-                  //当前图片的绝对位置
-                  ObjPoint = getObjPoint(el).y; 
-                  if(ObjPoint >= top && ObjPoint <= (top+height)){
-                      // 加载图片
-                      el.src = lazySrc;
-                      el.className = dataName;
-                  }
+                };                  
                });
                //回调 
               callback();      
