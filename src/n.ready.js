@@ -29,13 +29,10 @@
 	}
 
 	var DOMContentLoaded = function() {
-		if (addEventListener) {
-			n.un(document, eventType, DOMContentLoaded);
-			fireReady();
-		} else if (document.readyState === "complete") {	// 确保包含iframe在ie6下完全加载
-			n.un(document, eventType, DOMContentLoaded);
-			fireReady();
-		}
+		var readyState = document.readyState;
+		if (readyState !== "complete" && readyState) return;
+		n.un(document, eventType, DOMContentLoaded);
+		fireReady();	
     };
 
 	var readyPromise = function() {
