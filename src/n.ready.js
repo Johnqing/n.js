@@ -30,7 +30,8 @@
 	
 	var DOMContentLoaded = function() {
 		n.un(document, eventType, DOMContentLoaded);
-    };
+		fireReady();
+    	};
 
 	var readyPromise = function() {
 		
