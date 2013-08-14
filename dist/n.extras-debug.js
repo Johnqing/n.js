@@ -375,8 +375,7 @@
 			var _this = this, 
 				uuid = _this.elem.anid;
 			if(!n.isString(uuid)){
-				uuid = n.nuid();
-				_this.elem.anid = uuid;
+				_this.elem.anid = uuid = n.nuid();
 				return uuid;
 			}
 			return uuid;
