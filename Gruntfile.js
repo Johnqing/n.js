@@ -46,12 +46,22 @@ module.exports = function(grunt) {
       }
     }
   });
+  //自定义任务
+  grunt.registerTask("post-concat", function() {
+    var filepath = "dist/n.debug.js";
+    var version = grunt.config("pkg.version");
 
+    var code = grunt.file.read(filepath);
+    code = code.replace(/@VERSION/g, version);
+    grunt.file.write(filepath, code);
+
+    grunt.log.writeln('"@VERSION" is replaced to "' + version + '".');
+  })
   // Load grunt tasks from NPM packages
   grunt.loadNpmTasks("grunt-contrib-concat");
   grunt.loadNpmTasks("grunt-contrib-uglify");
   grunt.loadNpmTasks("grunt-contrib-watch");
 
-  grunt.registerTask("default",["concat", "uglify", "watch"]);
+  grunt.registerTask("default",["concat", "post-concat", "uglify", "watch"]);
 
 };

@@ -4,7 +4,7 @@
 		_n = window.n,//储存命名
 		nuid = 0,
 		document = window.document,
-		version = '1.0.1',
+		version = '0.0.0',
 		released = '2013-08-12';
 
 	var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
