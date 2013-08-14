@@ -563,7 +563,7 @@
                 max = min;
                 min = 0;
             }
-            return min + (~~Math.random() * (max - min) + 1);
+            return min + (0 | Math.random() * (max - min) + 1);
         }
 
         if (max - min < num) return;
@@ -572,7 +572,7 @@
             j = {};
 
         for (; a.length < num;) {
-            var i = min + (~~Math.random() * (max - min) + 1);
+            var i = min + (0 | Math.random() * (max - min) + 1);
             if (!j[i]) {
                 j[i] = i;
                 a.push(i);
