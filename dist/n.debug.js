@@ -5,7 +5,7 @@
 		nuid = 0,
 		document = window.document,
 		version = '1.0.0',
-		released = '2013-08-12';
+		released = '2013-08-14';
 
 	var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
 	var	push = ArrayProto.push,

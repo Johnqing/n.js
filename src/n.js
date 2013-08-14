@@ -4,7 +4,7 @@
 		nuid = 0,
 		document = window.document,
 		version = '@VERSION',
-		released = '2013-08-12';
+		released = '@RELEASED';
 
 	var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
 	var	push = ArrayProto.push,

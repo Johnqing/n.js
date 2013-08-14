@@ -52,12 +52,15 @@ module.exports = function(grunt) {
     }
   });
   //自定义任务
+  //自动给文件添加版本号和修改时间
   grunt.registerTask("post-concat", function() {
     var filepath = "dist/n.debug.js";
     var version = grunt.config("pkg.version");
+    var released = grunt.template.today("yyyy-mm-dd");
 
     var code = grunt.file.read(filepath);
     code = code.replace(/@VERSION/g, version);
+    code = code.replace(/@RELEASED/g, released);
     grunt.file.write(filepath, code);
 
     grunt.log.writeln('"@VERSION" is replaced to "' + version + '".');
