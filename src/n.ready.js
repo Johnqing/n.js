@@ -30,9 +30,10 @@
 
 	var DOMContentLoaded = function() {
 		var readyState = document.readyState;
-		if (readyState !== "complete" && readyState) return;
-		n.un(document, eventType, DOMContentLoaded);
-		fireReady();	
+		if (readyState === "complete" || !readyState) {
+			n.un(document, eventType, DOMContentLoaded);
+			fireReady();		
+		}		
     };
 
 	var readyPromise = function() {
