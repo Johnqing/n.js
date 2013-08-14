@@ -10,6 +10,7 @@
 	 * @param  {Object}   jsonDate 样式对象
 	 * @param  {Number}   time     毫秒数
 	 * @param  {Function} callback 完成后的回调
+	 * @param  {Object}   easing   缓动公式
 	 * @return
 	 */
 	var document = window.document,
@@ -85,25 +86,24 @@
 		 * @return
 		 */
 		execution: function(key, val, t, root, that){
-			var _this = that;
-				tween = root.easing[_this.easing],
+			var tween = root.easing[that.easing],
 				nowTime = (new Date()).getTime(),
 				duration = t || 500,
-				beigin = parseFloat(_this.elem.style[key]) || 0;
-			var changeValue = _this.nMath(val, beigin),
+				beigin = parseFloat(that.elem.style[key]) || 0;
+			var changeValue = that.nMath(val, beigin),
 				// 单位
 				un = val.match(/\d+(.+)/)[1];
 			(function(){
 				var t = (new Date()).getTime() - nowTime;
 				if (t > duration){
 					t = duration;
-					_this.elem.style[key] = parseInt(tween(t, beigin, changeValue, duration)) + un;
+					that.elem.style[key] = parseInt(tween(t, beigin, changeValue, duration)) + un;
 					// 操作队列
-					_this.queue(); 
-					return _this;
+					that.queue(); 
+					return that;
 				}
-				_this.elem.style[key] = parseInt(tween(t, beigin, changeValue, duration)) + un;
-				anim[_this.uuid]['stop'] && setTimeout(arguments.callee, _this.lazy);
+				that.elem.style[key] = parseInt(tween(t, beigin, changeValue, duration)) + un;
+				anim[that.uuid]['stop'] && setTimeout(arguments.callee, that.lazy);
 			})();
 		},
 		/**

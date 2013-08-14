@@ -84,7 +84,7 @@
 	//tpl 测试代码请别写在这里 这里的别名已经被替换
 	console.log(n.tpl('name:<%= name %>', {name: 'n.js'}));
 	//animate
-	n.animate(n('#animateTest'), {width:'100px', height:'10px'}, 2000, function(){
+	n.animate(n('#animateTest'), {'width':'1000px', 'height':'1000px'}, 2000, function(){
 		alert('动画完成!');
 	});
 	n.noConflict('$');
