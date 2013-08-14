@@ -9,6 +9,8 @@
 	var document = window.document,
 		// 函数队列
 		funcQueue = [],
+		attEvent = document.attachEvent,
+		eventType = attEvent ? 'onreadystatechange' : DOMContentLoaded,
 		// 判断页面是否加载完毕
 		isReady = false,
 		readyBound = false;
@@ -27,29 +29,17 @@
 	}
 	
 	var DOMContentLoaded = function() {
-        if ( document.addEventListener ) {
-            document.removeEventListener( "DOMContentLoaded", DOMContentLoaded, false);
-            fireReady();
-        } else if ( document.readyState === "complete" ) {
-            document.detachEvent( "onreadystatechange", DOMContentLoaded);
-            fireReady();
-        }
+		n.un(document, eventType, DOMContentLoaded);
     };
 
 	var readyPromise = function() {
 		
 		if (readyBound) return;
 		readyBound = true;
-		
+
+		n.on(document, eventType, DOMContentLoaded);
 		// 如果是标准浏览器则使用 DOMContentLoaded
-		if (document.addEventListener) {
-			document.addEventListener("DOMContentLoaded", DOMContentLoaded, false);
-			document.addEventListener("load", fireReady, false);
-		} else if (document.attachEvent){
-			// 如果是ie，并且存在iframe
-			document.attachEvent("onreadystatechange", DOMContentLoaded);
-			document.attachEvent("onload", fireReady);
-			
+		 if (attEvent){		
 			var top = false;
 
 			try {
