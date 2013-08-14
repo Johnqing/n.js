@@ -63,10 +63,6 @@ console.log(n.dFormat(d," yyyy年M月d日\n yyyy-MM-dd\n MM-dd-yy\n yyyy-MM-dd h
 <pre>
 n.trim(' 我前面有空格，我后面也有 ');
 </pre>
-* url参数解析 n.queryUrl()
-<pre>
-n.queryUrl('a=1&b=2&c=3');
-</pre>
 * 是否为对象 n.isObject()
 <pre>
 var x = {};
@@ -160,6 +156,11 @@ console.log(n.browser);
 
 ##业务模块##
 
+* url参数解析 n.queryUrl()
+<pre>
+n.queryUrl('a=1&b=2&c=3');
+</pre>
+* 对前端字符串的编译和反编译模块 用法请查看[encode模块](https://github.com/Johnqing/n.js/blob/master/extras/n.encode.js)
 * cookie n.cookie
 <pre>
 n.cookie('name', 'hello', 7);  //设置cookie
