@@ -8,6 +8,13 @@ n.js
 
 ##核心模块##
 
+* domReady 模块 n.ready();
+<pre>
+n.ready(function(){
+    // dom is loaded!
+})
+</pre>
+
 * DOM 选择器 n()
 <pre>
 n('#id')
@@ -152,13 +159,6 @@ console.log(n.browser);
 </pre>
 
 ##业务模块##
-
-* domReady 模块 n.ready();
-<pre>
-n.ready(function(){
-    // dom is loaded!
-})
-</pre>
 
 * cookie n.cookie
 <pre>
