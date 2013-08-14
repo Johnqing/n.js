@@ -153,6 +153,13 @@ console.log(n.browser);
 
 ##业务模块##
 
+* domReady 模块 n.ready();
+<pre>
+n.ready(function(){
+    // dom is loaded!
+})
+</pre>
+
 * cookie n.cookie
 <pre>
 n.cookie('name', 'hello', 7);  //设置cookie
