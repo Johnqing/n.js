@@ -2,9 +2,7 @@
 	var n,
 		_n = window.n,//储存命名
 		nuid = 0,
-		document = window.document,
-		version = '@VERSION',
-		released = '@RELEASED';
+		document = window.document;
 
 	var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
 	var	push = ArrayProto.push,
@@ -30,6 +28,10 @@
 			: "sByTagName"     // nodes by tag name,
 		)](a[2]);
 	}
+	//版本信息
+	n.version = '@VERSION';
+	//更新时间
+	n.released = '@RELEASED';
 	/**
 	 * 生成全局唯一的id
 	 * @param  {String} str 前缀
@@ -286,10 +288,6 @@
 	 * @type {Object}
 	 */
 	n.cache = {};
-	//版本信息
-	n.version = version;
-	//更新时间
-	n.released = released;
 	/**
 	 * 去除字符串的前后空格
 	 * @param  {String} str
