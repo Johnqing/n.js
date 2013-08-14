@@ -746,7 +746,7 @@
 		// 函数队列
 		funcQueue = [],
 		attEvent = document.attachEvent,
-		eventType = attEvent ? 'onreadystatechange' : DOMContentLoaded,
+		eventType = attEvent ? 'onreadystatechange' : 'DOMContentLoaded',
 		// 判断页面是否加载完毕
 		isReady = false,
 		readyBound = false;
