@@ -1,3 +1,7 @@
+/**
+ * 压缩合并配置文件
+ * @author johnqing(刘卿)
+ */
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON("package.json"),
