@@ -218,8 +218,8 @@
 				return - c * (t /= d) * (t - 2) + b;
 			}
 		},
-		animate: function(elem, jsonDate, time, callback){
-			new Animate(elem, jsonDate, time, callback).run();
+		animate: function(elem, jsonDate, time, callback, easing){
+			new Animate(elem, jsonDate, time, callback, easing).run();
 		}
 	});
 }(this);
