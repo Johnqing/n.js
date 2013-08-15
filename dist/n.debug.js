@@ -1,4 +1,4 @@
-/* n.js - v1.0.0 - https://github.com/Johnqing/n.js - 2013-08-14 */
+/* n.js - v1.0.0 - https://github.com/Johnqing/n.js - 2013-08-15 */
 !function(window, undefined){
 	var n,
 		_n = window.n,//储存命名
@@ -32,7 +32,7 @@
 	//版本信息
 	n.version = '1.0.0';
 	//更新时间
-	n.released = '2013-08-14';
+	n.released = '2013-08-15';
 	/**
 	 * 生成全局唯一的id
 	 * @param  {String} str 前缀
@@ -726,11 +726,9 @@
 !function(window) {
 
 	var document = window.document,
-		// 函数队列
 		funcQueue = [],
 		addEventListener = document.addEventListener,
 		eventType = addEventListener ? 'DOMContentLoaded' : 'readystatechange',
-		// 判断页面是否加载完毕
 		isReady = false,
 		readyBound = false;
 
@@ -740,8 +738,8 @@
 		// 设置标识
 		isReady = true;
 		// 执行队列函数
-		for (var i = 0; i < funcQueue.length; i++) {
-			funcQueue[i]();
+		while (funcQueue.length) {
+			funcQueue.shift()();
 		}
 		// 清空队列
 		funcQueue = null;
