@@ -29,18 +29,20 @@ n.loadScript('url', function(){
 </pre>
 * 事件绑定 n.on()
 <pre>
-n.on(elem, 'click', function(){
+n(elem).on('click', function(){
 	console.log('哈哈')
 })
 </pre>
 * 解除事件绑定 n.un()
 <pre>
-n.un(elem, 'click', fn)
+n(elem).un('click', fn)
 </pre>
 * 触发对象的指定事件 n.fire()
 <pre>
-n('#id').onclick = function(){console.log(11)}
-n.fire(n('#id'));
+n(elem).on('click', function(){
+	console.log('哈哈')
+})
+n(elem).fire('click');
 </pre>
 * 支持链式调用 
 <pre>
