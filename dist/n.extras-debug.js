@@ -42,6 +42,23 @@
 			return div.childNodes[0] ? div.childNodes[0].nodeValue || '' : '';
 		},
 		/**
+		 * encodeURI一个Json对象
+		 * @param {Json} json  Json数据，只有一层json，每一键对应的值可以是字符串或字符串数组
+		 * @returns {string} : 返回被encodeURI结果。
+		 */
+		encodeURIJson: function(json){
+			var s = [];
+			for(var p in json){
+				if(json[p] == null) continue;
+				if(json[p] instanceof Array){
+					for (var i=0;i<json[p].length;i++) s.push( encodeURIComponent(p) + '=' + encodeURIComponent(json[p][i]));
+				}else{
+					s.push( encodeURIComponent(p) + '=' + encodeURIComponent(json[p]));
+				}
+			}
+			return s.join('&');
+		},
+		/**
 		 * url参数解析
 		 * @param  {String} url url参数字符串
 		 * @return {Object} json对象
@@ -358,8 +375,7 @@
 			var _this = this, 
 				uuid = _this.elem.anid;
 			if(!n.isString(uuid)){
-				uuid = n.nuid();
-				_this.elem.anid = uuid;
+				_this.elem.anid = uuid = n.nuid();
 				return uuid;
 			}
 			return uuid;

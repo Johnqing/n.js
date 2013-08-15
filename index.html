@@ -87,6 +87,9 @@
 	n.animate(n('#animateTest'), {'width':'1000px', 'height':'1000px'}, 2000, function(){
 		alert('动画完成!');
 	});
+	n.animate(n('#noConflict'), {'width':'1000px', 'height':'1000px'}, 2000, function(){
+		alert('动画完成!');
+	});
 	n.noConflict('$');
 	$('#noConflict').innerHTML = "别名换为了$";
 	</script>

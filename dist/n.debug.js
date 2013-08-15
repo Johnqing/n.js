@@ -298,24 +298,6 @@
 		return str.replace(/(^\s*)|(\s$)/g, '');
 	}
 	/**
-	 * encodeURI一个Json对象
-	 * @param {Json} json  Json数据，只有一层json，每一键对应的值可以是字符串或字符串数组
-	 * @returns {string} : 返回被encodeURI结果。
-	 */
-	n.encodeURIJson = function(json){
-		var s = [];
-		for( var p in json ){
-			if(json[p]==null) continue;
-			if(json[p] instanceof Array)
-			{
-				for (var i=0;i<json[p].length;i++) s.push( encodeURIComponent(p) + '=' + encodeURIComponent(json[p][i]));
-			}
-			else
-				s.push( encodeURIComponent(p) + '=' + encodeURIComponent(json[p]));
-		}
-		return s.join('&');
-	}
-	/**
 	 * 事件侦听
 	 * @param  {Object} el
 	 * @param  {String} type
@@ -747,7 +729,7 @@
 
 	var DOMContentLoaded = function() {
 		var readyState = document.readyState;
-		if (readyState === "complete" || !readyState) {
+		if (addEventListener || readyState === "complete") {
 			n.un(document, eventType, DOMContentLoaded);
 			fireReady();		
 		}		
