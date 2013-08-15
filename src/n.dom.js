@@ -10,14 +10,22 @@
     rPosition = /^(?:left|right|top|bottom)$/i,
     rBorderWidth = /^border(\w)+Width$/,
     isECMAStyle = !!(document.defaultView && document.defaultView.getComputedStyle),
-    cssHooks = {};
+    cssHooks = {},
+	hasDuplicate = false,    // 是否有重复的DOM元素
+	hasParent = false,    // 是否检测重复的父元素
+	baseHasDuplicate = true;    // 检测浏览器是否支持自定义的sort函数
 
+	// 检测浏览器是否支持自定义的sort函数
+	[ 0, 0 ].sort(function(){
+		baseHasDuplicate = false;
+		return 0;
+	});
 	/** 
 	 * 获得element对象当前的样式
 	 * @method	getCurrentStyle
-	 * @param	{element|string|wrap}	el
-	 * @param	{string}                attribute	样式名
-	 * @return	{string}				
+	 * @param	{Object|String}	el
+	 * @param	{String}                attribute	样式名
+	 * @return	{String}				
 	 */
 	function getCurrentStyle(el, attribute) {
 		if(isECMAStyle){
@@ -74,16 +82,79 @@
 	}
 	//给n上注册方法
 	n.mix(n, {
-		sibling: function( n, elem ) {
-			var r = [];
-
-			for ( ; n; n = n.nextSibling ) {
-				if ( n.nodeType === 1 && n !== elem ) {
-					r.push( n );
-				}
+		/*
+		* 对一组DOM元素按照在DOM树中的顺序进行排序
+		* 同时删除重复或同级的DOM元素
+		* @param { Array } DOM数组
+		* @param { Boolean } 是否检测重复的父元素，如果该参数为true，
+		* 将删除同级元素，只保留第一个
+		* @return { Array } 
+		*/
+		unique : function( nodelist, isParent ){
+			if( nodelist.length < 2 ){
+				return nodelist;
 			}
+			var i = 0,
+			k = 1,
+			len = nodelist.length;
 
-			return r;
+			hasDuplicate = baseHasDuplicate;
+			hasParent = isParent;
+
+			// IE的DOM元素都支持sourceIndex
+			if( nodelist[0].sourceIndex ){
+				var arr = [],                  
+				obj = {},
+				elems = [],
+				j = 0,
+				index, elem;
+
+				for( ; i < len; i++ ){
+					elem = nodelist[i];
+					index = ( hasParent ? elem.parentNode.sourceIndex : elem.sourceIndex ) + 1e8;    
+
+					if( !obj[index] ){
+						( arr[j++] = new String(index) ).elem = elem;
+						obj[index] = true;
+					}
+				}
+
+				arr.sort();
+
+				while( j ){
+					elems[--j] = arr[j].elem;
+				}
+
+				arr = null;
+				return elems;
+			}
+			// 标准浏览器的DOM元素都支持compareDocumentPosition
+			else{
+				nodelist.sort(function( a, b ){
+					if( hasParent ){
+						a = a.parentNode;
+						b = b.parentNode;
+					}
+
+					if( a === b ){
+						hasDuplicate = true;
+						return 0;
+					}
+
+					return a.compareDocumentPosition(b) & 4 ? -1 : 1;
+				});
+
+				if( hasDuplicate ){
+					for( ; k < nodelist.length; k++ ){
+						elem = nodelist[k];
+						if( hasParent ? elem.parentNode === nodelist[k - 1].parentNode : elem === nodelist[k - 1] ){
+							nodelist.splice( k--, 1 );
+						}
+					}
+				}
+
+				return nodelist;
+			}
 		}
 	});
 	//n的原型上注册方法
@@ -253,6 +324,67 @@
 				this[v] = name;
 			});
 			return this;
+		}		
+	});
+	n.each({
+		siblings: function(filter, flag, name, tagName, context){
+			var len = context.length,
+				elems = [],
+				i = 0,
+				l = 0,
+				elem, self;    
+
+			for( ; i < len; i++ ){
+				self = context[i];
+				// 先查找到该元素的第一个同级元素
+				elem = self.parentNode.firstChild;
+
+				while( elem ){
+					// 需要过滤掉自身
+					if( elem.nodeType === 1 && elem !== self && (flag || filter(elem, name, tagName)) ){
+						elems[ l++ ] = elem;
+					}
+					// 使用next去遍历同级元素
+					elem = elem.nextSibling;
+				}            
+			}
+
+			elem = context = null;
+			return elems;
+		}
+	}, function(key, fn){
+		n.fn[key] = function(selector){
+			var flag = false,
+				isType = false,
+				context = n.makeArray(this),
+				matches, filter, name, tagName, type, elems;
+
+			if (!selector) {
+				flag = true;
+			}else{
+				matches = n.adapter(selector);
+				filter = n.filter[matches[0]] || matches[0];
+				name = matches[1];
+				tagName = matches[2];
+				if (n.isString(filter)) {
+					isType = flag = true;
+				};
+			}
+
+			elems = fn(filter, flag, name, tagName, context);
+
+			elems = isType ? n.finder[filter](selector, elems, true) : elems;
+
+			// siblings的查找结果需要去重
+			if( key === 'siblings' ){
+				elems = n.unique(elems);
+			}
+
+			context = null;
+
+
+			// 逗号选择器的结果查找父元素可能存在重复的结果需要去重
+			return n.makeArray((key === 'parent' && selector ? n.unique(elems) : elems), n());
 		}
 	});
 }(N);

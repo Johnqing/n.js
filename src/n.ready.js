@@ -80,7 +80,7 @@
 	 * 追加ready模块到n命名空间上
 	 * @namespace n
 	 */
-	n.mix(n.fn, {
+	n.mix(n, {
 		ready : function(f) {
 			ready(f);
 		}

@@ -93,6 +93,48 @@
 
 		return false;
 	}
+	// DOM元素过滤器
+	n.filter = function( source, selector ){
+		var target = [],
+			l = 0,
+			matches, filter, type, name, elem, tagName, len, i;
+
+		source = nJs.makeArray( source );
+		len = source.length;
+
+		if(nJs.isString(selector) ){
+			matches = nSelector.adapter( selector );
+			filter = nSelector.filter[ matches[0] ];
+			name = matches[1];
+			tagName = matches[2];
+			if( !filter ){
+				type = matches[0];
+			}
+
+			if( type ){
+				target = nSelector.finder[ type ]( selector, source, true );
+			}
+			else{
+				for( i = 0; i < len; i++ ){
+					elem = source[i];
+					if( filter(elem, name, tagName) ){
+						target[ l++ ] = elem;    
+					}                    
+				}
+			}
+		}        
+		else if(nJs.isFunction(selector)){
+			for( i = 0; i < len; i++ ){
+				elem = source[i];
+				if( selector.call(elem, i) ){
+					target[ l++ ] = elem;
+				}
+			}            
+		}
+
+		source = elem = null;
+		return target;
+	}
 	/**
 	* 选择器
 	* @param  {String} selector 选择元素
@@ -171,6 +213,11 @@
 	}
 
 	var nSelector = {
+		getAttribute : function( elem, name ){
+			return attrMap[ name ] ? elem[attrMap[name]] || null :
+			rAttrUrl.test( name ) ? elem.getAttribute( name, 2 ) :
+			elem.getAttribute( name );
+		},
 		/*
 		* 选择器的适配器
 		* @param { String } 选择器字符串
@@ -183,9 +230,7 @@
 		adapter : function( selector, context, nextSelector ){
 			var index, name, tagName, matches, type;
 
-			type = nextSelector !== undefined ? 'RELATIVE' :
-			~selector.indexOf( ':' ) ? 'PSEUDO' :
-			~selector.indexOf( '#' ) ? 'ID' :
+			type = nextSelector !== undefined || ~selector.indexOf( '#' ) ? 'ID' :
 			~selector.indexOf( '[' ) ? 'ATTR' :
 			~selector.indexOf( '.' ) ? 'CLASS' : 'TAG';            
 
@@ -271,6 +316,52 @@
 
 				prevElem = elem = context = null;
 				return elems;
+			},
+			// 属性选择器
+			ATTR : function( selector, context, isFiltered ){
+				var elems = [],
+					matches = selector.match( rAttr ),
+					getAttribute = nSelector.getAttribute,
+					attr = matches[1],
+					symbol = matches[2] || undefined,
+					attrVal = matches[5] || matches[4],            
+					i = 0,
+					l = 0,
+					len, elem, val, matchAttr, sMatches, filterBase, name, tagName;            
+
+				selector = selector.slice( 0, selector.indexOf('[') ) || '*';
+				context = isFiltered ? context : nSelector.adapter( selector, context );
+				len = context.length;
+				sMatches = nSelector.adapter( selector );
+				filterBase = nSelector.filter[ sMatches[0] ];
+				name = sMatches[1];
+				tagName = sMatches[2];       
+
+				for( ; i < len; i++ ){
+					elem = context[i];
+					if( !isFiltered || filterBase(elem, name, tagName) ){
+						val = getAttribute( elem, attr );        
+						// 使用字符串的方法比正则匹配要快
+						matchAttr = val === null ? 
+							symbol === '!=' && val !== attrVal :
+							symbol === undefined ? val !== null :
+							symbol === '=' ? val === attrVal :
+							symbol === '!=' ? val !== attrVal :
+							symbol === '*=' ? ~val.indexOf( attrVal ) :
+							symbol === '~=' ? ~( ' ' + val + ' ' ).indexOf( ' ' + attrVal + ' ' ) :
+							symbol === '^=' ? val.indexOf( attrVal ) === 0 :
+							symbol === '$=' ? val.slice( val.length - attrVal.length ) === attrVal :                            
+							symbol === '|=' ? val === attrVal || val.indexOf( attrVal + '-' ) === 0 :
+							false;
+
+						if( matchAttr ){
+							elems[l++] = elem;
+						}
+					}
+				}
+
+				elem = context = null;    
+				return elems;
 			}
 		}
 	}
@@ -283,14 +374,14 @@
 	*/
 	nJs.mix = function(des, src, override){
 		//数组的话递归
-		if(n.isArray(src)){
+		if(nJs.isArray(src)){
 			for (var i = 0, len = src.length; i < len; i++) {
-				n.mix(des, src[i], override);
+				nJs.mix(des, src[i], override);
 			}
 			return des;
 		}
 		//function为混合器
-		if(n.isFunction(override)){
+		if(nJs.isFunction(override)){
 			for (i in src) {
 				des[i] = override(des[i], src[i], i);
 			}
@@ -545,6 +636,7 @@
 			return this;
 		}
 	});
+	nJs.mix(n, nSelector);
 	// RequireJS || SeaJS
 	if (typeof define === 'function') {
 		define(function(require, exports, module) {
