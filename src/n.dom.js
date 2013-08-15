@@ -72,7 +72,21 @@
 
 		return val;
 	}
-    //
+	//给n上注册方法
+	n.mix(n, {
+		sibling: function( n, elem ) {
+			var r = [];
+
+			for ( ; n; n = n.nextSibling ) {
+				if ( n.nodeType === 1 && n !== elem ) {
+					r.push( n );
+				}
+			}
+
+			return r;
+		}
+	});
+	//n的原型上注册方法
 	n.mix(n.fn, {
 		/**
 		 * create DOM element

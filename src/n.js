@@ -1,10 +1,13 @@
 !function(window, undefined){
-	var document = window.document,
-	_n = window.n;
-	nuid = 0,
-	rQuickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/,    
-	rProtocol = /^(http(?:s)?\:\/\/|file\:.+\:\/)/,
-	rModId = /([^\/?]+?)(\.(?:js|css))?(\?.*)?$/, 
+	var ObjProto = Object.prototype,
+		toString = ObjProto.toString,
+		hasOwnProperty = ObjProto.hasOwnProperty,
+		document = window.document,
+		_n = window.n;
+		nuid = 0,
+		rQuickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/,    
+		rProtocol = /^(http(?:s)?\:\/\/|file\:.+\:\/)/,
+		rModId = /([^\/?]+?)(\.(?:js|css))?(\?.*)?$/, 
 
 	nJs = function(selector, context){
 		return new init(selector, context);
