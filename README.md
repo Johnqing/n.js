@@ -42,15 +42,16 @@ n.un(elem, 'click', fn)
 n('#id').onclick = function(){console.log(11)}
 n.fire(n('#id'));
 </pre>
-* 创建dom元素 n.md()
+* 支持链式调用 
 <pre>
-var c = n.md('&lt;h1&gt;'+i+'&lt;/h1&gt;');
-elem.appendChild(c);
+n('#test li').html('li的值被改变了').on('click', function(){
+	alert(n(this).html());
+}).fire('click');
 </pre>
-* 数组/普通对象/字符串/类数组遍历 n.forEach()
+* 数组/普通对象/字符串/类数组遍历 n.each()
 <pre>
 var node = document.getElementsByTagName('li');
-n.forEach(node, function(e, i){
+n.each(node, function(e, i){
 	cosnole.log(e.innerHTML + i)
 })
 </pre>

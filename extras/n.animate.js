@@ -88,7 +88,7 @@
 			var tween = root.easing[that.easing],
 				nowTime = (new Date()).getTime(),
 				duration = t || 500,
-				beigin = parseFloat(that.elem.style[key]) || 0;
+				beigin = parseFloat(that.elem.css(key)) || 0;
 			var changeValue = that.nMath(val, beigin),
 				// 单位
 				un = val.match(/\d+(.+)/)[1];
@@ -96,12 +96,12 @@
 				var t = (new Date()).getTime() - nowTime;
 				if (t > duration){
 					t = duration;
-					that.elem.style[key] = parseInt(tween(t, beigin, changeValue, duration)) + un;
+					that.elem.css(key, parseInt(tween(t, beigin, changeValue, duration)) + un);
 					// 操作队列
 					that.queue(); 
 					return that;
 				}
-				that.elem.style[key] = parseInt(tween(t, beigin, changeValue, duration)) + un;
+				that.elem.css(key, parseInt(tween(t, beigin, changeValue, duration)) + un);
 				anim[that.uuid]['stop'] && setTimeout(arguments.callee, that.lazy);
 			})();
 		},
@@ -175,32 +175,32 @@
 				s = (new Date()).getTime(),
 				d = t || 500, b, c;
 			if(document.defaultView){
-				b = document.defaultView.getComputedStyle(elem,null)['opacity'] || 1,
+				b = document.defaultView.getComputedcss(elem,null)['opacity'] || 1,
 				c = _this.nMath(val,b) * 100;
 				(function(){
 					var t = (new Date()).getTime() - s;
 					if(t > d){
 						t = d;
-						elem.style['opacity'] = tween(t, (100 * b), c, d) / 100;
+						elem.css('opacity', tween(t, (100 * b), c, d) / 100);
 						_this.queue(); // 队列控制
 						return _this;
 					}
-					elem.style['opacity'] = tween(t, (100 * b), c, d) / 100;
+					elem.css('opacity', tween(t, (100 * b), c, d) / 100);
 					anim[_this.uuid]['stop'] && setTimeout(arguments.callee, lazy);
 				})();
 			}else{
-				b = elem.currentStyle['filter'] ? 
-				(elem.currentStyle['filter'].match(/^alpha\(opacity=([\d\.]+)\)$/))[1]/100 : 1;
+				b = elem[0].currentcss['filter'] ? 
+				(elem[0].currentcss['filter'].match(/^alpha\(opacity=([\d\.]+)\)$/))[1]/100 : 1;
 				c = _this.nMath(val, b) * 100;
 				(function(){
 					var t = (new Date()).getTime() - s;
 					if (t > d){
 						t = d;
-						elem.style['filter']='alpha(opacity='+ tween(t, (100 * b), c, d) +')';
+						elem[0].css['filter']='alpha(opacity='+ tween(t, (100 * b), c, d) +')';
 						_this.queue(); // 队列控制
 						return _this;
 					}
-					elem.style['filter'] = 'alpha(opacity='+ tween(t, (100*b) , c, d) +')';
+					elem[0].css['filter'] = 'alpha(opacity='+ tween(t, (100*b) , c, d) +')';
 					anim[_this.uuid]['stop'] && setTimeout(arguments.callee, lazy);
 				})();
 			}
@@ -216,9 +216,12 @@
 			'jstwer': function(t, b, c, d){
 				return - c * (t /= d) * (t - 2) + b;
 			}
-		},
-		animate: function(elem, jsonDate, time, callback, easing){
-			new Animate(elem, jsonDate, time, callback, easing).run();
+		}
+	})
+	n.mix(n.fn, {
+		animate: function(jsonDate, time, callback, easing){
+			new Animate(n(this), jsonDate, time, callback, easing).run();
+			return this;
 		}
 	});
 }(this);

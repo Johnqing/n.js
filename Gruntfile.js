@@ -12,6 +12,8 @@ module.exports = function(grunt) {
         },
         src: [
           "src/n.js",
+          "src/n.dom.js",
+          "src/n.event.js",
           "src/n.browser.js",
           "src/n.ajax.js",
           "src/n.ready.js"

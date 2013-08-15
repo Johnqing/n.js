@@ -71,16 +71,18 @@
 	 * 追加cookie模块到n命名空间上
 	 * @namespace n
 	 */
-	n.mix(n, {
+	n.mix(n.fn, {
 		cookie: function (name, value, options){
 			if (!isUndefined(value)) {  
-		        	cookie.set(name, value, options);
-		    	}else{
+				cookie.set(name, value, options);
+			}else{
 				return cookie.get(name, value, options);
-		    	}
+			}
+			return this;
 		},
 		removeCookie: function(name){
 			cookie.remove(name);
+			return this;
 		}
 	});
 	
