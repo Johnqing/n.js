@@ -1,4 +1,4 @@
-/* n.js - v1.0.0 - https://github.com/Johnqing/n.js - 2013-08-14 */
+/* n.js - v1.0.0 - https://github.com/Johnqing/n.js - 2013-08-15 */
 !function(window, undefined){
 	var n,
 		_n = window.n,//储存命名
@@ -32,7 +32,7 @@
 	//版本信息
 	n.version = '1.0.0';
 	//更新时间
-	n.released = '2013-08-14';
+	n.released = '2013-08-15';
 	/**
 	 * 生成全局唯一的id
 	 * @param  {String} str 前缀
@@ -731,7 +731,7 @@
 
 	var DOMContentLoaded = function() {
 		var readyState = document.readyState;
-		if (readyState === "complete" || !readyState) {
+		if (addEventListener || readyState === "complete") {
 			n.un(document, eventType, DOMContentLoaded);
 			fireReady();		
 		}		
