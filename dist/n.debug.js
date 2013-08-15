@@ -646,6 +646,18 @@
 	});
 	//n的原型上注册方法
 	n.mix(n.fn, {
+		show: function(){
+			this.forEach(function(){
+				this.style.display = "";
+			});
+			return this;
+		},
+		hide: function(){
+			this.forEach(function(){
+				this.style.display = "none";
+			});
+			return this;
+		},
 		/**
 		 * create DOM element
 		 * @param  {String} html dom节点字符串

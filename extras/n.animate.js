@@ -222,6 +222,14 @@
 		animate: function(jsonDate, time, callback, easing){
 			new Animate(n(this), jsonDate, time, callback, easing).run();
 			return this;
+		},
+		fadeIn: function(time, easing, callback){
+			new Animate(n(this), {'opacity': 1}, time, callback, easing).run();
+			return this;
+		},
+		fadeOut: function(time, easing, callback){
+			new Animate(n(this), {'opacity': 0}, time, callback, easing).run();
+			return this;
 		}
 	});
 }(this);
