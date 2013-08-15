@@ -683,6 +683,7 @@
 			}
 			return this;
 		},
+		//设置或获取style
 		css: function(name, val){
 			if (n.isUndefined(val) && n.isString(name)) {
 				return getCurrentStyle(n(this)[0], name);
@@ -697,6 +698,38 @@
 			name = n.camelize(name);
 			this.forEach(function(){
 				this.style[name] = val;
+			});
+			return this;
+		},
+		//判断是否有当前样式
+		hasClass: function(name){
+			return n(this)[0].className.indexOf(name) > -1;
+		},
+		//添加样式
+		addClass: function(name){
+			var _this = n(this);
+			if (_this.hasClass(name)) return;
+			_this[0].className += ' ' + name;
+		},
+		//删除样式
+		removeClass: function(name){
+			var _this = n(this);
+			if (!_this.hasClass(name)) return;
+			_this[0].className = _this[0].className.replace(new RegExp('(?:^|\\s)' + regEscape(name) + '(?=\\s|$)', 'ig'), '');
+		},
+		//设置或获取属性
+		attr: function(name, val){
+			var _this = n(this);
+			if (n.isObject(name)) {
+				n.each(name, function(n, v){
+					_this.attr(n, v);
+				});
+			};
+			if (n.isUndefined(val)) {
+				return _this[0].getAttribute(name);
+			};
+			this.forEach(function(){
+				this.setAttribute(name, val);
 			});
 			return this;
 		}
