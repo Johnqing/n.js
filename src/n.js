@@ -14,7 +14,7 @@
 	},
 	init = function(selector, context){
 		var elems, elem, match;
-		// 无参数时需要初始化length 如：E();
+		// 无参数时需要初始化length 如：n();
 		this.length = 0;
 
 		if(!selector){
