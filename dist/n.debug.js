@@ -683,7 +683,12 @@
 			}
 			return this;
 		},
-		//设置或获取style
+		/**
+		 * 设置或获取style
+		 * @param  {String|Object} name 
+		 * @param  {String} val  
+		 * @return
+		 */
 		css: function(name, val){
 			if (n.isUndefined(val) && n.isString(name)) {
 				return getCurrentStyle(n(this)[0], name);
@@ -701,23 +706,40 @@
 			});
 			return this;
 		},
-		//判断是否有当前样式
+		/**
+		 * 判断是否有当前样式
+		 * @param  {String}  name 样式名
+		 * @return {Boolean} 
+		 */
 		hasClass: function(name){
 			return n(this)[0].className.indexOf(name) > -1;
 		},
-		//添加样式
+		/**
+		 * 添加样式
+		 * @param {String} name 样式名
+		 */
 		addClass: function(name){
 			var _this = n(this);
 			if (_this.hasClass(name)) return;
 			_this[0].className += ' ' + name;
+			return this;
 		},
-		//删除样式
+		/**
+		 * 删除样式
+		 * @param  {String} name 样式名
+		 * @return
+		 */
 		removeClass: function(name){
 			var _this = n(this);
 			if (!_this.hasClass(name)) return;
 			_this[0].className = _this[0].className.replace(new RegExp('(?:^|\\s)' + regEscape(name) + '(?=\\s|$)', 'ig'), '');
+			return this;
 		},
-		//设置或获取属性
+		/**
+		 * 设置或获取属性
+		 * @param  {String|Object} name 
+		 * @param  {String} val  
+		 */
 		attr: function(name, val){
 			var _this = n(this);
 			if (n.isObject(name)) {
@@ -730,6 +752,34 @@
 			};
 			this.forEach(function(){
 				this.setAttribute(name, val);
+			});
+			return this;
+		},
+		/**
+		 * 删除属性
+		 * @param  {String} name 属性名
+		 * @return
+		 */
+		removeAttr: function(name){
+			n(this).attr(name);
+			return this;
+		},
+		/**
+		 * 设置或获取元素的值
+		 * @param  {String} name
+		 * @return
+		 */
+		val: function(name){
+			var _this = n(this)[0],
+				v = 'innerHTML';
+			if (n.isUndefined(name)) {
+				return _this.value;
+			};
+			if (/^(textarea|input)$/i.test(_this.nodeName)) {
+				v = 'value';
+			};
+			this.forEach(function(){
+				this[v] = name;
 			});
 			return this;
 		}
