@@ -615,7 +615,7 @@
      * 追加random模块到n命名空间上
      * @namespace n
      */
-    n.mix(n.fn, {
+    n.mix(n, {
         random : function(min, max, num) {
             return random(min, max, num);
         }
