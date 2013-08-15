@@ -7,11 +7,9 @@
 !function(window) {
 
 	var document = window.document,
-		// 函数队列
 		funcQueue = [],
 		addEventListener = document.addEventListener,
 		eventType = addEventListener ? 'DOMContentLoaded' : 'readystatechange',
-		// 判断页面是否加载完毕
 		isReady = false,
 		readyBound = false;
 
@@ -21,8 +19,8 @@
 		// 设置标识
 		isReady = true;
 		// 执行队列函数
-		for (var i = 0; i < funcQueue.length; i++) {
-			funcQueue[i]();
+		while (funcQueue.length) {
+			funcQueue.shift()();
 		}
 		// 清空队列
 		funcQueue = null;
