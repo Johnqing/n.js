@@ -69,10 +69,10 @@
 	nJs.fn = init.prototype = nJs.prototype;
 	window.n = window.N = nJs;
 	/**
-	 * 生成全局唯一的id
-	 * @param  {String} str 前缀
-	 * @return {String} 全局唯一id
-	 */
+	* 生成全局唯一的id
+	* @param  {String} str 前缀
+	* @return {String} 全局唯一id
+	*/
 	nJs.nuid = function(str){
 		var id = ++nuid + '';
 		return str ? str + id : id;
@@ -272,12 +272,12 @@
 		}
 	}
 	/**
-	 * 将源对象的属性并入到目标对象
-	 * @param {Object} des 目标对象
-	 * @param {Object|Array} src 源对象，如果是数组，则依次并入
-	 * @param {boolean} override (Optional) 是否覆盖已有属性。如果为function则初为混合器，为src的每一个key执行 des[key] = override(des[key], src[key], key);
-	 * @returns {Object} des
-	 */
+	* 将源对象的属性并入到目标对象
+	* @param {Object} des 目标对象
+	* @param {Object|Array} src 源对象，如果是数组，则依次并入
+	* @param {boolean} override (Optional) 是否覆盖已有属性。如果为function则初为混合器，为src的每一个key执行 des[key] = override(des[key], src[key], key);
+	* @returns {Object} des
+	*/
 	nJs.mix = function(des, src, override){
 		//数组的话递归
 		if(n.isArray(src)){
@@ -323,50 +323,50 @@
 		return obj;
 	}
 	/**
-	 * 去除字符串的前后空格
-	 * @param  {String} str
-	 * @return {String}
-	 */
+	* 去除字符串的前后空格
+	* @param  {String} str
+	* @return {String}
+	*/
 	nJs.trim = function(str){
 		return str.replace(/(^\s*)|(\s$)/g, '');
 	}
 
 	/**
-	 * 防止命名空间冲突
-	 * @param  {String} str 替换n命名空间的名字
-	 * @return
-	 */
+	* 防止命名空间冲突
+	* @param  {String} str 替换n命名空间的名字
+	* @return
+	*/
 	nJs.noConflict = function(str){
 		window[str] = window.n;
 		window.n = _n;
 	}
 
 	/** 
-	 * 驼峰化字符串。将“ab-cd”转化为“abCd”
-	 * @method camelize
-	 * @static
-	 * @param {String} s 字符串
-	 * @return {String}  返回转化后的字符串
-	 */
+	* 驼峰化字符串。将“ab-cd”转化为“abCd”
+	* @method camelize
+	* @static
+	* @param {String} s 字符串
+	* @return {String}  返回转化后的字符串
+	*/
 	nJs.camelize = function(s) {
 		return s.replace(/\-(\w)/ig, function(a, b) {
 			return b.toUpperCase();
 		});
 	}
 	/**
-	 * 私有类型判断函数
-	 * @param  {String}  type Object/String/Function/Array
-	 * @return {Boolean}
-	 */
+	* 私有类型判断函数
+	* @param  {String}  type Object/String/Function/Array
+	* @return {Boolean}
+	*/
 	function isType(type){
 		return function(obj){
 			return toString.call(obj) == "[object "+ type +"]";
 		}
 	}
 	/**
-	 * 类型判断
-	 * @type {Boolean}
-	 */
+	* 类型判断
+	* @type {Boolean}
+	*/
 	nJs.isObject = isType('Object');
 	nJs.isString = isType('String');
 	nJs.isNumber = isType('Number');
@@ -382,32 +382,32 @@
 		return !!obj && obj.nodeType === 1;
 	}
 	/**
-	 * 判断object 包含指定的属性 key
-	 * @param  {Object} obj 对象集合
-	 * @param  {String} key 查找键
-	 * @return {Boolean}
-	 */
+	* 判断object 包含指定的属性 key
+	* @param  {Object} obj 对象集合
+	* @param  {String} key 查找键
+	* @return {Boolean}
+	*/
 	nJs.has = function(obj, key){
 		return hasOwnProperty.call(obj, key);
 	}
 	/**
-	 * 用指定的context作为fn上下文，也就是this
-	 * @param  {Function} fn      需要指定上下文的函数
-	 * @param  {Object}   context 上下文
-	 * @return
-	 */
+	* 用指定的context作为fn上下文，也就是this
+	* @param  {Function} fn      需要指定上下文的函数
+	* @param  {Object}   context 上下文
+	* @return
+	*/
 	nJs.bind = function (fn, context) {
 		return function () {
 			return fn.apply(context, arguments);
 		};
 	}
 	/*
-     * 将对象转换成真实数组
-     * 常用于将arguments, NodeList等array-like对象转换成真实数组
-     * @param { Anything } 任意类型的数据
-     * @param { Array } 目标数组
-     * @return { Array } 真实的数组
-     */
+	* 将对象转换成真实数组
+	* 常用于将arguments, NodeList等array-like对象转换成真实数组
+	* @param { Anything } 任意类型的数据
+	* @param { Array } 目标数组
+	* @return { Array } 真实的数组
+	*/
 	nJs.makeArray = function( source, target ){
 		target = target || [];
 		var i = 0,
@@ -436,12 +436,12 @@
 		return target;
 	}
 	/**
-	 * 调用给定的迭代函数N次
-	 * @param  {Number} n        调用次数
-	 * @param  {Function} iterator [description]
-	 * @param  {Object} context  可选参数
-	 * @return
-	 */
+	* 调用给定的迭代函数N次
+	* @param  {Number} n        调用次数
+	* @param  {Function} iterator [description]
+	* @param  {Object} context  可选参数
+	* @return
+	*/
 	nJs.times = function(n, iterator, context) {
 		var accum = Array(Math.max(0, n));
 		for (var i = 0; i < n; i++){
@@ -450,10 +450,10 @@
 		return accum;
 	};
 	/**
-	 * 只能运行一次的函数
-	 * @param  {Function} func 需要运行的函数
-	 * @return
-	 */
+	* 只能运行一次的函数
+	* @param  {Function} func 需要运行的函数
+	* @return
+	*/
 	nJs.once = function(fun) {
 		var flg = false, memo;
 		return function() {
@@ -466,11 +466,11 @@
 	};
 
 	/**
-	 * 异步加载script
-	 * @param  {String}   url      js文件路径
-	 * @param  {Function} callback 加载完成后回调
-	 * @return
-	 */
+	* 异步加载script
+	* @param  {String}   url      js文件路径
+	* @param  {Function} callback 加载完成后回调
+	* @return
+	*/
 	nJs.loadScript = function(url, callback) {
 		var f = arguments.callee;
 		if (!("queue" in f))
@@ -500,16 +500,16 @@
 		document.getElementsByTagName("head")[0].appendChild(script);
 	};
 	/**
-	 * 格式化日期
-	 * @method format
-	 * @static
-	 * @param {Date} d 日期对象
-	 * @param {string} pattern 日期格式(y年M月d天h时m分s秒)，默认为"yyyy-MM-dd"
-	 * @return {string}  返回format后的字符串
-	 * @example
-	 var d = new Date();
-	 console.log(n.dFormat(d," yyyy年M月d日\n yyyy-MM-dd\n MM-dd-yy\n yyyy-MM-dd hh:mm:ss"));
-	 */
+	* 格式化日期
+	* @method format
+	* @static
+	* @param {Date} d 日期对象
+	* @param {string} pattern 日期格式(y年M月d天h时m分s秒)，默认为"yyyy-MM-dd"
+	* @return {string}  返回format后的字符串
+	* @example
+	var d = new Date();
+	console.log(n.dFormat(d," yyyy年M月d日\n yyyy-MM-dd\n MM-dd-yy\n yyyy-MM-dd hh:mm:ss"));
+	*/
 	nJs.dFormat = function(d, pattern) {
 		pattern = pattern || 'yyyy-MM-dd';
 		var y = d.getFullYear().toString(),
