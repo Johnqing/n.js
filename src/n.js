@@ -363,6 +363,25 @@
 				elem = context = null;    
 				return elems;
 			}
+		},
+		filter: {
+			// ID过滤器    
+			ID : function( elem, name, tagName ){
+				var isTag = isTag = tagName === '' || elem.tagName === tagName;
+				return isTag && elem.id === name;
+			},
+
+			// class过滤器
+			CLASS : function( elem, name, tagName ){
+				var className = elem.className,
+				isTag = tagName === '' || elem.tagName === tagName;                
+				return isTag && className && ~( ' ' + className + ' ' ).indexOf( name );
+			},
+
+			// tag过滤器
+			TAG : function( elem, name ){
+				return elem.tagName === name;
+			}
 		}
 	}
 	/**
@@ -636,7 +655,9 @@
 			return this;
 		}
 	});
-	nJs.mix(n, nSelector);
+	nJs.mix(n, {
+		nSelector: nSelector
+	});
 	// RequireJS || SeaJS
 	if (typeof define === 'function') {
 		define(function(require, exports, module) {

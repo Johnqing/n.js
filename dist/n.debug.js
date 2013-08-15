@@ -364,6 +364,25 @@
 				elem = context = null;    
 				return elems;
 			}
+		},
+		filter: {
+			// ID过滤器    
+			ID : function( elem, name, tagName ){
+				var isTag = isTag = tagName === '' || elem.tagName === tagName;
+				return isTag && elem.id === name;
+			},
+
+			// class过滤器
+			CLASS : function( elem, name, tagName ){
+				var className = elem.className,
+				isTag = tagName === '' || elem.tagName === tagName;                
+				return isTag && className && ~( ' ' + className + ' ' ).indexOf( name );
+			},
+
+			// tag过滤器
+			TAG : function( elem, name ){
+				return elem.tagName === name;
+			}
 		}
 	}
 	/**
@@ -637,7 +656,9 @@
 			return this;
 		}
 	});
-	nJs.mix(n, nSelector);
+	nJs.mix(n, {
+		nSelector: nSelector
+	});
 	// RequireJS || SeaJS
 	if (typeof define === 'function') {
 		define(function(require, exports, module) {
@@ -1012,8 +1033,8 @@
 			if (!selector) {
 				flag = true;
 			}else{
-				matches = n.adapter(selector);
-				filter = n.filter[matches[0]] || matches[0];
+				matches = n.nSelector.adapter(selector);
+				filter = n.nSelector.filter[matches[0]] || matches[0];
 				name = matches[1];
 				tagName = matches[2];
 				if (n.isString(filter)) {
@@ -1023,7 +1044,7 @@
 
 			elems = fn(filter, flag, name, tagName, context);
 
-			elems = isType ? n.finder[filter](selector, elems, true) : elems;
+			elems = isType ? n.nSelector.finder[filter](selector, elems, true) : elems;
 
 			// siblings的查找结果需要去重
 			if( key === 'siblings' ){

@@ -362,8 +362,8 @@
 			if (!selector) {
 				flag = true;
 			}else{
-				matches = n.adapter(selector);
-				filter = n.filter[matches[0]] || matches[0];
+				matches = n.nSelector.adapter(selector);
+				filter = n.nSelector.filter[matches[0]] || matches[0];
 				name = matches[1];
 				tagName = matches[2];
 				if (n.isString(filter)) {
@@ -373,7 +373,7 @@
 
 			elems = fn(filter, flag, name, tagName, context);
 
-			elems = isType ? n.finder[filter](selector, elems, true) : elems;
+			elems = isType ? n.nSelector.finder[filter](selector, elems, true) : elems;
 
 			// siblings的查找结果需要去重
 			if( key === 'siblings' ){
