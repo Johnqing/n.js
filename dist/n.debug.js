@@ -4,12 +4,12 @@
 	_n = window.n;
 	nuid = 0,
 	rQuickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/,    
-    rProtocol = /^(http(?:s)?\:\/\/|file\:.+\:\/)/,
-    rModId = /([^\/?]+?)(\.(?:js|css))?(\?.*)?$/, 
+	rProtocol = /^(http(?:s)?\:\/\/|file\:.+\:\/)/,
+	rModId = /([^\/?]+?)(\.(?:js|css))?(\?.*)?$/, 
 
 	nJs = function(selector, context){
-        return new init(selector, context);
-    },
+		return new init(selector, context);
+	},
 	init = function(selector, context){
 		var elems, elem, match;
 		// 无参数时需要初始化length 如：E();
@@ -31,7 +31,7 @@
 			// selector为HTML字符串时需要转换成DOM节点
 			if (selector.charAt(0) === '<' && selector.charAt(selector.length - 1) === '>' && selector.length >= 3) {
 				context = context ? context.ownerDocument || context : document;
-                elems = nJs.create(selector, context);
+				elems = nJs.create(selector, context);
 			}else{
 				context = context || document;
 				match = rQuickExpr.exec(selector);
@@ -79,95 +79,94 @@
 		return str ? str + id : id;
 	}
 	// 检测a元素是否包含了b元素
-    nJs.contains = function( a, b ){
-        // 标准浏览器支持compareDocumentPosition
-        if( a.compareDocumentPosition ){
-            return !!( a.compareDocumentPosition(b) & 16 );
-        }
-        // IE支持contains
-        else if( a.contains ){
-            return a !== b && a.contains( b );
-        }
+	nJs.contains = function( a, b ){
+		// 标准浏览器支持compareDocumentPosition
+		if( a.compareDocumentPosition ){
+			return !!( a.compareDocumentPosition(b) & 16 );
+		}
+		// IE支持contains
+		else if( a.contains ){
+			return a !== b && a.contains( b );
+		}
 
-        return false;
-    }
-    /**
-     * 选择器
-     * @param  {String} selector 选择元素
-     * @param  {Object} context  父容器
-     * @return {Array}           
-     */
+		return false;
+	}
+	/**
+	* 选择器
+	* @param  {String} selector 选择元素
+	* @param  {Object} context  父容器
+	* @return {Array}           
+	*/
 	nJs.query = function(selector, context){
-        context = context || document;
-        
-        if(!nJs.isString(selector)){
-            return context;
-        }
-        
-        var elems = [],
-            contains = nJs.contains,
-            makeArray = nJs.makeArray,
-            nodelist, selectors, splitArr, matchArr, splitItem, matchItem, prevElem,
-            lastElem, nextMatch, matches, elem, len, i;
-        
-        // 标准浏览器和IE8支持querySelectorAll方法
-        if( document.querySelectorAll ){
-            try{                
-                context = makeArray(context);
-                len = context.length;
-                prevElem = context[0];
-                for( i = 0; i < len; i++ ){
-                    elem = context[i];
-                    if( !contains(prevElem, elem) ){
-                        prevElem = elem;
-                        elems = makeArray(elem.querySelectorAll(selector), elems);
-                    }
-                }
-                prevElem = elem = context = null;
-                return elems;                
-            }
-            catch( e ){};
-        }
-        
-        splitArr = selector.split( ',' );
-        len = splitArr.length;
-        
-        for( i = 0; i < len; i++ ){
-            nodelist = [ context ];
-            splitItem = splitArr[i];
-            
-            // 将选择器进行分割
-            // #list .item a => [ '#list', '.item', 'a' ]
-            if( rRelative.test(splitItem) ){
-                splitItem = splitItem.replace( /[>\+~]/g, function( symbol ){
-                    return ' ' + symbol + ' ';
-                });
-            }
-            
-            matchArr = splitItem.match( /[^\s]+/g );
+		context = context || document;
 
-            for( var j = 0, clen = matchArr.length; j < clen; j++ ){
-                matchItem = matchArr[j];                                
-                lastElem = makeArray( nodelist[ nodelist.length - 1 ] );
-                
-                // 关系选择器要特殊处理
-                nextMatch = /[>\+~]/.test( matchItem ) ? matchArr[++j] : undefined; 
-                elem = nSelector.adapter( matchItem, lastElem, nextMatch );    
+		if(!nJs.isString(selector)){
+			return context;
+		}
 
-                if( !elem ){
-                    return elems;
-                }
-                
-                nodelist[ nodelist.length++ ] = elem;
-            }
+		var elems = [],
+			contains = nJs.contains,
+			makeArray = nJs.makeArray,
+			nodelist, selectors, splitArr, matchArr, splitItem, matchItem, prevElem,
+			lastElem, nextMatch, matches, elem, len, i;
 
-            elems = makeArray( nodelist[nodelist.length - 1], elems );        
-        }
-        
-        nodelist = lastElem = context = elem = null;
+		// 标准浏览器和IE8支持querySelectorAll方法
+		if( document.querySelectorAll ){
+			try{
+				context = makeArray(context);
+				len = context.length;
+				prevElem = context[0];
+				for( i = 0; i < len; i++ ){
+					elem = context[i];
+					if( !contains(prevElem, elem) ){
+						prevElem = elem;
+						elems = makeArray(elem.querySelectorAll(selector), elems);
+					}
+				}
+				prevElem = elem = context = null;
+				return elems;                
+			}catch( e ){};
+		}
 
-        return elems;
-    }
+		splitArr = selector.split( ',' );
+		len = splitArr.length;
+
+		for( i = 0; i < len; i++ ){
+			nodelist = [ context ];
+			splitItem = splitArr[i];
+
+			// 将选择器进行分割
+			// #list .item a => [ '#list', '.item', 'a' ]
+			if( rRelative.test(splitItem) ){
+				splitItem = splitItem.replace( /[>\+~]/g, function( symbol ){
+					return ' ' + symbol + ' ';
+				});
+			}
+
+			matchArr = splitItem.match( /[^\s]+/g );
+
+			for( var j = 0, clen = matchArr.length; j < clen; j++ ){
+				matchItem = matchArr[j];                                
+				lastElem = makeArray( nodelist[ nodelist.length - 1 ] );
+
+				// 关系选择器要特殊处理
+				nextMatch = /[>\+~]/.test( matchItem ) ? matchArr[++j] : undefined; 
+				elem = nSelector.adapter( matchItem, lastElem, nextMatch );    
+
+				if( !elem ){
+					return elems;
+				}
+
+				nodelist[ nodelist.length++ ] = elem;
+			}
+
+			elems = makeArray( nodelist[nodelist.length - 1], elems );        
+		}
+
+		nodelist = lastElem = context = elem = null;
+
+		return elems;
+	}
 
 	var nSelector = {
 		/*
@@ -217,7 +216,6 @@
 			ID : function( selector, context ){
 				return context[0].getElementById( selector.slice(selector.indexOf('#') + 1) );
 			},
-		    
 			// class选择器
 			CLASS : function( selector, context ){        
 				var elems = [],
@@ -243,7 +241,6 @@
 				elem = context = null;
 				return elems;
 			},
-		    
 			// tag选择器
 			TAG : function( selector, context, noCheck ){
 				var elems = [],
@@ -306,26 +303,26 @@
 		return des;
 	}
 	/*
-     * 遍历对象并执行回调
-     * @param { Object/Array } 对象
-     * @param { Function } 回调函数(如果回调函数的返回值为false将退出循环)
-     * @param { Object } 上下文
-     * @return { Object } 
-     */
-    nJs.each = function( obj, fn, context ){        
-        var isObj = obj.length === undefined || typeof obj === 'function',
-            i;            
-        
-        if( isObj ){
-            for( i in obj ){
-                if( fn.call(context, i, obj[i]) === false ){
-                    break;
-                }
-            }
-        }
-        
-        return obj;
-    }
+	* 遍历对象并执行回调
+	* @param { Object/Array } 对象
+	* @param { Function } 回调函数(如果回调函数的返回值为false将退出循环)
+	* @param { Object } 上下文
+	* @return { Object } 
+	*/
+	nJs.each = function( obj, fn, context ){        
+		var isObj = obj.length === undefined || typeof obj === 'function',
+		i;
+
+		if( isObj ){
+			for( i in obj ){
+				if( fn.call(context, i, obj[i]) === false ){
+					break;
+				}
+			}
+		}
+
+		return obj;
+	}
 	/**
 	 * 去除字符串的前后空格
 	 * @param  {String} str
@@ -413,33 +410,32 @@
      * @return { Array } 真实的数组
      */
 	nJs.makeArray = function( source, target ){
-        target = target || [];
-        var i = 0,
-            len = source.length;
+		target = target || [];
+		var i = 0,
+			len = source.length;
 
-        if( source !== null && source !== undefined ){
-            if(nJs.isArray(source) && nJs.isArray(target) && !target.length ){
-                return source;
-            }    
-            
-            if( typeof len !== 'number' || 
-                typeof source === 'string' || 
-                nJs.isFunction(source) ||  
-                source === window ||
-                // select元素有length属性，select[0]将直接返回第一个option
-                // form元素也有length属性
-                source.tagName && rSelectForm.test(source.tagName) ){
-                    target[ target.length++ ] = source;
-            }
-            else{
-                for( ; i < len; i++ ){
-                    target[ target.length++ ] = source[i];
-                }
-            }
-        }
-        
-        return target;
-    }
+		if( source !== null && source !== undefined ){
+			if(nJs.isArray(source) && nJs.isArray(target) && !target.length ){
+				return source;
+			}    
+
+		if( typeof len !== 'number' || 
+			typeof source === 'string' || 
+			nJs.isFunction(source) ||  
+			source === window ||
+			// select元素有length属性，select[0]将直接返回第一个option
+			// form元素也有length属性
+			source.tagName && rSelectForm.test(source.tagName) ){
+				target[ target.length++ ] = source;
+			}else{
+				for( ; i < len; i++ ){
+					target[ target.length++ ] = source[i];
+				}
+			}
+		}
+
+		return target;
+	}
 	/**
 	 * 调用给定的迭代函数N次
 	 * @param  {Number} n        调用次数
