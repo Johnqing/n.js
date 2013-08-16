@@ -400,8 +400,8 @@
 		len = source.length;
 
 		if(nJs.isString(selector) ){
-			matches = nSelector.adapter( selector );
-			filter = nSelector.filter[ matches[0] ];
+			matches = nJs.nSelector.adapter( selector );
+			filter = nJs.nSelector.filter[ matches[0] ];
 			name = matches[1];
 			tagName = matches[2];
 			if( !filter ){
@@ -409,7 +409,7 @@
 			}
 
 			if( type ){
-				target = nSelector.finder[ type ]( selector, source, true );
+				target = nJs.nSelector.finder[ type ]( selector, source, true );
 			}
 			else{
 				for( i = 0; i < len; i++ ){
@@ -492,7 +492,7 @@
 
 				// 关系选择器要特殊处理
 				nextMatch = /[>\+~]/.test( matchItem ) ? matchArr[++j] : undefined; 
-				elem = nSelector.adapter( matchItem, lastElem, nextMatch );    
+				elem = nJs.nSelector.adapter( matchItem, lastElem, nextMatch );    
 
 				if( !elem ){
 					return elems;
@@ -805,8 +805,110 @@
 		};
 
 	}
+
+	var nNode = {
+		/**
+		 * 获取节点列表
+		 * @return {Array} 
+		 */
+		getNodelist: function (arg, context){
+			var elems;
+			if (n.isString(arg)) {
+				elems = n.create(arg, context);
+				return elems ? n.makeArray(elems) : [context.createTextNode(arg)];
+			};
+			//elem对象返回自身
+			if (arg.nodeType == 1 || arg.nodeType == 11) {
+				return [arg];
+			};
+			if (n.isNumber(arg.length)) {
+				return n.makeArray(arg);
+			};
+			return [];
+		},
+		clone: function(elem){
+			return elem.cloneNode(true);
+		},
+		/**
+		 * dom节点公共方法
+		 * @param  {Object}   elem      操作元素
+		 * @param  {Function} fn        适配方法
+		 * @param  {Boolean}  isReverse 是否反选
+		 * @param  {Object}   context   根节点
+		 * @return {[type]}             [description]
+		 */
+		domMain: function (elem, fn, isReverse, context){
+			var source,
+				sourceLen,
+				elemsLen,
+				lastIndex,
+				fragment,
+				elems = [];
+
+			if (isReverse) {
+				source = getNodelist(elem[0], context);
+				elem = this;
+			}else{
+				source = this;
+			}
+			sourceLen = source.length;
+			elemsLen = elem.length;
+			lastIndex = sourceLen - 1;
+
+			for (var i = 0; i < elemsLen; i++) {
+				elems = n.makeArray(getNodelist(elem[i], context), elems);
+			};
+
+			if (elems.length === 1) {
+				fragment = elems[0];
+			}else{
+				//元素很多的时候 添加到文档碎片
+				fragment = context.createDocumentFragment();
+				for (var i = 0; i < elems.length; i++) {
+					fragment.appendChild(elems[i]);
+				};
+			}
+
+			for (var i = 0; i < sourceLen; i++) {
+				fn.call(source[i], i === lastIndex ? fragment : nNode.clone(fragment));	
+			}
+
+			fragment = elems = elem = null;
+			return this;
+
+		}
+	}
 	//给n上注册方法
 	n.mix(n, {
+		/**
+		 * create DOM element
+		 * @param  {String} html dom节点字符串
+		 * @param  {Object} doc   父对象
+		 * @return {Object}
+		 */
+		create: function(html, doc){
+			if(!html) return;
+			doc = doc || document;
+
+			var tagName = html.match(rTagName),
+				pNode,fragment;
+			//取出当前的节点名
+			if(!tagName) return;
+			tagName = tagName[1];
+			//只有一个节点之间创建
+			if (rSingleTag.test(html)) {
+				return [doc.createElement(tagName)];
+			}
+			//防止<div/>这样的标签
+			html = html.replace(rXhtml, '<$1><' + '/$2>'); 
+			pNode = doc.createElement('p');
+			fragment = doc.createDocumentFragment();
+
+			fragment.appendChild(pNode);
+
+			pNode.innerHTML = html;
+			return pNode.childNodes;
+		},
 		/*
 		* 对一组DOM元素按照在DOM树中的顺序进行排序
 		* 同时删除重复或同级的DOM元素
@@ -896,35 +998,9 @@
 			});
 			return this;
 		},
-		/**
-		 * create DOM element
-		 * @param  {String} html dom节点字符串
-		 * @param  {Object} doc   父对象
-		 * @return {Object}
-		 */
-		create: function(html, doc){
-			if(!html) return;
-			doc = doc || document;
+		append: function(){
 
-			var tagName = html.match(rTagName),
-				pNode,fragment;
-			//取出当前的节点名
-			if(!tagName) return;
-			tagName = tagName[1];
-			//只有一个节点之间创建
-			if (rSingleTag.test(html)) {
-				return [doc.createElement(tagName)];
-			}
-			//防止<div/>这样的标签
-			html = html.replace(rXhtml, '<$1><' + '/$2>'); 
-			pNode = doc.createElement('p');
-			fragment = doc.createDocumentFragment();
-
-			fragment.appendChild(pNode);
-
-			pNode.innerHTML = html;
-			return pNode.childNodes;
-		},
+		}
 		/**
 		 * 插入字符串或获取当前
 		 * @param  {String|Object} context 插入的元素
@@ -1108,6 +1184,40 @@
 			return position(_this);
 		}		
 	});
+	//DOM使用
+	n.each({
+		append: function(source, target){
+			source.appendChild( target );
+			source = target = null;
+		},
+		before: function(source, target){
+			source.parentNode.insertBefore(target, source);
+			source = target = null;
+		},
+		after: function(){
+			source.parentNode.insertBefore(target, source.nextSibling);
+			source = target = null;
+		}
+	},function(key, fn){
+		var index = key.indexOf('To'),
+			flag = index !== -1,
+			name = flag ? key.substring(0, index) : key;
+
+		n.fn[key] = function(){
+			var arg = arguments[0],
+				context = this[0].ownerDocument;
+
+			//没有任何参数直接弹回
+			if (n.isUndefined(arg)) {
+				return this;
+			};
+
+			return nNode.domMain.call(this, arguments, function(elem){
+				fn(this, elem);
+			}, flag, context)
+		}
+	});
+	//关系查找器
 	n.each({
 		siblings: function(filter, flag, name, tagName, context){
 			var len = context.length,
@@ -1177,19 +1287,32 @@
  * @link n.js
  */
 !function(n){
-	var document = window.document;
-
+	var document = window.document,
+		_DelegateCpatureEvents:'change,focus,blur';
+	//注册到n.prototype上去的方法
 	n.mix(n.fn, {
-		on: function(type, handler){
+		//TODO: 需要重新设计
+		on: function(type, handler, cpature){
 			var el = n(this)[0];
-			el.addEventListener ? el.addEventListener(type, handler, false) : el.attachEvent("on" + type, handler);
+			el.addEventListener ? el.addEventListener(type, handler, cpature || false) : el.attachEvent("on" + type, handler);
 			return this;
 		},
-		un: function(type, handler){
+		//TODO: 需要重新设计
+		un: function(type, handler, cpature){
 			var el = n(this)[0];
-			el.removeEventListener ? el.removeEventListener(type, handler, false) : el.detachEvent("on" + type, handler);
+			el.removeEventListener ? el.removeEventListener(type, handler, cpature || false) : el.detachEvent("on" + type, handler);
 			return this;
 		},
+		/**
+		 * 绑定事件代理
+		 * @param  {String} selector 委托目标
+		 * @param  {String} type     委托事件类型
+		 * @param  {Function} handler  委托函数
+		 * @return 
+		 */
+		delegate: function(selector, type, handler){
+			//return this.on(types, selector, fn);
+		}
 		/**
 		* 触发对象的指定事件
 		* @param	{Object}	el	要触发事件的对象

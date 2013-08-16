@@ -4,19 +4,32 @@
  * @link n.js
  */
 !function(n){
-	var document = window.document;
-
+	var document = window.document,
+		_DelegateCpatureEvents:'change,focus,blur';
+	//注册到n.prototype上去的方法
 	n.mix(n.fn, {
-		on: function(type, handler){
+		//TODO: 需要重新设计
+		on: function(type, handler, cpature){
 			var el = n(this)[0];
-			el.addEventListener ? el.addEventListener(type, handler, false) : el.attachEvent("on" + type, handler);
+			el.addEventListener ? el.addEventListener(type, handler, cpature || false) : el.attachEvent("on" + type, handler);
 			return this;
 		},
-		un: function(type, handler){
+		//TODO: 需要重新设计
+		un: function(type, handler, cpature){
 			var el = n(this)[0];
-			el.removeEventListener ? el.removeEventListener(type, handler, false) : el.detachEvent("on" + type, handler);
+			el.removeEventListener ? el.removeEventListener(type, handler, cpature || false) : el.detachEvent("on" + type, handler);
 			return this;
 		},
+		/**
+		 * 绑定事件代理
+		 * @param  {String} selector 委托目标
+		 * @param  {String} type     委托事件类型
+		 * @param  {Function} handler  委托函数
+		 * @return 
+		 */
+		delegate: function(selector, type, handler){
+			//return this.on(types, selector, fn);
+		}
 		/**
 		* 触发对象的指定事件
 		* @param	{Object}	el	要触发事件的对象

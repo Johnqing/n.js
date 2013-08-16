@@ -27,8 +27,8 @@
 		len = source.length;
 
 		if(nJs.isString(selector) ){
-			matches = nSelector.adapter( selector );
-			filter = nSelector.filter[ matches[0] ];
+			matches = nJs.nSelector.adapter( selector );
+			filter = nJs.nSelector.filter[ matches[0] ];
 			name = matches[1];
 			tagName = matches[2];
 			if( !filter ){
@@ -36,7 +36,7 @@
 			}
 
 			if( type ){
-				target = nSelector.finder[ type ]( selector, source, true );
+				target = nJs.nSelector.finder[ type ]( selector, source, true );
 			}
 			else{
 				for( i = 0; i < len; i++ ){
@@ -119,7 +119,7 @@
 
 				// 关系选择器要特殊处理
 				nextMatch = /[>\+~]/.test( matchItem ) ? matchArr[++j] : undefined; 
-				elem = nSelector.adapter( matchItem, lastElem, nextMatch );    
+				elem = nJs.nSelector.adapter( matchItem, lastElem, nextMatch );    
 
 				if( !elem ){
 					return elems;
