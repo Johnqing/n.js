@@ -31,7 +31,7 @@
 	//before
 	n('#tpl').before(ulClone);
 	//after
-	n('#animateTest').after(ulClone);
+	n('#tpl').after(ulClone);
 	//parent
 	var bodyNode = n('#test').parent();
 	console.log(bodyNode);
@@ -96,7 +96,7 @@
 	//browser
 	console.log(n.browser);
 	//tpl 测试代码请别写在这里 这里的别名已经被替换
-	console.log(n.tpl('name:<%= name %>', {name: 'n.js'}));
+	n('#tpl').html(n.tpl('tpl输出了:<%= name %>', {name: 'n.js'}));
 	//animate
 	n('#animateTest').animate({'width':'100px', 'height':'1000px'}, 2000, function(){
 		alert('动画完成!');
