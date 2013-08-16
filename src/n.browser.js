@@ -5,7 +5,7 @@
  */
 !function(window){
 	var document = window.document;
-	n.mix(n.fn, {
+	n.mix(n, {
 		browser: function(){
 			var version = 0,
 				agent = navigator.userAgent.toLowerCase(),

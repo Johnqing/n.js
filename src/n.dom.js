@@ -4,7 +4,8 @@
  * @link n.js
  */
 !function(n){
-	var rRelative = /[>\+~][^\d\=]/,
+	var document = window.document,
+	rRelative = /[>\+~][^\d\=]/,
     rSingleTag = /^<(\w+)\s*\/?>(?:<\/\1>)?$/,
     rTagName = /<([\w:]+)/,
     rXhtml = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/ig,
@@ -83,6 +84,32 @@
 		}
 
 		return val;
+	}
+	//获取元素的位置
+	function position(elem, type){
+		var elementScrollLeft,
+			actLeft = elem.offsetLeft,
+			actTop = elem.offsetTop,
+			currNode = elem.offsetParent;
+
+		while(!n.isNull(currNode)){
+			actTop += currNode.offsetTop;
+			actLeft += currNode.offsetLeft;
+			currNode = currNode.offsetParent;			
+		}
+		if (type) {
+			return {
+				left: actLeft,
+				top: actTop
+			};
+		};
+		elementScrollLeft = document.compatMode != 'CSS1Compat' ? document.body.scrollLeft : document.documentElement.scrollLeft;
+		elementScrollTop = document.compatMode != 'CSS1Compat' ? document.body.scrollTop : document.documentElement.scrollTop;
+		return {
+			left: actualLeft - elementScrollLeft,
+			top: actualTop - elementScrollTop
+		};
+
 	}
 	//给n上注册方法
 	n.mix(n, {
@@ -328,6 +355,55 @@
 				this[v] = name;
 			});
 			return this;
+		},
+		/**
+		 * 获取当前元素的一些坐标信息
+		 * @return {Object} width|height|scrollX|scrollY|scrollWidth|scrollHeight
+		 */
+		docRect: function(){
+			 var _this = n(this)[0],
+			 	win = _this.defaultView || _this.parentWindow,
+			 	module = _this.compatMode,
+			 	root = doc.documentElement,
+			 	h = win.innerHeight || 0,
+				w = win.innerWidth || 0,
+				scrollX = win.pageXOffset || 0,
+				scrollY = win.pageYOffset || 0,
+				scrollW = root.scrollWidth,
+				scrollH = root.scrollHeight;
+			//Quirks模式
+			if (module != 'CSS1Compat') {
+				root = _this.body;
+				scrollW = root.scrollWidth;
+				scrollH = root.scrollHeight;
+			};
+			//ie,Gecko
+			if (mode && n.browser.opera) {
+				w = root.clientWidth;
+				h = root.clientHeight;
+			};
+			scrollW = Math.max(scrollW, w);
+			scrollH = Math.max(scrollH, h);
+
+			scrollX = Math.max(scrollX, doc.documentElement.scrollLeft, doc.body.scrollLeft);
+			scrollY = Math.max(scrollY, doc.documentElement.scrollTop, doc.body.scrollTop);
+
+			return {
+				width: w,
+				height: h,
+				scrollWidth: scrollW,
+				scrollHeight: scrollH,
+				scrollX: scrollX,
+				scrollY: scrollY
+			};
+		},
+		position: function(){
+			var _this = n(this);
+			return position(_this, 1);
+		},
+		offset: function(){
+			var _this = n(this);
+			return position(_this);
 		}		
 	});
 	n.each({
