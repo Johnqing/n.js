@@ -5,6 +5,7 @@
  */
 !function(n){
 	var document = window.document,
+	slice = Array.prototype.slice,
 	rRelative = /[>\+~][^\d\=]/,
 	rSingleTag = /^<(\w+)\s*\/?>(?:<\/\1>)?$/,
 	rTagName = /<([\w:]+)/,
@@ -321,6 +322,10 @@
 				return n.makeArray(n.query(selector, this), n());                    
 			}
 		},
+		/**
+		 * 节点克隆
+		 * @return {Array} 节点数组
+		 */
 		clone: function(){
 			var elems = [],i = 0;
 			this.forEach(function(){
@@ -469,6 +474,24 @@
 			return this;
 		},
 		/**
+		 * 筛取元素
+		 * @param  {Number} start 起始位置
+		 * @param  {Number} end   结束位置
+		 * @return {Array}       筛选出的数组
+		 */
+		slice: function(start, end){
+			end = end ? end : this.length;
+			return n.makeArray(slice.call(this, start, end), n());
+		},
+		/**
+		 * 获取指定索引的元素
+		 * @param  {Object} index 索引
+		 * @return {Object}
+		 */
+		eq: function(index){
+			return index === -1 ? this.slice(index) : this.slice(index, +index + 1);
+		},
+		/**
 		 * 获取当前元素的一些坐标信息
 		 * @return {Object} width|height|scrollX|scrollY|scrollWidth|scrollHeight
 		 */
@@ -483,7 +506,7 @@
 				scrollY = win.pageYOffset || 0,
 				scrollW = root.scrollWidth,
 				scrollH = root.scrollHeight;
-			//Quirks模式
+			//ie6 Quirks模式返回正确的值
 			if (mode != 'CSS1Compat') {
 				root = _this.body;
 				scrollW = root.scrollWidth;
@@ -494,6 +517,9 @@
 				w = root.clientWidth;
 				h = root.clientHeight;
 			};
+			//网页内容能够在浏览器窗口中全部显示，不出现滚动条
+			//clientWidth和scrollWidth根据浏览器不同，值可能不等
+			//所以取较大的值
 			scrollW = Math.max(scrollW, w);
 			scrollH = Math.max(scrollH, h);
 

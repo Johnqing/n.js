@@ -1,4 +1,4 @@
-/* n.js - v1.0.0 - https://github.com/Johnqing/n.js - 2013-08-16 */
+/* n.js - v1.0.0 - https://github.com/Johnqing/n.js - 2013-08-17 */
 !function(window, undefined){
 	var ObjProto = Object.prototype,
 		toString = ObjProto.toString,
@@ -74,7 +74,7 @@
 	//版本信息
 	nJs.version = '1.0.0';
 	//更新时间
-	nJs.released = '2013-08-16';
+	nJs.released = '2013-08-17';
 	nJs.fn = init.prototype = nJs.prototype;
 	window.n = window.N = nJs;
 	/**
@@ -196,6 +196,9 @@
 	}
 	nJs.isElement = function(obj){
 		return !!obj && obj.nodeType === 1;
+	}
+	nJs.isWindow = function(obj){
+		return obj && nJs.isObject(obj) && 'location' in obj;
 	}
 	/**
 	* 判断object 包含指定的属性 key
@@ -686,11 +689,72 @@
 }(n);
 /**
  * @author johnqing(刘卿)
+ * @module DATA
+ * @link n.js
+ */
+!function(n){
+	n._uuid = 2;
+	var nUid = n.nuid(),
+	nDate = {
+		getCacheIndex: function(el, isSetting){
+			if (n.isElement(el)) {
+				return !isSetting || nUid in el ? el[nUid] : (el[nUid] = ++n._uuid);
+			};
+			return n.isWindow(el) ? 0 : el.nodeType === 9 ? 1 : el.tagName === 'HTML' ? 2 : -1;
+		},
+		/**
+		 * 插入/获取缓存
+		 * @param  {Object}  el      当前dom元素
+		 * @param  {String}  type    命名空间: d(数据)
+		 * @param  {[type]}  key     [description]
+		 * @param  {[type]}  val     [description]
+		 * @param  {Boolean} isCache [description]
+		 * @return {[type]}          [description]
+		 */
+		data: function(el, type, key, val, isCache){
+			var cache = n.cache,
+				isValUn = n.isUndefined(val),
+				index = this.getCacheIndex(el, !isValUn);
+			if (n.isUndefined(index)) {
+				//不在缓存并且非undefined，创建一个缓存
+				if (!(index in cache) && !isValUn) {
+					cache[index] = {};
+				};
+				cache = cache[index];
+				//缓存如果为空 pass
+				if (!cache) {
+					return
+				};
+
+				
+			};
+		}
+	}
+	n.mix(n.fn, {
+		data: function(name, val){
+			var _this = this;
+			if (n.isObject(name)) {
+				n.each(name, function(key, val){
+					_this.data(key, val);
+				});
+				return _this;
+			};
+
+			if (n.isUndefined(val)) {
+				return nDate.data(_this[0], 'd', name);
+			};
+		}
+	});	
+}(n);
+
+/**
+ * @author johnqing(刘卿)
  * @module DOM
  * @link n.js
  */
 !function(n){
 	var document = window.document,
+	slice = Array.prototype.slice,
 	rRelative = /[>\+~][^\d\=]/,
 	rSingleTag = /^<(\w+)\s*\/?>(?:<\/\1>)?$/,
 	rTagName = /<([\w:]+)/,
@@ -1007,6 +1071,10 @@
 				return n.makeArray(n.query(selector, this), n());                    
 			}
 		},
+		/**
+		 * 节点克隆
+		 * @return {Array} 节点数组
+		 */
 		clone: function(){
 			var elems = [],i = 0;
 			this.forEach(function(){
@@ -1155,6 +1223,24 @@
 			return this;
 		},
 		/**
+		 * 筛取元素
+		 * @param  {Number} start 起始位置
+		 * @param  {Number} end   结束位置
+		 * @return {Array}       筛选出的数组
+		 */
+		slice: function(start, end){
+			end = end ? end : this.length;
+			return n.makeArray(slice.call(this, start, end), n());
+		},
+		/**
+		 * 获取指定索引的元素
+		 * @param  {Object} index 索引
+		 * @return {Object}
+		 */
+		eq: function(index){
+			return index === -1 ? this.slice(index) : this.slice(index, +index + 1);
+		},
+		/**
 		 * 获取当前元素的一些坐标信息
 		 * @return {Object} width|height|scrollX|scrollY|scrollWidth|scrollHeight
 		 */
@@ -1169,7 +1255,7 @@
 				scrollY = win.pageYOffset || 0,
 				scrollW = root.scrollWidth,
 				scrollH = root.scrollHeight;
-			//Quirks模式
+			//ie6 Quirks模式返回正确的值
 			if (mode != 'CSS1Compat') {
 				root = _this.body;
 				scrollW = root.scrollWidth;
@@ -1180,6 +1266,9 @@
 				w = root.clientWidth;
 				h = root.clientHeight;
 			};
+			//网页内容能够在浏览器窗口中全部显示，不出现滚动条
+			//clientWidth和scrollWidth根据浏览器不同，值可能不等
+			//所以取较大的值
 			scrollW = Math.max(scrollW, w);
 			scrollH = Math.max(scrollH, h);
 

@@ -223,6 +223,10 @@
 			new Animate(n(this), jsonDate, time, callback, easing).run();
 			return this;
 		},
+		stop: function(){
+			new Animate(n(this)).stop();
+			return this;
+		},
 		fadeIn: function(time, easing, callback){
 			n(this).css('opacity',0);
 			new Animate(n(this), {'opacity': 1}, time, callback, easing).run();

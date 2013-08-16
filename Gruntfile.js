@@ -13,6 +13,7 @@ module.exports = function(grunt) {
         src: [
           "src/n.js",
           "src/n.selector.js",
+          "src/n.data.js",
           "src/n.dom.js",
           "src/n.event.js",
           "src/n.browser.js",

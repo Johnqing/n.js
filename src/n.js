@@ -196,6 +196,9 @@
 	nJs.isElement = function(obj){
 		return !!obj && obj.nodeType === 1;
 	}
+	nJs.isWindow = function(obj){
+		return obj && nJs.isObject(obj) && 'location' in obj;
+	}
 	/**
 	* 判断object 包含指定的属性 key
 	* @param  {Object} obj 对象集合
