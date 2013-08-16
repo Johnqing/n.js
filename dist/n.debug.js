@@ -1057,8 +1057,14 @@
 			});
 			return this;
 		},
+		/**
+		 * 设置样式
+		 * @param {String} name 样式名
+		 * @param {String} val  设置的值
+		 */
 		setCss: function(name, val){
 			var _this = this[0];
+			//ie6总是这么特殊，单独处理
 			if (name === 'opacity' && n.browser.ie && n.browser.version.toString().indexOf('6')  !== -1) {
 				name = 'filter';
 				val = 'alpha(opacity='+ val*100 +')';
