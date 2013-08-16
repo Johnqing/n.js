@@ -5,7 +5,7 @@
  */
 !function(n){
 	var document = window.document,
-		_DelegateCpatureEvents:'change,focus,blur';
+		_DelegateCpatureEvents = 'change,focus,blur';
 	//注册到n.prototype上去的方法
 	n.mix(n.fn, {
 		//TODO: 需要重新设计
@@ -29,7 +29,7 @@
 		 */
 		delegate: function(selector, type, handler){
 			//return this.on(types, selector, fn);
-		}
+		},
 		/**
 		* 触发对象的指定事件
 		* @param	{Object}	el	要触发事件的对象

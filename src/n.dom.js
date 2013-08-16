@@ -312,9 +312,6 @@
 			});
 			return this;
 		},
-		append: function(){
-
-		}
 		/**
 		 * 插入字符串或获取当前
 		 * @param  {String|Object} context 插入的元素
