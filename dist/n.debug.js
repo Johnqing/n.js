@@ -692,16 +692,15 @@
 !function(n){
 	var document = window.document,
 	rRelative = /[>\+~][^\d\=]/,
-    rSingleTag = /^<(\w+)\s*\/?>(?:<\/\1>)?$/,
-    rTagName = /<([\w:]+)/,
-    rXhtml = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/ig,
-    rNumpx = /^-?\d+(?:px)?$/i,
-    rAlpha = /alpha\([^)]*\)/i,        
-    rNum = /^-?\d/,
-    rPosition = /^(?:left|right|top|bottom)$/i,
-    rBorderWidth = /^border(\w)+Width$/,
-    isECMAStyle = !!(document.defaultView && document.defaultView.getComputedStyle),
-    cssHooks = {},
+	rSingleTag = /^<(\w+)\s*\/?>(?:<\/\1>)?$/,
+	rTagName = /<([\w:]+)/,
+	rXhtml = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/ig,
+	rNumpx = /^-?\d+(?:px)?$/i,
+	rAlpha = /alpha\([^)]*\)/i,        
+	rNum = /^-?\d/,
+	rPosition = /^(?:left|right|top|bottom)$/i,
+	rBorderWidth = /^border(\w)+Width$/,
+	isECMAStyle = !!(document.defaultView && document.defaultView.getComputedStyle),
 	hasDuplicate = false,    // 是否有重复的DOM元素
 	hasParent = false,    // 是否检测重复的父元素
 	baseHasDuplicate = true;    // 检测浏览器是否支持自定义的sort函数
@@ -1264,6 +1263,28 @@
 			}
 
 			elem = context = null;
+			return elems;
+		},
+		childNode: function(filter, flag, name, tagName, context){
+			var len = context.length,
+				clen,
+				elems = [],
+				i = 0,
+				l = 0,
+				j = 0,
+				elem, node;
+
+			for (; i < len; i++) {
+				elem = context[i].childNodes;
+				clen = elem.length;
+				for (;j < clen; j++) {
+					node = elem[j];
+					if( node.nodeType === 1 && (flag || filter(node, name, tagName)) ){
+						elems[l++] = node
+					}
+				};
+			};
+			elem = node = context = null;
 			return elems;
 		}
 	}, function(key, fn){
