@@ -25,6 +25,9 @@
 	<script src="dist/n.debug.js"></script>
 	<script src="dist/n.extras-debug.js"></script>
 	<script>
+	//clone
+	var ulClone = n('#test').clone();
+	n('body').append(ulClone);
 	//parent
 	var bodyNode = n('#test').parent();
 	console.log(bodyNode);

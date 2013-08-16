@@ -159,7 +159,7 @@
 				elems = [];
 
 			if (isReverse) {
-				source = getNodelist(elem[0], context);
+				source = nNode.getNodelist(elem[0], context);
 				elem = this;
 			}else{
 				source = this;
@@ -169,7 +169,7 @@
 			lastIndex = sourceLen - 1;
 
 			for (var i = 0; i < elemsLen; i++) {
-				elems = n.makeArray(getNodelist(elem[i], context), elems);
+				elems = n.makeArray(nNode.getNodelist(elem[i], context), elems);
 			};
 
 			if (elems.length === 1) {
