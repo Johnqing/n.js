@@ -579,7 +579,7 @@
 			elem = context = null;
 			return elems;
 		},
-		childNode: function(filter, flag, name, tagName, context){
+		children: function(filter, flag, name, tagName, context){
 			var len = context.length,
 				clen,
 				elems = [],

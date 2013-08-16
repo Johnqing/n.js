@@ -13,7 +13,7 @@
 </head>
 <body>
 	<ul id="test">
-		<li>content1</li>
+		<li><span>1<span></li>
 		<li>content2</li>
 		<li>content3</li>
 		<li>content4</li>
@@ -25,6 +25,8 @@
 	<script src="dist/n.debug.js"></script>
 	<script src="dist/n.extras-debug.js"></script>
 	<script>
+	var linode = n('#test').children();
+	console.log(linode);
 	//n
 	n(function(){
 		console.log('ready');
