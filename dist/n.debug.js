@@ -1061,7 +1061,7 @@
 		addClass: function(name){
 			var _this = n(this);
 			if (_this.hasClass(name)) return;
-			_this[0].className += ' ' + name;
+			_this[0].className += _this[0].className.length == 0 ? name : ' ' + name;
 			return this;
 		},
 		/**
