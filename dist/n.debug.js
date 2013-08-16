@@ -789,8 +789,15 @@
 				top: actTop
 			};
 		};
-		elementScrollLeft = document.compatMode != 'CSS1Compat' ? document.body.scrollLeft : document.documentElement.scrollLeft;
-		elementScrollTop = document.compatMode != 'CSS1Compat' ? document.body.scrollTop : document.documentElement.scrollTop;
+		var bdy = document.body,
+			delem = document.documentElement;
+		elementScrollLeft = delem.scrollLeft;
+		elementScrollTop = delem.scrollTop;
+		
+		if (document.compatMode != 'CSS1Compat') {
+			elementScrollLeft = bdy.scrollLeft;
+			elementScrollTop = bdy.scrollTop
+		};
 		return {
 			left: actualLeft - elementScrollLeft,
 			top: actualTop - elementScrollTop
@@ -1083,10 +1090,18 @@
 				scrollY: scrollY
 			};
 		},
+		/**
+		 * 获取元素的相对位置
+		 * @return {Object} left|top
+		 */
 		position: function(){
 			var _this = n(this);
 			return position(_this, 1);
 		},
+		/**
+		 * 获取元素的绝对位置
+		 * @return {Object} left|top
+		 */
 		offset: function(){
 			var _this = n(this);
 			return position(_this);
