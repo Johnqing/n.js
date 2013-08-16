@@ -1222,7 +1222,7 @@
 			source.parentNode.insertBefore(target, source);
 			source = target = null;
 		},
-		after: function(){
+		after: function(source, target){
 			source.parentNode.insertBefore(target, source.nextSibling);
 			source = target = null;
 		}

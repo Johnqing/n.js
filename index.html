@@ -27,7 +27,7 @@
 	<script>
 	//clone
 	var ulClone = n('#test').clone();
-	n('body').append(ulClone);
+	n('#animateTest').after(ulClone);
 	//parent
 	var bodyNode = n('#test').parent();
 	console.log(bodyNode);
