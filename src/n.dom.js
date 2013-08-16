@@ -98,7 +98,7 @@
 			actLeft += currNode.offsetLeft;
 			currNode = currNode.offsetParent;			
 		}
-		if (type) {
+		if (!type) {
 			return {
 				left: actLeft,
 				top: actTop
@@ -313,6 +313,16 @@
 			return this;
 		},
 		/**
+		 * 查找子节点
+		 * @param  {String} selector 节点名
+		 * @return {Array}          nodeList
+		 */
+		find: function( selector ){        
+			if(typeof selector === 'string'){            
+				return n.makeArray(n.query(selector, this), n());                    
+			}
+		},
+		/**
 		 * 插入字符串或获取当前
 		 * @param  {String|Object} context 插入的元素
 		 * @return 
@@ -355,10 +365,19 @@
 				return this;
 			}
 			name = n.camelize(name);
+
 			this.forEach(function(){
-				this.style[name] = val;
+				n(this).setCss(name, val);
 			});
 			return this;
+		},
+		setCss: function(name, val){
+			var _this = this[0];
+			if (name === 'opacity' && n.browser.ie && n.browser.version.toString().indexOf('6')  !== -1) {
+				name = 'filter';
+				val = 'alpha(opacity='+ val*100 +')';
+			};
+			_this.style[name] = val;
 		},
 		/**
 		 * 判断是否有当前样式
@@ -444,8 +463,8 @@
 		docRect: function(){
 			 var _this = n(this)[0],
 			 	win = _this.defaultView || _this.parentWindow,
-			 	module = _this.compatMode,
-			 	root = doc.documentElement,
+			 	mode = _this.compatMode,
+			 	root = _this.documentElement,
 			 	h = win.innerHeight || 0,
 				w = win.innerWidth || 0,
 				scrollX = win.pageXOffset || 0,
@@ -453,7 +472,7 @@
 				scrollW = root.scrollWidth,
 				scrollH = root.scrollHeight;
 			//Quirks模式
-			if (module != 'CSS1Compat') {
+			if (mode != 'CSS1Compat') {
 				root = _this.body;
 				scrollW = root.scrollWidth;
 				scrollH = root.scrollHeight;
@@ -466,8 +485,8 @@
 			scrollW = Math.max(scrollW, w);
 			scrollH = Math.max(scrollH, h);
 
-			scrollX = Math.max(scrollX, doc.documentElement.scrollLeft, doc.body.scrollLeft);
-			scrollY = Math.max(scrollY, doc.documentElement.scrollTop, doc.body.scrollTop);
+			scrollX = Math.max(scrollX, _this.documentElement.scrollLeft, _this.body.scrollLeft);
+			scrollY = Math.max(scrollY, _this.documentElement.scrollTop, _this.body.scrollTop);
 
 			return {
 				width: w,
@@ -493,7 +512,7 @@
 		offset: function(){
 			var _this = n(this);
 			return position(_this);
-		}		
+		}
 	});
 	//DOM使用
 	n.each({

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
-	<script src="../../dist/n.min.js"></script>
+	<script src="../../dist/n.debug.js"></script>
 	<script src="lazyload.js"></script>
 	<style>
 	#test{
@@ -14,16 +14,27 @@
 <body>
 <div id="test">
 	<img data-original="http://p0.qhimg.com/t01edf53fdcc35d804a.jpg" src="x.jpg" alt="">
-	<img data-original="http://www.ejinqiao.cn/UploadFile/product/20122/201202250142265673.jpg" src="x.jpg" alt="">
-	<img data-original="http://p0.qhimg.com/t019747b7becdd75149.jpg" src="x.jpg" alt="">
-	<img data-original="http://p0.qhimg.com/t0132ed5240bf6c0355.jpg" src="x.jpg" alt="">
-	<img data-original="http://ejinqiao.cn/UploadFile/product/20124/201204160232204413.jpg" src="x.jpg" alt="">
-	<img data-original="http://ejinqiao.cn/uploadfile/product/20124/201204120238023485.jpg" src="x.jpg" alt="">
-	<img data-original="http://p0.qhimg.com/t010434d6460d5dea03.jpg" src="x.jpg" alt="">
-	<img data-original="http://p0.qhimg.com/t01d362a5174868b0a7.jpg" src="x.jpg" alt="">
+	<p>1</p>
+	<p>2</p>
+	<img data-original="http://www.ejinqiao.cn/UploadFile/product/20122/201202250142265673.jpg" src="x.jpg" alt=""><p>1</p>
+	<p>2</p>
+	<img data-original="http://p0.qhimg.com/t019747b7becdd75149.jpg" src="x.jpg" alt=""><p>1</p>
+	<p>2</p>
+	<img data-original="http://p0.qhimg.com/t0132ed5240bf6c0355.jpg" src="x.jpg" alt=""><p>1</p>
+	<p>2</p>
+	<img data-original="http://ejinqiao.cn/UploadFile/product/20124/201204160232204413.jpg" src="x.jpg" alt=""><p>1</p>
+	<p>2</p>
+	<img data-original="http://ejinqiao.cn/uploadfile/product/20124/201204120238023485.jpg" src="x.jpg" alt=""><p>1</p>
+	<p>2</p>
+	<img data-original="http://p0.qhimg.com/t010434d6460d5dea03.jpg" src="x.jpg" alt=""><p>1</p>
+	<p>2</p>
+	<img data-original="http://p0.qhimg.com/t01d362a5174868b0a7.jpg" src="x.jpg" alt=""><p>1</p>
+	<p>2</p>
 </div>
-	<script>
-	n.lazyload(n('img'));
-	</script>
+<script>
+n('#test').lazyload({
+	dataAttribute: 'data-original'
+});
+</script>
 </body>
 </html>
