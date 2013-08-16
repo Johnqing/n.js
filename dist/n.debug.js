@@ -1007,6 +1007,13 @@
 				return n.makeArray(n.query(selector, this), n());                    
 			}
 		},
+		clone: function(){
+			var elems = [],i = 0;
+			this.forEach(function(){
+				elems[i++] = nNode.clone(this);
+			});
+			return elems;
+		},
 		/**
 		 * 插入字符串或获取当前
 		 * @param  {String|Object} context 插入的元素
@@ -1262,7 +1269,7 @@
 				}            
 			}
 
-			elem = context = null;
+			elem = self = context = null;
 			return elems;
 		},
 		children: function(filter, flag, name, tagName, context){
@@ -1285,6 +1292,37 @@
 				};
 			};
 			elem = node = context = null;
+			return elems;
+		},
+		parent: function(filter, flag, name, tagName, context){
+			var isType = n.isString(filter),
+				len,
+				elems = [],
+				i = 0,
+				l = 0,
+				elem, self;    
+
+			context = n.unique(context, true);
+			len = context.length;
+
+			for( ; i < len; i++ ){
+				self = context[i];
+				elem = self.parentNode;
+
+				while(elem){
+					// 需要过滤掉自身
+					if( elem.nodeType !== 11 && (flag || filter(elem, name, tagName)) ){
+						elems[ l++ ] = elem;
+						if (!isType) {
+							break;
+						};
+					}
+					// 使用next去遍历同级元素
+					elem = elem.parentNode;
+				}            
+			}
+
+			elem = self = context = null;
 			return elems;
 		}
 	}, function(key, fn){

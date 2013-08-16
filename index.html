@@ -25,14 +25,21 @@
 	<script src="dist/n.debug.js"></script>
 	<script src="dist/n.extras-debug.js"></script>
 	<script>
+	//parent
+	var bodyNode = n('#test').parent();
+	console.log(bodyNode);
+	//children
 	var linode = n('#test').children();
 	console.log(linode);
-	//n
+	//n ready
 	n(function(){
 		console.log('ready');
 	});
+	//siblings
 	console.log(n('#test').siblings('div'));
+	//css json
 	n('#animateTest').css({'width': '100px','background': '#00f'});
+	//
 	n('#test li').html('li的值被改变了').on('click', function(){
 		alert(n(this).html());
 	}).fire('click');
