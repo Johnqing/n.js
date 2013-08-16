@@ -4,7 +4,7 @@
  * @link n.js
  */
 
-!function(window) {
+!function(n) {
 
 	var document = window.document,
 		funcQueue = [],
@@ -29,7 +29,7 @@
 	var DOMContentLoaded = function() {
 		var readyState = document.readyState;
 		if (addEventListener || readyState === "complete") {
-			n.un(document, eventType, DOMContentLoaded);
+			n(document).un(eventType, DOMContentLoaded);
 			fireReady();		
 		}		
     };
@@ -40,7 +40,7 @@
 		readyBound = true;
 		
 		// 绑定事件
-		n.on(document, eventType, DOMContentLoaded);
+		n(document).on(eventType, DOMContentLoaded);
 
 		if (!addEventListener){
 			var top = false;
@@ -86,4 +86,4 @@
 		}
 	});
 
-}(this);
+}(n);

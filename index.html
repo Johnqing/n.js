@@ -26,6 +26,9 @@
 	<script src="dist/n.extras-debug.js"></script>
 	<script>
 	//n
+	n(function(){
+		console.log('ready');
+	});
 	console.log(n('#test').siblings('div'));
 	n('#animateTest').css({'width': '100px','background': '#00f'});
 	n('#test li').html('li的值被改变了').on('click', function(){

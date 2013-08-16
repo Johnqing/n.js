@@ -1,4 +1,8 @@
-/**--------------Event----------------------------------------------------**/
+/**
+ * @author johnqing(刘卿)
+ * @module Event
+ * @link n.js
+ */
 !function(n){
 	var document = window.document;
 

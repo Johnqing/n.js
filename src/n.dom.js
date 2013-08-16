@@ -1,4 +1,8 @@
-/**--------------DOM----------------------------------------------------**/
+/**
+ * @author johnqing(刘卿)
+ * @module DOM
+ * @link n.js
+ */
 !function(n){
 	var rRelative = /[>\+~][^\d\=]/,
     rSingleTag = /^<(\w+)\s*\/?>(?:<\/\1>)?$/,
