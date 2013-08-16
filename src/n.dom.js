@@ -87,6 +87,7 @@
 	}
 	//获取元素的位置
 	function position(elem, type){
+		elem = elem[0];
 		var elementScrollLeft,
 			actLeft = elem.offsetLeft,
 			actTop = elem.offsetTop,
@@ -107,7 +108,7 @@
 			delem = document.documentElement;
 		elementScrollLeft = delem.scrollLeft;
 		elementScrollTop = delem.scrollTop;
-		
+
 		if (document.compatMode != 'CSS1Compat') {
 			elementScrollLeft = bdy.scrollLeft;
 			elementScrollTop = bdy.scrollTop
