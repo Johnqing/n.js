@@ -4,11 +4,8 @@
  * @link n.js
  */
 n.mix(n, {
-	Class: function(){
-		var slice = Array.prototype.slice,
-			args = slice.call(arguments),
-			parent,
-			defina,
+	Class: function(extObj, data){
+		var parent = extObj || null,
 			init,
 			privates,
 			publics;
@@ -28,16 +25,12 @@ n.mix(n, {
 			};
 			return reta;
 		}
-		//
-		if (args.length > 1) {
-			parent = args.shift();
-		};
+		data = n.isUndefined(data) ? parent : data;
 		//取出传入对象的 共有和私有方法
-		defina = args.shift();
-		publics = defina.Public || {};
-		privates = defina.Private || {};
+		publics = data.Public || {};
+		privates = data.Private || {};
 		//构造函数必须存在
-		init = defina.Init;
+		init = data.Init;
 
 		//没有构造函数 直接报错
 		if (!n.isFunction(init)) {
@@ -46,7 +39,7 @@ n.mix(n, {
 		//如果共有方法内存在私有方法，报错
 		for(var m in publics){
 			if(privates[m] !== undefined ){
-				throw "方法 "+m+" 不应在公有和私有方法中同时出现";
+				throw "方法 "+ m +" 不应在公有和私有方法中同时出现";
 			}
 		}
 		//klass
@@ -79,25 +72,30 @@ n.mix(n, {
 					};
 				}
 			}
+			//切换this的指向
 			var vt = function(fun){
 				return function(){
 					fun.apply(vis, arguments);
 					updateObj();
 				}
 			}
-
+			//遍历Pubice下的方法和属性
 			for(i in publics){
 				if (publics.hasOwnProperty(i) && n.isFunction(publics[i])) {
+					//函数需要切换this的指向
 					_this[i] = vt(publics[i]);
 				}else if(publics.hasOwnProperty(i)){
+					//普通属性之间赋值
 					_this[i] = publics[i];
 				}
 			}
-
+			//合并私有方法和属性
 			merge(vis, privates);
+			//合并this
 			merge(vis, _this);
-
+			//init的上下文切换
 			init.apply(vis, arguments);
+			
 			updateObj();
 
 		}
