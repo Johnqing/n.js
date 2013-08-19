@@ -1,5 +1,7 @@
 !function(window, undefined){
 	var ObjProto = Object.prototype,
+		ArrayProto = Array.prototype,
+		slice = ArrayProto.slice,
 		toString = ObjProto.toString,
 		hasOwnProperty = ObjProto.hasOwnProperty,
 		document = window.document,
@@ -210,13 +212,20 @@
 	}
 	/**
 	* 用指定的context作为fn上下文，也就是this
-	* @param  {Function} fn      需要指定上下文的函数
+	* @param  {Function} fn 需要指定上下文的函数
 	* @param  {Object}   context 上下文
 	* @return
 	*/
-	nJs.bind = function (fn, context) {
-		return function () {
-			return fn.apply(context, arguments);
+	nJs.bind = function () {
+		var oa = slice.call(arguments),
+		func = oa.shift(),
+		obj = oa.shift();
+		return function(){
+			var ia = slice.call(arguments),
+				ar = [];
+			nJs.mix(ar, oa);
+			nJs.mix(ar, ia);
+			func.apply(obj, ar);
 		};
 	}
 	/*

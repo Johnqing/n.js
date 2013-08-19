@@ -26,6 +26,54 @@
 	<script src="dist/n.debug.js"></script>
 	<script src="dist/n.extras-debug.js"></script>
 	<script>
+	//Class
+	var animal = n.Class({
+		Init: function(){
+			console.log('animal 构造器');
+		},
+		Public: {
+			name: 'animal',
+			eat: function(){
+				console.log(this.name + " eat");
+			},
+			say: function(){
+				this.pSay()
+			}
+		},
+		Private: {
+			pSay: function(){
+				console.log(this.name + " 是我的名字");
+			}
+		}
+	});
+
+	var cat = n.Class(animal, {
+		Init: function(){
+			console.log('cat 构造器');
+		},
+		Public: {
+			name: 'cat',
+			eat: function(){
+				console.log(this.name + " eat");
+				this.say();
+			}
+		}
+	});
+	var siam = n.Class(cat, {
+		Init: function(){
+			console.log('siam 构造器');
+		},
+		Public: {
+			name: 'siam',
+			howl: function(){
+				console.log(this.name + " eat");
+				this.eat();
+			}
+		}
+	});	
+	var balu = new siam();
+	balu.howl();
+	//
 	n(document.getElementsByTagName('li'))
 	//clone
 	var ulClone = n('#test').clone();

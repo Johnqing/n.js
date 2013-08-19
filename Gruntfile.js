@@ -18,7 +18,8 @@ module.exports = function(grunt) {
           "src/n.event.js",
           "src/n.browser.js",
           "src/n.ajax.js",
-          "src/n.ready.js"
+          "src/n.ready.js",
+          "src/n.class.js"
         ],
         dest: 'dist/n.debug.js'
       },
