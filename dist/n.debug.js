@@ -1963,6 +1963,12 @@
  * @link n.js
  */
 n.mix(n, {
+	/**
+	 * js类包装器
+	 * @param {Function} parent 需要继承的类
+	 * @param {Object} data   该类的方法和属性集合，接口为Init（构造器）/Public（公共）/Private（私有），必须包含Init构造器
+	 * @return {Function} 该类
+	 */
 	Class: function(parent, data){
 		var init,
 			privates,
