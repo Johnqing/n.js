@@ -4,9 +4,8 @@
  * @link n.js
  */
 n.mix(n, {
-	Class: function(extObj, data){
-		var parent = extObj || null,
-			init,
+	Class: function(parent, data){
+		var init,
 			privates,
 			publics;
 
@@ -95,7 +94,7 @@ n.mix(n, {
 			merge(vis, _this);
 			//init的上下文切换
 			init.apply(vis, arguments);
-			
+
 			updateObj();
 
 		}
