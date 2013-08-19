@@ -1970,6 +1970,7 @@ n.mix(n, {
 
 		var merge = n.mix,
 			bind = n.bind;
+			isFn = n.isFunction;
 		//上下文限定
 		var bound = function(b, ob){
 			var reta = {};
@@ -1977,9 +1978,7 @@ n.mix(n, {
 			merge(reta, b);
 			//递归取出其中的函数
 			for(var m in b){
-				if (b.hasOwnProperty(m) && n.isFunction(b[m])) {
-					reta[m] = bind(b[m], ob);
-				};
+				b.hasOwnProperty(m) && isFn(b[m]) && (reta[m] = bind(b[m], ob));
 			};
 			return reta;
 		}
@@ -1991,7 +1990,7 @@ n.mix(n, {
 		init = data.Init;
 
 		//没有构造函数 直接报错
-		if (!n.isFunction(init)) {
+		if (!isFn(init)) {
 			throw '构造函数不存在';
 		};
 		//如果共有方法内存在私有方法，报错
@@ -2039,7 +2038,7 @@ n.mix(n, {
 			}
 			//遍历Pubice下的方法和属性
 			for(i in publics){
-				if (publics.hasOwnProperty(i) && n.isFunction(publics[i])) {
+				if (publics.hasOwnProperty(i) && isFn(publics[i])) {
 					//函数需要切换this的指向
 					_this[i] = vt(publics[i]);
 				}else if(publics.hasOwnProperty(i)){
