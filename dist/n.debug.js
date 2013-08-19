@@ -1767,6 +1767,11 @@
 
 			return xmlhttp;
 		},
+		responseFields: {
+			xml: "responseXML",
+			text: "responseText",
+			json: "responseJSON"
+		},
 		/**
 		 * 核心方法(get、post 都是走这个方法)
 		 * @param  {String} get/post
@@ -1787,14 +1792,10 @@
 			}else{
 				type = "POST";
 			}
-
 			xmlHttp.open(type, URL, async);
 			xmlHttp.onreadystatechange = function(){
 				if(xmlHttp.readyState == 4 && (xmlHttp.status == 200 || xmlHttp.status == 304) ){
-					resType = xmlHttp.responseText;
-					if(_this.dataType === 'xml'){
-						resType = xmlHttp.responseXML;
-					}
+					resType = xmlHttp[_this.responseFields[_this.dataType]];
 					_this.success.call(_this, resType);
 				}else if(xmlHttp.status == 0){
 					_this.error.call(_this, '请求失败');
@@ -1803,7 +1804,7 @@
 				}
 			};
 			if(type === "POST"){
-				xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+				xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8");
 			}
 			xmlHttp.send(queryString);
 		},
@@ -1837,7 +1838,7 @@
 	 * 追加ajax模块到n命名空间上
 	 * @namespace n
 	 */
-	n.mix(n.fn, {
+	n.mix(n, {
 		ajax: function (options){
 			options = n.mix(options, defaultConfig);
 			new Ajax(options).init();
