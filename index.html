@@ -29,10 +29,13 @@
 	<script src="dist/n.debug.js"></script>
 	<script src="dist/n.extras-debug.js"></script>
 	<script>
-	//
-	n('#delegate').delegate('li','click', function(ev){
-		console.log(n(this));
+	n('#delegate').click(function(ev){
+		console.log(n(this).html());
 	});
+	//
+	// n('#delegate').delegate('li','click', function(ev){
+	// 	console.log(n(this));
+	// });
 	//Class
 	var animal = n.Class({
 		Init: function(){

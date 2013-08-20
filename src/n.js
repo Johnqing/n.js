@@ -161,7 +161,7 @@
 	* @return {String}
 	*/
 	nJs.trim = function(str){
-		return str.replace(/(^\s*)|(\s$)/g, '');
+		return str.replace(/(^[\s\xA0]+)|([\s\xA0]+$)/g, '');
 	}
 
 	/**

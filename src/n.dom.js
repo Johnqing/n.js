@@ -339,24 +339,12 @@
 		 * @return 
 		 */
 		html: function(context){
-			//不传值，为取值
-			if (n.isUndefined(context)) {
-				var el = this[0];
-				return n.isElement(el) ? el.innerHTML : null;
+			if (!context) {
+				return (this[0] && n.trim(this[0].innerHTML)) || '';
 			};
-
-			if(n.isString(context)){
-				context = context.replace(rXhtml, '<$1><' + '/$2>');
-				//遍历数组
-				this.forEach(function(){
-					if(this.nodeType === 1){
-						this.innerHTML = context;
-					}
-				});
-			}else{
-				this[0].innerHTML = context;
-			}
-			return this;
+			return this.forEach(function(){
+				this.innerHTML = context;
+			});
 		},
 		/**
 		 * 设置或获取style
@@ -456,22 +444,16 @@
 		},
 		/**
 		 * 设置或获取元素的值
-		 * @param  {String} name
+		 * @param  {String} context
 		 * @return
 		 */
-		val: function(name){
-			var _this = n(this)[0],
-				v = 'innerHTML';
-			if (n.isUndefined(name)) {
-				return _this.value;
+		val: function(context){
+			if (!context) {
+				return (this[0] && n.trim(this[0].value)) || '';
 			};
-			if (/^(textarea|input)$/i.test(_this.nodeName)) {
-				v = 'value';
-			};
-			this.forEach(function(){
-				this[v] = name;
+			return this.forEach(function(){
+				this.value = context;
 			});
-			return this;
 		},
 		/**
 		 * 筛取元素

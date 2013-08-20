@@ -91,14 +91,33 @@
 			});
 		}
 	}
+	//多个事件同时绑定
+	n.each('blur focus focusin focusout load resize scroll unload click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup error'.split(' '), function(key){
+		n.fn[key] = function(fn){
+			return this.forEach(function(){
+				nEvent.addEvt(this, key, fn);
+			});
+		}
+	});
 	//注册到n.prototype上去的方法
 	n.mix(n.fn, {
+		/**
+		 * 绑定
+		 * @param  {String} type    事件类型
+		 * @param  {Function} handler 绑定函数
+		 * @return {Object}        this对象
+		 */
 		on: function(type, handler){
 			return this.forEach(function(){
 				nEvent.addEvt(this, type, handler);
 			});
 		},
-		//TODO: 需要重新设计
+		/**
+		 * 解除绑定
+		 * @param  {String} type    事件类型
+		 * @param  {Function} handler 绑定函数
+		 * @return {Object}        this对象
+		 */
 		un: function(type, handler){
 			return this.forEach(function(){
 				 nEvent.remEvt(this, type, handler);

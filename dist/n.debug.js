@@ -162,7 +162,7 @@
 	* @return {String}
 	*/
 	nJs.trim = function(str){
-		return str.replace(/(^\s*)|(\s$)/g, '');
+		return str.replace(/(^[\s\xA0]+)|([\s\xA0]+$)/g, '');
 	}
 
 	/**
@@ -1151,24 +1151,12 @@
 		 * @return 
 		 */
 		html: function(context){
-			//不传值，为取值
-			if (n.isUndefined(context)) {
-				var el = this[0];
-				return n.isElement(el) ? el.innerHTML : null;
+			if (!context) {
+				return (this[0] && n.trim(this[0].innerHTML)) || '';
 			};
-
-			if(n.isString(context)){
-				context = context.replace(rXhtml, '<$1><' + '/$2>');
-				//遍历数组
-				this.forEach(function(){
-					if(this.nodeType === 1){
-						this.innerHTML = context;
-					}
-				});
-			}else{
-				this[0].innerHTML = context;
-			}
-			return this;
+			return this.forEach(function(){
+				this.innerHTML = context;
+			});
 		},
 		/**
 		 * 设置或获取style
@@ -1268,22 +1256,16 @@
 		},
 		/**
 		 * 设置或获取元素的值
-		 * @param  {String} name
+		 * @param  {String} context
 		 * @return
 		 */
-		val: function(name){
-			var _this = n(this)[0],
-				v = 'innerHTML';
-			if (n.isUndefined(name)) {
-				return _this.value;
+		val: function(context){
+			if (!context) {
+				return (this[0] && n.trim(this[0].value)) || '';
 			};
-			if (/^(textarea|input)$/i.test(_this.nodeName)) {
-				v = 'value';
-			};
-			this.forEach(function(){
-				this[v] = name;
+			return this.forEach(function(){
+				this.value = context;
 			});
-			return this;
 		},
 		/**
 		 * 筛取元素
@@ -1607,14 +1589,33 @@
 			});
 		}
 	}
+	//多个事件同时绑定
+	n.each('blur focus focusin focusout load resize scroll unload click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup error'.split(' '), function(key){
+		n.fn[key] = function(fn){
+			return this.forEach(function(){
+				nEvent.addEvt(this, key, fn);
+			});
+		}
+	});
 	//注册到n.prototype上去的方法
 	n.mix(n.fn, {
+		/**
+		 * 绑定
+		 * @param  {String} type    事件类型
+		 * @param  {Function} handler 绑定函数
+		 * @return {Object}        this对象
+		 */
 		on: function(type, handler){
 			return this.forEach(function(){
 				nEvent.addEvt(this, type, handler);
 			});
 		},
-		//TODO: 需要重新设计
+		/**
+		 * 解除绑定
+		 * @param  {String} type    事件类型
+		 * @param  {Function} handler 绑定函数
+		 * @return {Object}        this对象
+		 */
 		un: function(type, handler){
 			return this.forEach(function(){
 				 nEvent.remEvt(this, type, handler);
