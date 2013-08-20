@@ -3,6 +3,7 @@
 		ArrayProto = Array.prototype,
 		nativeForEach = ArrayProto.forEach,
 		slice = ArrayProto.slice,
+		push = ArrayProto.push,
 		nativeIndexOf = ArrayProto.indexOf,
 		toString = ObjProto.toString,
 		hasOwnProperty = ObjProto.hasOwnProperty,
@@ -204,6 +205,7 @@
 	nJs.isNumber = isType('Number');
 	nJs.isArray = isType('Array');
 	nJs.isFunction = isType('Function');
+	nJs.isRegExp = isType('RegExp');
 	nJs.isNull = function(obj){
 		return obj === null;
 	}

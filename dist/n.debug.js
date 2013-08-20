@@ -4,6 +4,7 @@
 		ArrayProto = Array.prototype,
 		nativeForEach = ArrayProto.forEach,
 		slice = ArrayProto.slice,
+		push = ArrayProto.push,
 		nativeIndexOf = ArrayProto.indexOf,
 		toString = ObjProto.toString,
 		hasOwnProperty = ObjProto.hasOwnProperty,
@@ -205,6 +206,7 @@
 	nJs.isNumber = isType('Number');
 	nJs.isArray = isType('Array');
 	nJs.isFunction = isType('Function');
+	nJs.isRegExp = isType('RegExp');
 	nJs.isNull = function(obj){
 		return obj === null;
 	}
@@ -1519,7 +1521,7 @@
  */
 !function(n){
 	var document = window.document,
-		eventIndexId = 0;
+		eventIndexId = 1;
 		handlers = {},
 		evtMethods = ['preventDefault', 'stopImmediatePropagation', 'stopPropagation'];
 	//获取/设置当前元素的唯一id
@@ -1530,22 +1532,22 @@
 	function bind(o, type, fn){
 		if (o.addEventListener){
 			o.addEventListener(type, fn, false);	
-			return;
+		}else{
+			o['e' + type + fn] = fn;
+			o[type + fn] = function(){
+				o['e' + type + fn](window.event);
+			};
+			o.attachEvent('on' + type, o[type + fn]);
 		}
-		o['e' + type + fn] = fn;
-		o[type + fn] = function(){
-			o['e' + type + fn](window.event);
-		};
-		o.attachEvent('on' + type, o[type + fn]);
 	}
 
 	function unbind(o, type, fn){
-		if (o.removeEventListener)
+		if (o.removeEventListener){
 			o.removeEventListener(type, fn, false);
-		else {
-			o.detachEvent('on' + type, o[type + fn]);
-			o[type + fn] = null;
+			return o;
 		}
+		o.detachEvent('on' + type, o[type + fn]);
+		o[type + fn] = null;
 	}
 
 	function parseEvt(evt){
@@ -1607,16 +1609,10 @@
 	}
 	//注册到n.prototype上去的方法
 	n.mix(n.fn, {
-		on: function(type, handler, selector){
-			var _this = this;
-			_this.forEach(function(){
-				var self = this;
-				nEvent.addEvt(self, type, function(){
-					handler();
-					nEvent.remEvt(self, type, arguments.callee);
-				});
+		on: function(type, handler){
+			return this.forEach(function(){
+				nEvent.addEvt(this, type, handler);
 			});
-			return this;
 		},
 		//TODO: 需要重新设计
 		un: function(type, handler){
@@ -1632,22 +1628,21 @@
 		 * @return 
 		 */
 		delegate: function(selector, type, handler){
-			this.forEach(function(){
-				var self = this;
-				nEvent.addEvt(self, type, handler, selector, function(ev){
+			return this.forEach(function(i, el){
+				el = el[0];
+				nEvent.addEvt(el, type, handler, selector, function(ev){
 					var target = ev.target,
 						merg,
-						nodes = n(selector, self);
+						nodes = n(selector, el);
 					while (target && nodes.indexOf(target) < 0){
 						target = target.parentNode;
 					}
-					if (target && !(target === self) && !(target === document)){
-						merg = n.mix(nEvent.createProxy(ev), {currentTarget: target, liveFired: self});
+					if (target && !(target === el) && !(target === document)){
+						merg = n.mix(nEvent.createProxy(ev), {currentTarget: target, liveFired: el});
 						handler.call(target, merg);
 					}
 				});
 			});
-			return this;
 		},
 
 		unDelegate: function(selector, type, handler){
