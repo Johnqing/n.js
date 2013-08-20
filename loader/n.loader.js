@@ -112,9 +112,6 @@
 	*/  
 	window.define = function(id, deps, factory){
 		var cf = parseDefineConfig(id, deps, factory);
-		id = cf.id;
-		deps = cf.deps;
-		factory = cf.factory;
 
 
 

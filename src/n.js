@@ -1,9 +1,12 @@
 !function(window, undefined){
 	var ObjProto = Object.prototype,
 		ArrayProto = Array.prototype,
+		nativeForEach = ArrayProto.forEach,
 		slice = ArrayProto.slice,
+		nativeIndexOf = ArrayProto.indexOf,
 		toString = ObjProto.toString,
 		hasOwnProperty = ObjProto.hasOwnProperty,
+		breaker = {},
 		document = window.document,
 		_n = window.n;
 		nuid = 0,
@@ -125,19 +128,31 @@
 	* @param { Object } 上下文
 	* @return { Object } 
 	*/
-	nJs.each = function( obj, fn, context ){        
-		var isObj = obj.length === undefined || typeof obj === 'function',
-		i;
-
-		if( isObj ){
-			for( i in obj ){
-				if( fn.call(context, i, obj[i]) === false ){
-					break;
+	nJs.each = function(obj, fn, context){        
+		if (obj == null) return;
+		
+		if (nativeForEach && obj.forEach === nativeForEach){
+			obj.forEach(fn, context);
+		} else if (obj.length === +obj.length){
+			for(var i = 0, l = obj.length; i < l; i++){
+				if (i in obj && fn.call(context, obj[i], i, obj) === breaker)
+					return;
+			}
+		} else {
+			for(var key in obj){
+				if (hasOwnProperty.call(obj, key)){
+					if (fn.call(context, key, obj[key], obj) === breaker)
+						return;
 				}
 			}
 		}
-
-		return obj;
+	}
+	nJs.indexOf = function(arr, val){
+		if (arr == null) return -1;
+		var i, l;
+		if (nativeIndexOf && arr.indexOf === nativeIndexOf) return arr.indexOf(val);
+		for(i = 0, l = arr.length; i < l; i++) if (arr[i] === val) return i;
+		return -1;
 	}
 	/**
 	* 去除字符串的前后空格
@@ -362,16 +377,21 @@
 	 * @param  {Function} fn 回调函数
 	 * @return
 	 */
-	nJs.fn.forEach = function( fn ){
-		var len = this.length,
-		i = 0;
+	nJs.mix(nJs.fn, {
+		forEach: function(fn){
+			var len = this.length,
+			i = 0;
 
-		for( ; i < len; i++ ){
-			fn.call( this[i], i, this );
+			for( ; i < len; i++ ){
+				fn.call( this[i], i, this );
+			}
+
+			return this;
+		},
+		indexOf: function(val){
+			return nJs.indexOf(this, val);
 		}
-
-		return this;
-	}
+	});
 	// RequireJS || SeaJS
 	if (typeof define === 'function') {
 		define(function(require, exports, module) {

@@ -12,6 +12,9 @@
 	</style>
 </head>
 <body>
+	<ol id="delegate">
+		<li>xxxsdsd</li>
+	</ol>
 	<ul id="test">
 		<li><span>1<span></li>
 		<li>content2</li>
@@ -26,6 +29,10 @@
 	<script src="dist/n.debug.js"></script>
 	<script src="dist/n.extras-debug.js"></script>
 	<script>
+	//
+	n('#delegate').delegate('li','click', function(){
+		console.info(n(this));
+	});
 	//Class
 	var animal = n.Class({
 		Init: function(){
