@@ -433,7 +433,7 @@
 			px = px || '';
 
 			var tmr = null,
-				b = parseInt(elem.css(style)),
+				b = parseInt(n(elem).css(style)),
 				st = (new Date()).getTime();
 
 			val = val - b;
@@ -446,7 +446,7 @@
 					callBack&&callBack(elem);
 				}
 				var num = parseFloat(ease(t, b, val, time)) + px;
-                elem.css(style, num);
+                n(elem).css(style, num);
 			}, 10);
 
 			return tmr;
@@ -468,7 +468,7 @@
 					clearTimeout(config.interval);
 				}
 				if(flg == true){
-					config.el.css(config.jsonMap[i].style, config.jsonMap[i].val + config.jsonMap[i].px);
+					n(config.el).css(config.jsonMap[i].style, config.jsonMap[i].val + config.jsonMap[i].px);
 				}
 			};
 

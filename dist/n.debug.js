@@ -411,6 +411,7 @@
  * @link n.js
  */
 !function(nJs){
+	var rRelative = /[>\+~][^\d\=]/;
 	// 检测a元素是否包含了b元素
 	nJs.contains = function( a, b ){
 		// 标准浏览器支持compareDocumentPosition
@@ -588,7 +589,7 @@
 						return [ type, name, tagName ];
 					}
 
-					return nSelector.finder[ type ](selector, context, nextSelector);
+					return nJs.nSelector.finder[ type ](selector, context, nextSelector);
 				},
 				finder: {
 					// id选择器
@@ -606,7 +607,7 @@
 						l = 0,
 						elem, len, name;
 
-						context = nSelector.finder.TAG( tagName, context, true );            
+						context = nJs.nSelector.finder.TAG( tagName, context, true );            
 						len = context.length;
 
 						for( ; i < len; i++ ){
@@ -653,7 +654,7 @@
 					ATTR : function( selector, context, isFiltered ){
 						var elems = [],
 							matches = selector.match( rAttr ),
-							getAttribute = nSelector.getAttribute,
+							getAttribute = nJs.nSelector.getAttribute,
 							attr = matches[1],
 							symbol = matches[2] || undefined,
 							attrVal = matches[5] || matches[4],            
@@ -662,10 +663,10 @@
 							len, elem, val, matchAttr, sMatches, filterBase, name, tagName;            
 
 						selector = selector.slice( 0, selector.indexOf('[') ) || '*';
-						context = isFiltered ? context : nSelector.adapter( selector, context );
+						context = isFiltered ? context : nJs.nSelector.adapter( selector, context );
 						len = context.length;
-						sMatches = nSelector.adapter( selector );
-						filterBase = nSelector.filter[ sMatches[0] ];
+						sMatches = nJs.nSelector.adapter( selector );
+						filterBase = nJs.nSelector.filter[ sMatches[0] ];
 						name = sMatches[1];
 						tagName = sMatches[2];       
 
@@ -852,7 +853,8 @@
 				if(b == "opacity"){
 					return a.style.filter.indexOf("opacity=") >= 0 ? parseFloat(a.style.filter.match(/opacity=([^)]*)/)[1]) / 100 : "1";
 				}else {
-					return a.currentStyle[b] == "auto" ? 0 : a.currentStyle[b];
+					var curStyle = a.currentStyle[b];
+					return curStyle == "auto" ? 0 : curStyle;
 				}
 			}else{
 				if(b == "opacity"){

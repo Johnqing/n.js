@@ -40,7 +40,8 @@
 				if(b == "opacity"){
 					return a.style.filter.indexOf("opacity=") >= 0 ? parseFloat(a.style.filter.match(/opacity=([^)]*)/)[1]) / 100 : "1";
 				}else {
-					return a.currentStyle[b] == "auto" ? 0 : a.currentStyle[b];
+					var curStyle = a.currentStyle[b];
+					return curStyle == "auto" ? 0 : curStyle;
 				}
 			}else{
 				if(b == "opacity"){
