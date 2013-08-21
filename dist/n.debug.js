@@ -1931,14 +1931,14 @@
 			new Ajax({
 				url: url,
 				data: data,
-				success: fuc
+				success: fun
 			}).get();
 		},
 		post: function(url, data, fun){
 			new Ajax({
 				url: url,
 				data: data,
-				success: fuc
+				success: fun
 			}).post();
 		},
 		jsonp: function(url, data, fun){
@@ -1946,7 +1946,7 @@
 				url: url,
 				data: data,
 				dataType: 'jsonp',
-				success: fuc
+				success: fun
 			}).init();
 		}
 	});
