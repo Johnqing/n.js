@@ -873,7 +873,7 @@
 			name = 'filter';
 			val = 'alpha(opacity='+ val*100 +')';
 		}else{
-			val = name === 'opacity' ? val : (parseInt(val) + 'px');
+			val = (name === 'opacity' || isNaN(parseInt(val)) ) ? val : (parseInt(val) + 'px');
 		}
 		elem.style[name] = val;
 	}
