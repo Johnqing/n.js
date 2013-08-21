@@ -340,7 +340,7 @@
  * @author johnqing（刘卿）
  * @link n.js
  */
-!function(window){
+!function(n){
 	/**
 	 * Animate类
 	 * @param  {Object}   elem     运动元素
@@ -351,196 +351,132 @@
 	 * @return
 	 */
 	var document = window.document,
-		anim = {};
+		guid = 0,
+		que = [];
+
+	/**
+	 * 格式化传入的值
+	 * @param  {Object} jsonMap 动画参数
+	 * @return {Array}         返回整理后的数组
+	 */
+	var getJsonMap = function(jsonMap){
+
+		var arr = [];
+		var a = null;
+		for(a in jsonMap){
+			var json = {};
+			var test = String(jsonMap[a]).match(/(\d+)($|([a-z]+))/);
+			json.interval = null;
+			json.style = a;
+			json.val = typeof jsonMap[a] == "number" ? jsonMap[a] : parseFloat(test[1]);
+			json.px = test[3];
+			arr[arr.length] = json;
+		}
+		return arr;
+
+	}
+	//获取全局唯一id
+	function getGuid(el){
+		return el.animateId ? el.animateId : guid++;
+	}
 	var Animate = function(elem, jsonDate, time, callback, easing){
-		this.elem = elem;
-		this.jsonDate = jsonDate;
-		this.time = time;
-		this.easing = easing || 'jstwer';
-		this.callback = callback;
-		this.lazy = this.lazyque = 10;
-		//获取唯一标识符
-		this.uuid = this.getUid();
-		this.f = 0;
-		this.fn = elem.fn || [];
-		//动画队列
-		anim[this.uuid] = {};
-		anim[this.uuid]['stop'] = true;
+		this.guid = getGuid(elem);
+		que[this.guid] = n.mix({
+			el: elem,
+			guid: this.guid,
+			delay: 0,
+			jsonMap: getJsonMap(jsonDate),
+			time: time || 400,
+			ease: n.easing[easing] || n.easing['jstwer'],
+			callback: n.isUndefined(callback) ? n.isFunction(time) ? time : undefined : callback
+		}, que[this.guid]);
 	}
 
 	Animate.prototype = {
-		/**
-		 * 获取唯一id
-		 * @return {String} 唯一id
-		 */
-		getUid: function(){
-			var _this = this, 
-				uuid = _this.elem.anid;
-			if(!n.isString(uuid)){
-				_this.elem.anid = uuid = n.nuid();
-				return uuid;
-			}
-			return uuid;
-		},
-		run: function(){
+		play: function(){
 			var _this = this,
-				jd = _this.jsonDate,
-				t = _this.time,
-				que = _this.fn,
-				queLen = que.length;
-			que[queLen] = [];
-			que[queLen]['callback'] = _this.callback;
-			//循环解锁参数
-			for(var i in jd){
-				que[queLen].push([i, jd[i], t]);
-				if(queLen == 0){
-					i == 'opacity' ? _this.entrance(_this.alpha, [jd[i], t], _this.lazyque) : 
-					_this.entrance(_this.execution, [i, jd[i], t], _this.lazyque);
-				}
+				config = que[_this.guid];
+			//如果延时存在，就延迟执行
+			if (config.delay) {
+				setTimeout(function(){
+					_this.play();
+				}, config.delay);
+				//重置为0，不然陷入无限等待
+				config.delay = 0;
+				return _this;
+			};
+
+			var guid = config.guid,
+				el = config.el,
+				callBack = config.callback,
+				time = config.time,
+				len = config.jsonMap.length,
+				ease = config.ease,
+				i = 0,
+				j = 0;
+			//遍历参数,执行动画
+			for (; i < len; i++) {
+				config.interval = _this.run(el, config.jsonMap[i].style, config.jsonMap[i].val, callBack, time, config.jsonMap[i].px, ease);
+			};
+
+			//回调
+			function systemCallBack(){
+				if (++j === len) {
+					callback && callback(el)
+				};
 			}
-			_this.elem.fn = _this.fn;
-		},
-		stop: function(){
-			var _this = this;
-			anim[_this.uuid]['stop'] = false;
-			_this.fn.length = _this.elem.fn = 0;
-			_this.elem.anid = null;
+
 			return _this;
 		},
-		entrance: function(fn, data, time){
-			var root = n, _this = this;
-			//fn 调用函数 data 参数 time 延迟时间
-			setTimeout(function(){
-				fn(data[0], data[1], data[2], root, _this);
-			}, (time || 0));
+
+		run: function(elem, style, val, callBack, time, px, ease){
+			px = px || '';
+
+			var tmr = null,
+				b = parseInt(elem.css(style)),
+				st = (new Date()).getTime();
+
+			val = val - b;
+
+			tmr = setInterval(function(){
+				var t = new Date().getTime() - st;
+				if( t > time){
+					t = time;
+					clearInterval(tmr);
+					callBack&&callBack(elem);
+				}
+				var num = parseFloat(ease(t, b, val, time)) + px;
+                elem.css(style, num);
+			}, 10);
+
+			return tmr;
 		},
 		/**
-		 * 动画变化函数
-		 * @param  {String} key 变化样式
-		 * @param  {String} val 变化值
-		 * @param  {Number} t   毫秒
+		 * 定制当前动画
+		 * @param  {Boolean} flg true|false
 		 * @return
 		 */
-		execution: function(key, val, t, root, that){
-			var tween = root.easing[that.easing],
-				nowTime = (new Date()).getTime(),
-				duration = t || 500,
-				beigin = parseFloat(that.elem.css(key)) || 0;
-			var changeValue = that.nMath(val, beigin),
-				// 单位
-				un = val.match(/\d+(.+)/)[1];
-			(function(){
-				var t = (new Date()).getTime() - nowTime;
-				if (t > duration){
-					t = duration;
-					that.elem.css(key, parseInt(tween(t, beigin, changeValue, duration)) + un);
-					// 操作队列
-					that.queue(); 
-					return that;
-				}
-				that.elem.css(key, parseInt(tween(t, beigin, changeValue, duration)) + un);
-				anim[that.uuid]['stop'] && setTimeout(arguments.callee, that.lazy);
-			})();
-		},
-		/**
-		 * 队列
-		 */
-		queue: function(){
+		stop: function(flg){
 			var _this = this,
-				f = _this.f,
-				que = _this.fn,
-				lazyque = _this.lazyque;
+				config = que[_this.guid],
+				guid = config.guid,
+				i = 0,
+				len = config.jsonMap.length;
 
-			if (que && ++f == que[0].length){
-				f = 0;// 清空计数器
-				que[0].callback ? que[0].callback.apply(elem) : false;
-
-				// 判断是否有动画在等待执行
-				if (que.length > 1){
-					que[0].callback = que[1].callback;
-					que = _this.elem.fn || [];// 从dom对象上获取最新动画队列
-					que.shift();// 清除刚执行完的动画队列
-					_this.elem.fn = que;// 把新的队列更新到dom
-					var am = que[0];
-
-					// 循环播放队列动画
-					for(var i = 0; i < am.length; i++){
-
-						am[i][0] === 'opacity' ? _this.entrance(_this.alpha, [am[i][1], am[i][2]], lazyque):
-						_this.entrance(_this.execution, [am[i][0], am[i][1], am[i][2]], lazyque);
-
-					}
-				}else{
-					//清除队列
-					que.length = 0;
-					_this.elem.fn.length = 0;
-					_this.elem.anid = null;
+			for (; i < len; i++) {
+				if(config.interval){
+					clearTimeout(config.interval);
 				}
-
-			}
-		},
-		/**
-		 * 解析传入的值
-		 */
-		nMath: function(val, beigin){
-			var numMath, re = /^([+-\\*\/]=)([-]?[\d.]+)/ ;
-			if (re.test(val)){
-				var reg = val.match(re);
-				reg[2] = parseFloat(reg[2]);
-				switch (reg[1]){
-					case '+=':
-						numMath = reg[2];
-						break;
-					case '-=':
-						numMath = -reg[2];
-						break;
-					case '*=':
-						numMath = beigin*reg[2] - beigin;
-						break;
-					case '/=':
-						numMath = beigin/reg[2] - beigin;
-						break;
+				if(flg == true){
+					config.el.css(config.jsonMap[i].style, config.jsonMap[i].val + config.jsonMap[i].px);
 				}
-				return numMath;
-			} 
-			return parseFloat(val) - beigin;
+			};
+
+			return _this;
 		},
-		alpha: function(val, t){
-			var _this = this,
-				elem = _this.elem,
-				lazy = _this.lazy,
-				s = (new Date()).getTime(),
-				d = t || 500, b, c;
-			if(document.defaultView){
-				b = document.defaultView.getComputedcss(elem,null)['opacity'] || 1,
-				c = _this.nMath(val,b) * 100;
-				(function(){
-					var t = (new Date()).getTime() - s;
-					if(t > d){
-						t = d;
-						elem.css('opacity', tween(t, (100 * b), c, d) / 100);
-						_this.queue(); // 队列控制
-						return _this;
-					}
-					elem.css('opacity', tween(t, (100 * b), c, d) / 100);
-					anim[_this.uuid]['stop'] && setTimeout(arguments.callee, lazy);
-				})();
-			}else{
-				b = elem[0].currentcss['filter'] ? 
-				(elem[0].currentcss['filter'].match(/^alpha\(opacity=([\d\.]+)\)$/))[1]/100 : 1;
-				c = _this.nMath(val, b) * 100;
-				(function(){
-					var t = (new Date()).getTime() - s;
-					if (t > d){
-						t = d;
-						elem[0].css['filter']='alpha(opacity='+ tween(t, (100 * b), c, d) +')';
-						_this.queue(); // 队列控制
-						return _this;
-					}
-					elem[0].css['filter'] = 'alpha(opacity='+ tween(t, (100*b) , c, d) +')';
-					anim[_this.uuid]['stop'] && setTimeout(arguments.callee, lazy);
-				})();
-			}
+		delay: function(time){
+			que[this.guid].delay = time;
+			return this;
 		}
 	}
 	/**
@@ -556,26 +492,31 @@
 		}
 	})
 	n.mix(n.fn, {
+
 		animate: function(jsonDate, time, callback, easing){
-			new Animate(n(this), jsonDate, time, callback, easing).run();
+			new Animate(n(this), jsonDate, time, callback, easing).play();
 			return this;
 		},
 		stop: function(){
 			new Animate(n(this)).stop();
 			return this;
 		},
-		fadeIn: function(time, easing, callback){
+		fadeIn: function(time, callback, easing){
 			n(this).css('opacity',0);
-			new Animate(n(this), {'opacity': 1}, time, callback, easing).run();
+			new Animate(n(this), {'opacity': 1}, time, callback, easing).play();
 			return this;
 		},
-		fadeOut: function(time, easing, callback){
+		fadeOut: function(time, callback, easing){
 			n(this).css('opacity',1);
-			new Animate(n(this), {'opacity': 0}, time, callback, easing).run();
+			new Animate(n(this), {'opacity': 0}, time, callback, easing).play();
+			return this;
+		},
+		delay: function(time){
+			new Animate(n(this)).delay(time).play();
 			return this;
 		}
 	});
-}(this);
+}(n);
 /**
  * @author 王迎然(www.wangyingran.com)
  * @module random模块

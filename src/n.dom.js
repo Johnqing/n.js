@@ -25,65 +25,45 @@
 		baseHasDuplicate = false;
 		return 0;
 	});
-	/** 
-	 * 获得element对象当前的样式
-	 * @method	getCurrentStyle
-	 * @param	{Object|String}	el
-	 * @param	{String}                attribute	样式名
-	 * @return	{String}				
+	var getStyle = window.getComputedStyle ?
+		function(a, b, c){
+			if( c == undefined){
+				b = b.replace(/([A-Z])/g, "-$1");
+				b = b.toLowerCase();
+				return window.getComputedStyle(a, null).getPropertyValue(b);
+			}else{
+				a.style[b] = c;
+			}
+		}
+		:function(a, b, c){
+			if( c == undefined){
+				if(b == "opacity"){
+					return a.style.filter.indexOf("opacity=") >= 0 ? parseFloat(a.style.filter.match(/opacity=([^)]*)/)[1]) / 100 : "1";
+				}else {
+					return a.currentStyle[b] == "auto" ? 0 : a.currentStyle[b];
+				}
+			}else{
+				if(b == "opacity"){
+					a.style.filter = (a.filter || "").replace(/alpha\([^)]*\)/, "") + "alpha(opacity=" + c * 100 + ")";
+				}else{
+					a.style[b] = c;
+				}
+			}
+		}
+	/**
+	 * 设置样式
+	 * @param {String} name 样式名
+	 * @param {String} val  设置的值
 	 */
-	function getCurrentStyle(el, attribute) {
-		if(isECMAStyle){
-			var doc = el.ownerDocument,
-				defaultView = doc.defaultView,
-				val;
-
-			if( defaultView ){
-				val = defaultView.getComputedStyle( el, null )[ attribute ];
-			}
-
-			// 取不到计算样式就取其内联样式
-			if( val === '' ){
-				val = el.style[ attribute ];
-			}
-			return val;
+	function setCss(elem, name, val){
+		//ie6总是这么特殊，单独处理
+		if (name === 'opacity' && n.browser.ie && n.browser.version.toString().indexOf('6')  !== -1) {
+			name = 'filter';
+			val = 'alpha(opacity='+ val*100 +')';
+		}else{
+			val = name === 'opacity' ? val : (parseInt(val) + 'px');
 		}
-		return getCurrent(el, attribute);
-	}
-	function getCurrent(el, attribute){
-		var val = el.currentStyle && el.currentStyle[ attribute ],
-			style = el.style,
-			left, rsLeft;
-
-		// 取不到计算样式就取其内联样式
-		if( val === null ){
-			val = style[ attribute ];
-		}
-
-		// 将IE中的字体大小的各种单位统一转换成px：12pt => 16px
-		if( !rNumpx.test(val) && rNum.test(val) ){
-			left = style.left;
-			rsLeft = el.runtimeStyle && el.runtimeStyle.left;
-
-			if( rsLeft ){
-				el.runtimeStyle.left = el.currentStyle.left;
-			}
-
-			style.left = attribute === 'fontSize' ? '1em' : ( val || 0 );
-			val = style.pixelLeft + 'px';
-
-			style.left = left;
-			if ( rsLeft ) {
-				el.runtimeStyle.left = rsLeft;
-			}
-		}
-
-		// IE6-8中borderWidth如果为0px返回的是medium，需进行修复
-		if( val === 'medium' && rBorderWidth.test(attribute) ){
-			return '0px';
-		}
-
-		return val;
+		elem.style[name] = val;
 	}
 	//获取元素的位置
 	function position(elem, type){
@@ -353,36 +333,13 @@
 		 * @return
 		 */
 		css: function(name, val){
-			if (n.isUndefined(val) && n.isString(name)) {
-				return getCurrentStyle(n(this)[0], name);
+			if (n.isUndefined(val)) {
+				return getStyle(this[0], name, val);
 			};
-			var _this = n(this);
-			if (n.isObject(name)) {
-				n.each(name, function(n, v){
-					_this.css(n, v);
-				});
-				return this;
-			}
-			name = n.camelize(name);
-
 			this.forEach(function(){
-				n(this).setCss(name, val);
-			});
+				setCss(this, name, val);
+			});			
 			return this;
-		},
-		/**
-		 * 设置样式
-		 * @param {String} name 样式名
-		 * @param {String} val  设置的值
-		 */
-		setCss: function(name, val){
-			var _this = this[0];
-			//ie6总是这么特殊，单独处理
-			if (name === 'opacity' && n.browser.ie && n.browser.version.toString().indexOf('6')  !== -1) {
-				name = 'filter';
-				val = 'alpha(opacity='+ val*100 +')';
-			};
-			_this.style[name] = val;
 		},
 		/**
 		 * 判断是否有当前样式
