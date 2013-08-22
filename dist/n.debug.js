@@ -1,4 +1,4 @@
-/* n.js - v1.0.0 - https://github.com/Johnqing/n.js - 2013-08-21 */
+/* n.js - v1.0.0 - https://github.com/Johnqing/n.js - 2013-08-22 */
 !function(window, undefined){
 	var ObjProto = Object.prototype,
 		ArrayProto = Array.prototype,
@@ -80,7 +80,7 @@
 	//版本信息
 	nJs.version = '1.0.0';
 	//更新时间
-	nJs.released = '2013-08-21';
+	nJs.released = '2013-08-22';
 	nJs.fn = init.prototype = nJs.prototype;
 	window.n = window.N = nJs;
 	/**
@@ -1147,13 +1147,20 @@
 		 * @return
 		 */
 		css: function(name, val){
-			if (n.isUndefined(val)) {
-				return getStyle(this[0], name, val);
+			var _this = this;
+			if (n.isUndefined(val) && n.isObject(name)) {
+				n.each(name, function(k, v){
+					n(_this).css(k, v);
+				});
+				return _this;
 			};
-			this.forEach(function(){
-				setCss(this, name, val);
+			if (!val) {
+				return getStyle(_this[0], name, val);
+			};
+			_this.forEach(function(){
+				setCss(_this[0], name, val);
 			});			
-			return this;
+			return _this;
 		},
 		/**
 		 * 判断是否有当前样式

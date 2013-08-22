@@ -334,13 +334,20 @@
 		 * @return
 		 */
 		css: function(name, val){
-			if (n.isUndefined(val)) {
-				return getStyle(this[0], name, val);
+			var _this = this;
+			if (n.isUndefined(val) && n.isObject(name)) {
+				n.each(name, function(k, v){
+					n(_this).css(k, v);
+				});
+				return _this;
 			};
-			this.forEach(function(){
-				setCss(this, name, val);
+			if (!val) {
+				return getStyle(_this[0], name, val);
+			};
+			_this.forEach(function(){
+				setCss(_this[0], name, val);
 			});			
-			return this;
+			return _this;
 		},
 		/**
 		 * 判断是否有当前样式

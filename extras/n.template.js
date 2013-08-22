@@ -12,7 +12,7 @@
         logicInTpl = {},
         codeArr = ''.trim ?
         ['ret = "";', 'ret +=', ';', 'ret;']
-        :['ret = [];', 'ret.push("', '")', 'ret.join("");'],
+        :['ret = [];', 'ret.push(', ')', 'ret.join("");'],
         keys = ('break,case,catch,continue,debugger,default,delete,do,else,false,finally,for,function,if'
             + ',in,instanceof,new,null,return,switch,this,throw,true,try,typeof,var,void,while,with'
             // Reserved words
@@ -50,6 +50,7 @@
         }
     
         var code = vars + codeArr[0] + tmpCode + 'return ' + codeArr[3];
+        console.log(tmpCode);
         return new Function('$data', '$getValue', code);
     };
 

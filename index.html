@@ -102,7 +102,7 @@
 		console.log('ready');
 	});
 	//siblings
-	console.log(n('#test').siblings('div'));
+	console.log(n('#test li span'));
 	//css json
 	n('#animateTest').css({'width': '100px','background': '#00f'});
 	//
@@ -155,7 +155,7 @@
 	//browser
 	console.log(n.browser);
 	//tpl 测试代码请别写在这里 这里的别名已经被替换
-	n('#tpl').html(n.tpl('tpl输出了:<%= name %>', {name: 'n.js'}));
+	n('#tpl').html(n.tpl('tpl输出了:<%= name %>', {name: 'njs'}));
 	//animate
 	n('#animateTest').animate({'width':'100px', 'height':'1000px'}, 2000, function(){
 		alert('动画完成!');
