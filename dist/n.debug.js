@@ -1,4 +1,4 @@
-/* n.js - v1.0.0 - https://github.com/Johnqing/n.js - 2013-08-23 */
+/* n.js - v1.0.0 - https://github.com/Johnqing/n.js - 2013-08-24 */
 !function(window, undefined){
 	var ObjProto = Object.prototype,
 		ArrayProto = Array.prototype,
@@ -80,7 +80,7 @@
 	//版本信息
 	nJs.version = '1.0.0';
 	//更新时间
-	nJs.released = '2013-08-23';
+	nJs.released = '2013-08-24';
 	nJs.fn = init.prototype = nJs.prototype;
 	window.n = window.N = nJs;
 	/**
