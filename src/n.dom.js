@@ -196,12 +196,12 @@
 			}
 			//防止<div/>这样的标签
 			html = html.replace(rXhtml, '<$1><' + '/$2>'); 
-			pNode = doc.createElement('p');
+			pNode = doc.createElement('div');
 			fragment = doc.createDocumentFragment();
+			pNode.innerHTML = html;
 
 			fragment.appendChild(pNode);
 
-			pNode.innerHTML = html;
 			return pNode.childNodes;
 		},
 		/*

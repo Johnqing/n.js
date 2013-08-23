@@ -12,6 +12,18 @@
 	</style>
 </head>
 <body>
+<script type="text/javascript"> 
+$.ajax({type:"GET", url: "http://m.weather.com.cn/data/101210401.html", dataType:"jsonp", 
+success: function(json){ 
+var result = eval("(" + json.responseText + ")"); 
+       $("#weather").append(result.weatherinfo.city+'&nbsp;<img src="http://m.weather.com.cn/img/c'+result.weatherinfo..img1+'.gif"/>'+'&nbsp;<img src="http://m.weather.com.cn/img/c'+result.weatherinfo..img2+'.gif"/>&nbsp;'+result.weatherinfo..weather1+'&nbsp;'+ result.weatherinfo..temp1); 
+} 
+}); 
+
+</script> 
+
+
+	
 	<ol id="delegate">
 		<li>xxxsdsd</li>
 	</ol>

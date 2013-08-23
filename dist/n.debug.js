@@ -1,4 +1,4 @@
-/* n.js - v1.0.0 - https://github.com/Johnqing/n.js - 2013-08-22 */
+/* n.js - v1.0.0 - https://github.com/Johnqing/n.js - 2013-08-23 */
 !function(window, undefined){
 	var ObjProto = Object.prototype,
 		ArrayProto = Array.prototype,
@@ -80,7 +80,7 @@
 	//版本信息
 	nJs.version = '1.0.0';
 	//更新时间
-	nJs.released = '2013-08-22';
+	nJs.released = '2013-08-23';
 	nJs.fn = init.prototype = nJs.prototype;
 	window.n = window.N = nJs;
 	/**
@@ -1009,12 +1009,12 @@
 			}
 			//防止<div/>这样的标签
 			html = html.replace(rXhtml, '<$1><' + '/$2>'); 
-			pNode = doc.createElement('p');
+			pNode = doc.createElement('div');
 			fragment = doc.createDocumentFragment();
+			pNode.innerHTML = html;
 
 			fragment.appendChild(pNode);
 
-			pNode.innerHTML = html;
 			return pNode.childNodes;
 		},
 		/*
