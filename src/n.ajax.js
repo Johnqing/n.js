@@ -25,14 +25,18 @@
 	 * @return
 	 */
 	var Ajax = function(options){
-		options = n.mix(defaultConfig, options);
+		if (n.isFunction(options.data)) {
+			options.success = options.data;
+			options.data = null;
+		};
+		options = n.mix(options, defaultConfig);
 		this.url = options.url;
 		this.method = options.method;
 		this.data = n.isObject(options.data) ? n.encodeURIJson(options.data) : options.data;
 		this.dataType = options.dataType.toLocaleLowerCase();
 		this.async = options.async;
 		this.jsonp = options.jsonp;
-		this.success = options.success;
+		this.success = n.isUndefined(options.success) ? defaultConfig.success : options.success;
 		this.error = options.error;
 		this.XMLHTTP = this.getXMLHTTP();
 	}
