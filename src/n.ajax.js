@@ -25,6 +25,7 @@
 	 * @return
 	 */
 	var Ajax = function(options){
+		options = n.mix(defaultConfig, options);
 		this.url = options.url;
 		this.method = options.method;
 		this.data = n.isObject(options.data) ? n.encodeURIJson(options.data) : options.data;
