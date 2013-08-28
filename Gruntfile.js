@@ -11,7 +11,7 @@ module.exports = function(grunt) {
           banner: '/* <%= pkg.name || pk.title %> - v<%= pkg.version %> - <%= pkg.homepage  %> - <%= grunt.template.today("yyyy-mm-dd") %> <%= pkg.author.name %>*/\n' 
         },
         src: [
-          "src/n.js",
+          "src/n.core.js",
           "src/n.selector.js",
           "src/n.data.js",
           "src/n.dom.js",
