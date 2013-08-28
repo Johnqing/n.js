@@ -829,6 +829,8 @@
 	rNum = /^-?\d/,
 	rPosition = /^(?:left|right|top|bottom)$/i,
 	rBorderWidth = /^border(\w)+Width$/,
+	cssWidth = [ "Left", "Right" ],
+	cssHeight = [ "Top", "Bottom" ],
 	isECMAStyle = !!(document.defaultView && document.defaultView.getComputedStyle),
 	hasDuplicate = false,    // 是否有重复的DOM元素
 	hasParent = false,    // 是否检测重复的父元素
@@ -914,7 +916,31 @@
 		};
 
 	}
-
+	/**
+	 * 获取元素宽高
+	 * @param  {Object} el    DOM
+	 * @param  {String} name  width|height
+	 * @param  {String} extra 包含内容 padding|border|margin
+	 * @return {String}       宽高
+	 */
+	function getWH(el, name, extra) {
+		var val = name === "width" ? el[0].offsetWidth : el[0].offsetHeight,
+			which = name === "width" ? cssWidth : cssHeight;
+		if (val > 0) {
+			if (extra !== "border") {
+				n.each( which, function(k) {
+					if ( !extra )
+						val -= parseFloat(el.css("padding" + k)) || 0;
+					if ( extra === "margin" )
+						val += parseFloat(el.css(extra + k)) || 0;
+					else
+						val -= parseFloat(el.css("border" + k + "Width")) || 0;
+				});
+			}
+			return val;
+		}
+		return 0;
+	}
 	var nNode = {
 		/**
 		 * 获取节点列表
@@ -1257,14 +1283,13 @@
 		 * @return {Object} width|height|scrollX|scrollY|scrollWidth|scrollHeight
 		 */
 		docRect: function(){
-			 var _this = n(this)[0],
-			 	win = _this.defaultView || _this.parentWindow,
-			 	mode = _this.compatMode,
-			 	root = _this.documentElement,
-			 	h = win.innerHeight || 0,
-				w = win.innerWidth || 0,
-				scrollX = win.pageXOffset || 0,
-				scrollY = win.pageYOffset || 0,
+			 var _this = n(this)[0];
+			 var mode = document.compatMode,
+			 	root = document.documentElement;
+			 var h = getWH(n(this), 'height'),
+				w = getWH(n(this), 'width'),
+				scrollX = _this.pageXOffset || 0,
+				scrollY = _this.pageYOffset || 0,
 				scrollW = root.scrollWidth,
 				scrollH = root.scrollHeight;
 			//ie6 Quirks模式返回正确的值
@@ -1284,8 +1309,8 @@
 			scrollW = Math.max(scrollW, w);
 			scrollH = Math.max(scrollH, h);
 
-			scrollX = Math.max(scrollX, _this.documentElement.scrollLeft, _this.body.scrollLeft);
-			scrollY = Math.max(scrollY, _this.documentElement.scrollTop, _this.body.scrollTop);
+			scrollX = Math.max(scrollX, root.scrollLeft, document.body.scrollLeft);
+			scrollY = Math.max(scrollY, root.scrollTop, document.body.scrollTop);
 
 			return {
 				width: w,

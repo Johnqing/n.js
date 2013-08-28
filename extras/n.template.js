@@ -50,7 +50,6 @@
         }
     
         var code = vars + codeArr[0] + tmpCode + 'return ' + codeArr[3];
-        console.log(tmpCode);
         return new Function('$data', '$getValue', code);
     };
 

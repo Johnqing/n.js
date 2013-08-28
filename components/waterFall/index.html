@@ -8,7 +8,7 @@
 	<div id="wrap"></div>
 	<script id="waterfall" type="text/html">
 		<% for (var i = 0; i < 100; i++) {%>
-			<div id="cols" style="width:<%= ~~(Math.random()*300) %>px;height:<%= ~~(Math.random()*300) %>px;background:#f00;margin:5px;"><%= i %></div>
+			<div class="cols" style="width:300px;height:<%= ~~(Math.random()*300)+100 %>px;background:#f00;position:absolute;"><%= i %></div>
 		<%};%>
 	</script>
 
