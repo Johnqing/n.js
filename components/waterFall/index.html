@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="wrap"></div>
+	<script id="waterfall" type="text/html">
+		<% for (var i = 0; i < 100; i++) {%>
+			<div id="cols" style="width:<%= ~~(Math.random()*300) %>px;height:<%= ~~(Math.random()*300) %>px;background:#f00;margin:5px;"><%= i %></div>
+		<%};%>
+	</script>
+
+	<script src="../../dist/n.debug.js"></script>
+	<script src="../../dist/n.extras-debug.js"></script>
+
+	<script src="waterFall.js"></script>
+	<script>
+	// var tmp = n.tpl('waterfall', {});
+	n('#wrap').waterFall();
+	</script>
+</body>
+</html>

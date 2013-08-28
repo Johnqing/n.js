@@ -1,4 +1,4 @@
-/* n.js - v1.0.0 - https://github.com/Johnqing/n.js - 2013-08-24 */
+/* n.js - v1.0.0 - https://github.com/Johnqing/n.js - 2013-08-28 */
 !function(window, undefined){
 	var ObjProto = Object.prototype,
 		ArrayProto = Array.prototype,
@@ -80,7 +80,7 @@
 	//版本信息
 	nJs.version = '1.0.0';
 	//更新时间
-	nJs.released = '2013-08-24';
+	nJs.released = '2013-08-28';
 	nJs.fn = init.prototype = nJs.prototype;
 	window.n = window.N = nJs;
 	/**
@@ -101,6 +101,7 @@
 	* @returns {Object} des
 	*/
 	nJs.mix = function(des, src, override){
+		des = des || {};
 		//数组的话递归
 		if(nJs.isArray(src)){
 			for (var i = 0, len = src.length; i < len; i++) {

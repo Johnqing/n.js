@@ -100,6 +100,7 @@
 	* @returns {Object} des
 	*/
 	nJs.mix = function(des, src, override){
+		des = des || {};
 		//数组的话递归
 		if(nJs.isArray(src)){
 			for (var i = 0, len = src.length; i < len; i++) {
