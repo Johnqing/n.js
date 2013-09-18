@@ -381,7 +381,17 @@
 		 * @return {Boolean} 
 		 */
 		hasClass: function(name){
-			return n(this)[0].className.indexOf(name) > -1;
+			var className = ' ' + name + ' ',
+				l = this.length;
+
+			for (var i = 0; i < l; i++) {
+				//防止选中非dom节点
+				if (this[i].nodeType === 1 && (' ' + this[i].className + ' ').replace(className, ' ').indexOf(className) >= 0) {
+					return true;
+				};	
+			};
+
+			return false
 		},
 		/**
 		 * 添加样式
