@@ -386,7 +386,7 @@
 
 			for (var i = 0; i < l; i++) {
 				//防止选中非dom节点
-				if (this[i].nodeType === 1 && (' ' + this[i].className + ' ').replace(className, ' ').indexOf(className) >= 0) {
+				if (this[i].nodeType === 1 && (' ' + this[i].className + ' ').replace(/[\t\r\n\f]/g, ' ').indexOf(className) >= 0) {
 					return true;
 				};	
 			};
